@@ -1,0 +1,17 @@
+<div class="login-page">
+    <div class="form">
+        
+        <form class="form-group">
+            
+            <input type="text" id="email" class="form-control" placeholder="Email" [(ngModel)]="email"  name="email">
+            <input type="password" id="password" class="form-control" placeholder="Contraseña" [(ngModel)]="password" name="password" >
+            
+            <button type="submit" (click)="login()">login</button>
+            
+            <p class="message">No estás registrado? <a [routerLink]="'/ingreso/registro'">Crear cuenta</a></p>
+            <button type="button" class="test" (click)="completarCamposTest1()">Usuario test 1</button>
+            <button type="button" class="test" (click)="completarCamposTest2()">Usuario test 2</button>
+            <button type="button" class="test" (click)="completarCamposTest3()">Usuario test 3</button>
+        </form>
+    </div>
+</div>

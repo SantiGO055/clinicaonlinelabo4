@@ -1,0 +1,159 @@
+
+<div class="register-page">
+    <div class="form">
+        
+        <form [formGroup]="formGroup" [hidden]="flag" class="register-form needs-validation" novalidate (ngSubmit)="prueba()">
+            
+            <select class="form-select" name="selectTipo" aria-label="Default select example" (change)="capturarSelectTipo()" formControlName="tipo" [(ngModel)]="tipo">
+                
+                <option selected >Seleccione tipo de alta</option>
+                
+                <option value="paciente">Paciente</option>
+                <option value="especialista">Especialista</option>
+              </select>
+            <div *ngIf="tipo === 'paciente'">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                       
+                        <input type="text" placeholder="Nombre" name="nombre" class="form-control" id="nombre" formControlName="nombre"/>
+                        <small class="invalid" *ngIf="formGroup.get('nombre')?.errors?.required && formGroup.get('nombre')?.touched">Nombre requerido</small>
+                        
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <input type="text" placeholder="Apellido" name="apellido" class="form-control" id="apellido" formControlName="apellido"/>
+                        <small class="invalid" *ngIf="formGroup.get('apellido')?.errors?.required && formGroup.get('apellido')?.touched">Apellido requerido</small>
+                        
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <input type="number" placeholder="Edad" name="edad" class="form-control" id="edad" formControlName="edad"/>
+                        <small class="invalid" *ngIf="formGroup.get('edad')?.errors?.required && formGroup.get('edad')?.touched">Edad requerida</small>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <input type="number" placeholder="Dni" name="dni" class="form-control" id="dni" formControlName="dni"/>
+                        <small class="invalid" *ngIf="formGroup.get('dni')?.errors?.required && formGroup.get('dni')?.touched">Dni requerido</small>
+                    </div>
+                </div>
+
+                <div>
+                    <input type="text" placeholder="Obra Social" name="obraSocial" class="form-control" id="apellido" formControlName="obraSocial"/>
+                    <small class="invalid" *ngIf="formGroup.get('obraSocial')?.errors?.required && formGroup.get('obraSocial')?.touched">Obra social requerida</small>
+                </div>
+                <div>
+                    <input type="text" placeholder="Mail" name="email" class="form-control" id="email" formControlName="email"/>
+                    <small class="invalid" *ngIf="formGroup.get('email')?.errors?.required && formGroup.get('email')?.touched">Mail requerido</small>
+                </div>
+                <div>
+                    <input type="text" placeholder="Contraseña" name="password" class="form-control" id="password" formControlName="password"/>
+                    <small class="invalid" *ngIf="formGroup.get('password')?.errors?.required && formGroup.get('password')?.touched">Contraseña requerida</small>
+                </div>
+                <div>
+                    <input type="password" name="passwordConfirmar"  class="form-control" id="passwordConfirmar" formControlName="confirmarPassword" placeholder="Confirmar contraseña">
+                    <small class="invalid" *ngIf="formGroup.get('confirmarPassword')?.errors?.required && formGroup.get('confirmarPassword')?.touched">Contraseña requerida</small>
+                    <small class="invalid" *ngIf="formGroup.get('confirmarPassword')?.errors?.confirmedValidator && formGroup.get('confirmarPassword')?.touched">Las claves no coinciden</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlFile1">Seleccione las fotos de perfil</label>
+                    <input type="file" class="form-control-file" id="fotoPerfil" formControlName="fotoPerfil" (change)="onFileSelectedFoto($event,true)" multiple>
+                    <small class="invalid" *ngIf="!subirArchivos">{{mensajeSubida}}</small>
+
+                </div>
+                <!-- <div class="form-group">
+                    <label for="exampleFormControlFile1">Seleccione segunda foto de perfil</label>
+                    <input type="file" class="form-control-file" id="fotoPerfil2" formControlName="fotoPerfil2" (change)="onFileSelectedFoto($event,true)">
+                </div> -->
+
+            </div>
+            <div *ngIf="tipo === 'especialista'">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                       
+                        <input type="text" placeholder="Nombre" name="nombre" class="form-control" id="nombre" formControlName="nombre"/>
+                        <small class="invalid" *ngIf="formGroup.get('nombre')?.errors?.required && formGroup.get('nombre')?.touched">Nombre requerido</small>
+                        
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <input type="text" placeholder="Apellido" name="apellido" class="form-control" id="apellido" formControlName="apellido"/>
+                        <small class="invalid" *ngIf="formGroup.get('apellido')?.errors?.required && formGroup.get('apellido')?.touched">Apellido requerido</small>
+                        
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <input type="number" placeholder="Edad" name="edad" class="form-control" id="edad" formControlName="edad"/>
+                        <small class="invalid" *ngIf="formGroup.get('edad')?.errors?.required && formGroup.get('edad')?.touched">Edad requerida</small>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <input type="number" placeholder="Dni" name="dni" class="form-control" id="dni" formControlName="dni"/>
+                        <small class="invalid" *ngIf="formGroup.get('dni')?.errors?.required && formGroup.get('dni')?.touched">Dni requerido</small>
+                    </div>
+                </div>
+
+                <h5 class="mb-3">Especialidad</h5>
+                
+                <div class="sk-circle" *ngIf="!spinner">
+                    <div class="sk-circle1 sk-child"></div>
+                    <div class="sk-circle2 sk-child"></div>
+                    <div class="sk-circle3 sk-child"></div>
+                    <div class="sk-circle4 sk-child"></div>
+                    <div class="sk-circle5 sk-child"></div>
+                    <div class="sk-circle6 sk-child"></div>
+                    <div class="sk-circle7 sk-child"></div>
+                    <div class="sk-circle8 sk-child"></div>
+                    <div class="sk-circle9 sk-child"></div>
+                    <div class="sk-circle10 sk-child"></div>
+                    <div class="sk-circle11 sk-child"></div>
+                    <div class="sk-circle12 sk-child"></div>
+                  </div>
+
+                <div class="row" *ngIf="spinner">
+                    <div class="form-check" >
+                        <div >
+
+                            <div *ngFor="let especialidad of especialidades; let i=index" >
+
+                                <label class="custom-control-label" for="{{ 'acceptable' + i}}">{{especialidad.nombre}}</label>
+                                <input type="radio" name="especialidad" id="especialidad{{especialidad.nombre}} + {{i}}" formControlName="especialidad" (change)="capturarRadioEspecialidad()"
+                                [value]="especialidad.nombre">
+                            </div>
+                        </div>
+                        <label class="custom-control-label" for="especialidad">Otra</label>
+
+                        <input type="radio" name="especialidad" id="especialidadOtro" formControlName="especialidad" (change)="capturarRadioEspecialidad()" value="Otra">
+                        <input *ngIf="mostrarInputRadioOtro" type="text" placeholder="Ingrese especialidad nueva" name="especialidadInput" class="form-control" id="especialidadInput" formControlName="especialidadInput"/>
+                        </div>
+                </div>
+
+                <!-- <input type="radio" placeholder="Especialidad" name="especialidad" class="form-control" id="especialidad" formControlName="especialidad"/> -->
+                    <!-- <small class="invalid" *ngIf="formGroup.get('especialidad')?.errors?.required && formGroup.get('especialidad')?.touched">Obra social requerida</small> -->
+                
+                <div>
+                    <input type="text" placeholder="Mail" name="email" class="form-control" id="email" formControlName="email"/>
+                    <small class="invalid" *ngIf="formGroup.get('email')?.errors?.required && formGroup.get('email')?.touched">Mail requerido</small>
+                </div>
+                <div>
+                    <input type="text" placeholder="Contraseña" name="password" class="form-control" id="password" formControlName="password"/>
+                    <small class="invalid" *ngIf="formGroup.get('password')?.errors?.required && formGroup.get('password')?.touched">Contraseña requerida</small>
+                </div>
+                <div>
+                    <input type="password" name="passwordConfirmar"  class="form-control" id="passwordConfirmar" formControlName="confirmarPassword" placeholder="Confirmar contraseña">
+                    <small class="invalid" *ngIf="formGroup.get('confirmarPassword')?.errors?.required && formGroup.get('confirmarPassword')?.touched">Contraseña requerida</small>
+                    <small class="invalid" *ngIf="formGroup.get('confirmarPassword')?.errors?.confirmedValidator && formGroup.get('confirmarPassword')?.touched">Las claves no coinciden</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlFile1">Seleccione foto de perfil</label>
+                    <input type="file" class="form-control-file" id="fotoPerfil" formControlName="fotoPerfil"  (change)="onFileSelectedFoto($event,false)">
+                </div>
+
+            </div>
+            <!-- (click)="register()" -->
+            <button type="submit" [disabled]="formGroup.invalid">Crear cuenta</button>
+            <p class="message">Ya estas registrado? <a [routerLink]="'/ingreso/login'"  >Iniciar Sesion</a></p>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+<div class="colorNav">
+
+    <nav class="navbar navbar-custom navbar-expand-lg ">
+      <button class="navbar-toggler" type="button"
+      data-toggle="collapse" 
+      data-target="#navbarToggler" 
+      aria-controls="navbarToggler"
+      (click)="toggleNavbar = !toggleNavbar"
+        aria-expanded="false"
+          aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarToggler" [ngbCollapse]="toggleNavbar">
+        <a class="navbar-brand" [routerLink]="'/'"><img src="assets/joystickIcon.png"></a>
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          
+          <li class="nav-item" >
+            <a [routerLink]="'ingreso/login'" routerLinkActive="active" class="nav-link borderFade">Login</a>
+          </li>
+          <li class="nav-item">
+            <a [routerLink]="'ingreso/register'" routerLinkActive="active" class="nav-link borderFade" >Registrarse</a>
+          </li>
+  
+          <li class="nav-item">
+            <a [routerLink]="'/quienSoy'" routerLinkActive="active" class="nav-link borderFade">Quien soy</a>
+          </li>
+  
+          <li class="nav-item">
+            <a [routerLink]="'/encuesta'" routerLinkActive="active" class="nav-link borderFade">Encuesta</a>
+          </li>
+          
+          <li class="nav-item">
+            <div class="btn-group mr-3">
+          
+              <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+                <button class="btn btn-outline-secondary" ngbDropdownToggle>Juegos</button>
+                <div class="dropdown-menu" ngbDropdownMenu>
+                  <button ngbDropdownItem [routerLink]="'/juegos/ppt'">Piedra papel o tijera</button>
+                  <button ngbDropdownItem [routerLink]="'/juegos/memotest'">Memotest</button>
+                  <button ngbDropdownItem [routerLink]="'/juegos/tateti'">Ta te ti</button>
+                  <button ngbDropdownItem [routerLink]="'/juegos/puzzle'">Rompecabezas deslizante</button>
+                </div>
+              </div>
+            </div>
+          </li>
+          
+            
+          
+  
+          <!-- <li [hidden]="ocultarBotonLogout">
+            <button class="btn btn-outline-secondary" type="button" (click)="desloguear()" routerLink="/">Logout</button>
+          </li> -->
+        </ul>
+  
+        <form class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        
+        <app-logged class="logged" name="usuario" [usuario]="usuario"></app-logged>
+  
+      </div>
+    </nav>
+  </div>
+    

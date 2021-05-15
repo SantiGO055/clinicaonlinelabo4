@@ -1,0 +1,25 @@
+.divLogged{
+    display:flex;
+    
+    flex-direction: row;
+}
+
+p{
+    
+    color: #4b778d;
+}
+.btn{
+    
+    background-color: #faffb8;
+    border: 0 !important;
+}
+.btn:hover{
+    background-color: #35b0ab !important;
+    
+}
+.btn:active{
+    background: #35b0ab!important;
+}
+.btn:focus{
+    background: #35b0ab!important;
+}
