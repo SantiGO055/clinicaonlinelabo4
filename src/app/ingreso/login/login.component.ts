@@ -74,9 +74,9 @@ export class LoginComponent implements OnInit {
       console.log(error);
     }
   }
-  completarCamposTest1(){
-    this.email = "test1@test.com";
-    this.password = "test123";
+  completarCamposAdmin(){
+    this.email = "admin@admin.com";
+    this.password = "admin123";
 
   }
   completarCamposTest2(){

@@ -40,6 +40,8 @@ export class RegistroComponent implements OnInit {
   finalizado:boolean = false;
   archivo1;
   subirArchivos:boolean = false;
+  seLogueoAdmin:boolean = false;
+  adminLogueado:User = new User();
   tarea: any;
   referencia: AngularFireStorageReference;
   
@@ -59,6 +61,12 @@ export class RegistroComponent implements OnInit {
       this.spinner = false;
       this.especialidades = especialidad;
     });
+
+    
+    if(this.authSvc.isLogged.admin){
+      this.adminLogueado = this.authSvc.isLogged;
+      this.seLogueoAdmin = true;
+    }
     
     this.formGroup = this.fb.group({
       'nombre': ['',[Validators.required]],
@@ -66,8 +74,8 @@ export class RegistroComponent implements OnInit {
       'tipo': ['',Validators.required],
       'edad': ['',[Validators.required,Validators.min(18),Validators.max(99)]],
       'dni': ['',[Validators.required,Validators.min(11111111),Validators.max(99999999)]],
-      'descripcion': ['',Validators.required],
-      'email': ['',Validators.required],
+      'descripcion': ['',],
+      'email': ['',[Validators.required, Validators.email,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       'password': ['',Validators.required],
       'confirmarPassword': ['',Validators.required],
       'fotoPerfil': ['',Validators.required],
@@ -210,9 +218,7 @@ export class RegistroComponent implements OnInit {
   
   async register(){
 
-    this.subirFoto().then(()=>{
-      console.log("prueba");
-    });
+    
     
     
     
@@ -255,8 +261,17 @@ export class RegistroComponent implements OnInit {
 
       }
     }
-    await this.authSvc.register(this.user,this.password).then(()=>{
+    else if(this.tipo === 'administrador'){
+      this.user.admin = true;
+      this.user.aprobadoPorAdmin = true;
       
+
+    }
+    await this.authSvc.register(this.user,this.password).then((result)=>{
+      console.log(result);
+      this.subirFoto().then(()=>{
+        console.log("prueba");
+      });
     });
 
     // if(userAux.message == null){

@@ -13,7 +13,6 @@ export class User {
     descripcion:string;
     aprobadoPorAdmin?:boolean;
     admin?:boolean;
-    habilitado?:boolean;
     constructor(){
         this.email = "";
         this.uid = "";

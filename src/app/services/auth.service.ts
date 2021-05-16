@@ -153,13 +153,17 @@ export class AuthService {
         
     } 
     catch(error){
+      console.log(error);
       this.alertas.mostraAlertaSimple(error,'Error');
       return error;
     }
   }
   async register(user: User,password:string) {
     try {
+      console.log(user);
       var aux = this.afAuth.createUserWithEmailAndPassword(user.email,password).then(()=>{
+      this.router.navigate(['/']);
+
         this.SignIn(user,password);
         this.sendEmailVerification();
       });
@@ -169,7 +173,8 @@ export class AuthService {
       // })
       // return await aux;
     } catch (error) {
-      this.alertas.mostraAlertaSimple('Error: '+error,'Error');
+      // this.alertas.mostraAlertaSimple('Error: '+error,'Error');
+      this.router.navigate(['ingreso/registro']);
       console.log('Error on register user', error);
       return error;
     }

@@ -20,13 +20,13 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     
-    console.log(this.authSvc.isLogged);
+    // console.log(this.authSvc.isLogged);
     
       this.authSvc.afAuth.authState.subscribe(res=>{
         if(res && res.uid){
           this.usuario = this.authSvc.obtenerUsuarioLogueado(res.email);
           console.log(this.usuario);
-          if(res.email === 'admin@admin.com'){
+          if(res.email === 'admin@admin.com' || this.usuario.admin){
             this.adminLogueado = true;
           }
         }

@@ -1,9 +1,9 @@
 <div class="container">
-    <div class="contenedorLista">
+    <div class="contenedorLista form" >
 
         <h5>Listado de usuarios especialistas</h5>
     
-        <table class="table table-striped">
+        <table class="table table-striped form-group">
             <thead>
                 <tr>
                     <th>Nombre</th>
@@ -17,8 +17,8 @@
                     <td>{{usuario.apellido}}</td>
                     <td>{{usuario.nombre}}</td>
                     <td>{{usuario.email}}</td>
-                    <td><button *ngIf="usuario.aprobadoPorAdmin"(click)="habilitar(usuario,i)">{{mensajeHabilitado}}</button> </td>
-                    <td><button *ngIf="!usuario.aprobadoPorAdmin"(click)="habilitar(usuario,i)">{{mensajeDeshabilitado}}</button> </td>
+                    <td><button type="button" *ngIf="usuario.aprobadoPorAdmin"(click)="habilitar(usuario,i)">{{mensajeHabilitado}}</button> </td>
+                    <td><button type="button" *ngIf="!usuario.aprobadoPorAdmin"(click)="habilitar(usuario,i)">{{mensajeDeshabilitado}}</button> </td>
                     
                     
                     
@@ -32,6 +32,7 @@
 
                     
                 </tbody>
+                <button type="submit" [routerLink]="'/ingreso/registro'">Nuevo usuario</button>
             </table>
 
     </div>

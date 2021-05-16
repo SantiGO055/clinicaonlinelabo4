@@ -24,7 +24,7 @@ export class AdminGuard implements CanActivate {
   }
   verificarAdminLogueado(){
     console.log(this.auth.isLogged.email);
-    if(this.auth.isLogged.email === 'admin@admin.com'){
+    if(this.auth.isLogged.email === 'admin@admin.com' || this.auth.isLogged.admin){
 
       // this.router.navigate(['/admin']);
       // this.router.navigateByUrl('/admin');
