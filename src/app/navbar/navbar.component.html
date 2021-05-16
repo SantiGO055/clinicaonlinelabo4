@@ -11,18 +11,18 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarToggler" [ngbCollapse]="toggleNavbar">
-        <a class="navbar-brand" [routerLink]="'/'"><img src="assets/joystickIcon.png"></a>
+        <a class="navbar-brand" [routerLink]="'/'"><img src="assets/healthcare.svg"></a>
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
           
           <li class="nav-item" >
             <a [routerLink]="'ingreso/login'" routerLinkActive="active" class="nav-link borderFade">Login</a>
           </li>
           <li class="nav-item">
-            <a [routerLink]="'ingreso/register'" routerLinkActive="active" class="nav-link borderFade" >Registrarse</a>
+            <a [routerLink]="'ingreso/registro'" routerLinkActive="active" class="nav-link borderFade" >Registrarse</a>
           </li>
   
-          <li class="nav-item">
-            <a [routerLink]="'/quienSoy'" routerLinkActive="active" class="nav-link borderFade">Quien soy</a>
+          <li class="nav-item" *ngIf="adminLogueado">
+            <a [routerLink]="'/admin'" routerLinkActive="active" class="nav-link borderFade">Administrar usuarios</a>
           </li>
   
           <li class="nav-item">
@@ -32,7 +32,7 @@
           <li class="nav-item">
             <div class="btn-group mr-3">
           
-              <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+              <!-- <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
                 <button class="btn btn-outline-secondary" ngbDropdownToggle>Juegos</button>
                 <div class="dropdown-menu" ngbDropdownMenu>
                   <button ngbDropdownItem [routerLink]="'/juegos/ppt'">Piedra papel o tijera</button>
@@ -40,21 +40,14 @@
                   <button ngbDropdownItem [routerLink]="'/juegos/tateti'">Ta te ti</button>
                   <button ngbDropdownItem [routerLink]="'/juegos/puzzle'">Rompecabezas deslizante</button>
                 </div>
-              </div>
+              </div> -->
             </div>
           </li>
-          
-            
-          
-  
-          <!-- <li [hidden]="ocultarBotonLogout">
-            <button class="btn btn-outline-secondary" type="button" (click)="desloguear()" routerLink="/">Logout</button>
-          </li> -->
         </ul>
   
         <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
+          <input class="form-control me-2" type="search" placeholder="Ingrese nombre de especialista o especialidad" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Buscar</button>
         </form>
         
         <app-logged class="logged" name="usuario" [usuario]="usuario"></app-logged>

@@ -6,8 +6,9 @@ import { AuthService } from 'src/app/services/auth.service';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Especialidad } from 'src/app/clases/especialidad';
 import { Observable } from 'rxjs';
-import { AngularFireStorage } from '@angular/fire/storage';
+import { AngularFireStorage, AngularFireStorageReference } from '@angular/fire/storage';
 import { finalize } from 'rxjs/operators';
+import Swal from'sweetalert2';
 
 @Component({
   selector: 'app-registro',
@@ -23,11 +24,11 @@ export class RegistroComponent implements OnInit {
   user: User = new User();
   fecha: Date = new Date();
   especialidades:Especialidad[];
-  spinner:boolean = false;
+  spinner:boolean = true;
   mostrarInputRadioOtro:boolean = false;
   tipo:string = 'Seleccione tipo de alta';
-  downloadURLFoto1: Observable<string>;
-  downloadURLFoto2: Observable<string>;
+  downloadURLFoto1: string;
+  downloadURLFoto2: string;
   file;
   mensajeArchivo: string;
   nombreArchivo: string;
@@ -39,6 +40,8 @@ export class RegistroComponent implements OnInit {
   finalizado:boolean = false;
   archivo1;
   subirArchivos:boolean = false;
+  tarea: any;
+  referencia: AngularFireStorageReference;
   
   public formGroup!: FormGroup;
   constructor(private authSvc : AuthService, 
@@ -53,35 +56,26 @@ export class RegistroComponent implements OnInit {
 
   ngOnInit(): void {
     this.fireSvc.getEspecialidades().subscribe((especialidad:Especialidad[])=>{
-      this.spinner = true;
+      this.spinner = false;
       this.especialidades = especialidad;
     });
+    
     this.formGroup = this.fb.group({
       'nombre': ['',[Validators.required]],
       'apellido': ['',Validators.required],
       'tipo': ['',Validators.required],
-      'edad': ['',Validators.required],
-      'dni': ['',Validators.required],
-      'obraSocial': ['',Validators.required],
+      'edad': ['',[Validators.required,Validators.min(18),Validators.max(99)]],
+      'dni': ['',[Validators.required,Validators.min(11111111),Validators.max(99999999)]],
+      'descripcion': ['',Validators.required],
       'email': ['',Validators.required],
       'password': ['',Validators.required],
       'confirmarPassword': ['',Validators.required],
       'fotoPerfil': ['',Validators.required],
-      'especialidad': ['',Validators.required],
-      'especialidadInput': ['',Validators.required],
-      'fileSource': ['', [Validators.required]],
-      'fileSource2': ['', [Validators.required]]
-      // 'edad': ['',[Validators.required,Validators.min(18),Validators.max(99)]],
-      // 'telefono': ['',[Validators.required,Validators.min(1111111111),Validators.max(9999999999)]],
-      // 'ppt': ['',],
-      // 'memotest': ['',],
-      // 'tateti': ['',],
-      // 'rompecabezas': ['',],
-      // 'ninguno': ['',],
-      // 'cambios': ['',],
-      // 'recomienda': ['',],
-      // 'nacionalidad':[{value: '', disabled: true}],
-      // 'email': ['',[Validators.required,Validators.email]],'confirmarClave': ['',Validators.required],
+      'especialidad': ['',],
+      'especialidadInput': ['',],
+      'fileSource': ['', ],
+      'fileSource2': ['', ]
+      
     },
     { 
       validator: this.chequearClave('password', 'confirmarPassword')
@@ -109,60 +103,192 @@ export class RegistroComponent implements OnInit {
         this.mensajeSubida = "Seleccionar solo 2 archivos";
       }
       else{
-        this.subirArchivos = true;
+        if(filelist[0] != null ){
+          console.log("archivo 1?");
 
+          this.subirArchivos = true;
+          const file = filelist[0];
+          this.formGroup.patchValue({
+            fileSource: file
+          });
+          
+          
+          this.mensajeArchivo = `Archivo preparado: ${filelist[0].name}`;
+          this.nombreArchivo = this.user.obtenerFechaHora() + " " + filelist[0].name;
+          console.log(this.mensajeArchivo);
+          console.log(this.nombreArchivo);
+
+        }
+        if(filelist[1] != null){
+          console.log("archivo 2?");
+          const file2 = filelist[1];
+          
+          this.formGroup.patchValue({
+            fileSource2: file2
+          });
+          this.mensajeArchivo2 = `Archivo preparado: ${filelist[1].name}`;
+          this.nombreArchivo2 = this.user.obtenerFechaHora() + " " + filelist[1].name;
+
+
+        }
+
+      }
+
+    }
+    else{
+      console.log("llegue");
+      if(filelist[0] != null){
+        this.subirArchivos = true;
         const file = filelist[0];
-        const file2 = filelist[1];
-        console.log(file);
-        
         this.formGroup.patchValue({
           fileSource: file
         });
-        this.formGroup.patchValue({
-          fileSource2: file2
-        });
-        console.log(filelist[0].name);
-        console.log(filelist[1].name);
         this.mensajeArchivo = `Archivo preparado: ${filelist[0].name}`;
-        this.mensajeArchivo2 = `Archivo preparado: ${filelist[0].name}`;
-        this.nombreArchivo = this.user.obtenerFechaHora() + filelist[0].name;
-        this.nombreArchivo2 = this.user.obtenerFechaHora() + filelist[1].name;
+        this.nombreArchivo2 = this.user.obtenerFechaHora() + " " + filelist[0].name;
 
       }
 
     }
     
   }
-  subirFoto(){
+  async subirFoto(){
     
     const archivo1 = this.formGroup.get('fileSource').value;
-    let referencia = this.fireSvc.referenciaCloudStorage(this.nombreArchivo);
+    this.referencia = this.fireSvc.referenciaCloudStorage(this.nombreArchivo);
     // console.log(archivo1);
-    let tarea = this.fireSvc.addFile(this.nombreArchivo,archivo1).snapshotChanges().pipe(finalize(()=>{
-      console.log("llegue");
-      const archivo2 = this.formGroup.get('fileSource2').value;
-      let referenciaArchivo2 = this.fireSvc.referenciaCloudStorage(this.nombreArchivo2);
-      this.fireSvc.addFile(this.nombreArchivo2, archivo2).snapshotChanges().pipe(finalize(() => {
-      referenciaArchivo2.getDownloadURL().subscribe(url => {
-        this.downloadURLFoto2 = url;
-        console.log(this.downloadURLFoto2);
+    console.log(this.formGroup.get('fileSource').value);
+    console.log(this.formGroup.get('fileSource2'));
 
-        // this.fireSvc.add
-      });
 
-    })).subscribe();
+    /** subo archivo 1 */
+    return this.fireSvc.addFile(this.nombreArchivo, archivo1).snapshotChanges().pipe(finalize(() => {
 
-      referencia.getDownloadURL().subscribe(url=>{
-        this.downloadURLFoto1 = url;
-        console.log(this.downloadURLFoto1);
+      /** subo archivo 2 */
+      if (this.formGroup.get('fileSource2').value != "") {
+        console.log(this.formGroup.get('fileSource2').value);
+        const archivo2 = this.formGroup.get('fileSource2').value;
+        let referenciaArchivo2 = this.fireSvc.referenciaCloudStorage(this.nombreArchivo2);
+        this.fireSvc.addFile(this.nombreArchivo2, archivo2).snapshotChanges().pipe(finalize(() => {
+          referenciaArchivo2.getDownloadURL().subscribe(url => {
+            this.downloadURLFoto2 = url;
+            console.log(this.downloadURLFoto2);
+            this.user.fotoPerfilDos = this.downloadURLFoto2;
 
-        // this.fireSvc.add
-        
-      });
+            // this.fireSvc.add
+          });
+          this.referencia.getDownloadURL().subscribe(url => {
+            this.downloadURLFoto1 = url;
+            this.user.fotoPerfil = this.downloadURLFoto1;
       
+            console.log(this.downloadURLFoto1);
+            this.fireSvc.addUser(this.user);
+          });
+
+        })).subscribe();
+
+      }
+      else{
+        this.referencia.getDownloadURL().subscribe(url => {
+          this.downloadURLFoto1 = url;
+          this.user.fotoPerfil = this.downloadURLFoto1;
+          if(this.user.email === 'admin@admin.com'){
+            this.user.aprobadoPorAdmin = true;
+          }
+          this.user.aprobadoPorAdmin = false;
+          console.log(this.downloadURLFoto1);
+          this.fireSvc.addUser(this.user);
+        });
+
+      }
+
+      
+        // this.fireSvc.add
     })).subscribe();
     // this.fireSvc.addFile(this.nombreArchivo, archivo1);
     
+  }
+  
+  async register(){
+
+    this.subirFoto().then(()=>{
+      console.log("prueba");
+    });
+    
+    
+    
+    
+    console.log(this.formGroup);
+    this.user.nombre = this.formGroup.get('nombre').value;
+    this.user.apellido = this.formGroup.get('apellido').value;
+    this.user.edad = this.formGroup.get('edad').value;
+    this.user.dni = this.formGroup.get('dni').value;
+    this.user.email = this.formGroup.get('email').value;
+
+    this.password = this.formGroup.get('password').value;
+    this.user.fecha = this.user.obtenerFechaHora();
+    
+
+    
+    if(this.tipo === "paciente"){
+      
+      this.user.descripcion = this.formGroup.get('descripcion').value;
+      this.user.especialista = false;
+      
+      
+      if(this.downloadURLFoto2 != ""){
+        this.user.fotoPerfilDos = this.downloadURLFoto2;
+      }
+    }
+    else if(this.tipo === "especialista"){
+      this.user.especialista = true;
+      
+      
+
+      let espAux = new Especialidad();
+      if(this.formGroup.get('especialidadInput').value != ""){
+        espAux.nombre = this.formGroup.get('especialidadInput').value;
+        this.user.descripcion = espAux.nombre;
+        this.fireSvc.AddEspecialidades(espAux);
+      }
+      else{
+        this.user.descripcion = this.formGroup.get('especialidad').value;
+
+      }
+    }
+    await this.authSvc.register(this.user,this.password).then(()=>{
+      
+    });
+
+    // if(userAux.message == null){
+    //   // this.alertaLogueo('Se creo el usuario con email: ' + this.user.email + ' correctamente', 'Registro exitoso');
+
+    //   this.authSvc.afAuth.signInWithEmailLink(this.user.email,'https://clinicaonline-72cfa.firebaseapp.com/__/auth/action');
+    //   this.mostrarMensajeOk("Usuario creado correctamente");
+
+    //   this.user.uid = userAux.user.uid;
+    //   this.user.fecha = this.user.obtenerFechaHora();
+    //   // this.authSvc.SignIn(this.user,this.password);
+      
+      
+    //   this.router.navigateByUrl('/');
+
+    // }
+    // else{
+    //   console.log(userAux.code);
+    //   if(userAux.code == 'auth/invalid-email'){
+    //     this.mostrarMensajeError("Ingrese un email valido por favor");
+    //   }
+    //   if(userAux.code == 'auth/weak-password'){
+    //     this.mostrarMensajeError("La contraseña debe ser mayor a 6 caracteres.");
+    //   }
+    //   if(userAux.code == 'auth/wrong-password'){
+    //     this.mostrarMensajeError("Contraseña incorrecta, reingrese");
+    //   }
+    //   if(userAux.code == 'auth/email-already-in-use'){
+    //     this.mostrarMensajeError("Email en uso");
+    //   }
+      
+    // }
   }
   chequearClave(controlName: string, matchingControlName: string): null | object{
     return (formGroup: FormGroup) => {
@@ -179,11 +305,36 @@ export class RegistroComponent implements OnInit {
     }
   }
   capturarSelectTipo(){
+    // 'nombre': ['',[Validators.required]],
+    // 'apellido': ['',Validators.required],
+    // 'tipo': ['',Validators.required],
+    // 'edad': ['',[Validators.required,Validators.min(18),Validators.max(99)]],
+    // 'dni': ['',[Validators.required,Validators.min(11111111),Validators.max(99999999)]],
+    // 'descripcion': ['',Validators.required],
+    // 'email': ['',Validators.required],
+    // 'password': ['',Validators.required],
+    // 'confirmarPassword': ['',Validators.required],
+    // 'fotoPerfil': ['',Validators.required],
+    // 'especialidad': ['',],
+    // 'especialidadInput': ['',],
+    // 'fileSource': ['', ],
+    // 'fileSource2': ['', ]
     this.tipo = this.tipo;
+    this.formGroup.get('nombre').setValue('');
+    this.formGroup.get('apellido').setValue('');
+    this.formGroup.get('edad').setValue('');
+    this.formGroup.get('dni').setValue('');
+    this.formGroup.get('descripcion').setValue('');
+    this.formGroup.get('email').setValue('');
+    this.formGroup.get('password').setValue('');
+    this.formGroup.get('confirmarPassword').setValue('');
+    this.formGroup.get('fotoPerfil').setValue('');
+    this.formGroup.get('especialidad').setValue('');
+    this.formGroup.get('especialidadInput').setValue('');
   }
   capturarRadioEspecialidad(){
     // this.formGroup.get('especialidad').value;
-    this.radioEspecialidad = this.formGroup.get('especialidad').value;;
+    this.radioEspecialidad = this.formGroup.get('descripcion').value;;
     console.log(this.radioEspecialidad);
     if(this.radioEspecialidad === "Otra"){
       this.mostrarInputRadioOtro = true;
@@ -194,7 +345,9 @@ export class RegistroComponent implements OnInit {
     }
   }
   prueba(){
-    console.log(this.formGroup.getRawValue());
+    
+    console.log(this.formGroup);
+    console.log(this.tipo);
     
     // if(this.formGroup.get("fotoPerfil2").value != ""){
     //   console.log("llegue");
@@ -203,41 +356,33 @@ export class RegistroComponent implements OnInit {
 
     // }
     // else{
-      this.subirFoto();
-
     // }
+
   }
-  async register(){
-    this.user.email = this.email;
-    this.user.username = this.username;
-    this.user.fecha = this.user.obtenerFechaHora();
-    // this.user.password = this.password;
-    const user = await this.authSvc.register(this.user,this.password);
-    if(user.message == null){
-      // this.alertaLogueo('Se creo el usuario con email: ' + this.user.email + ' correctamente', 'Registro exitoso');
-      console.log("Successfully created user!");
-      this.user.uid = user.user.uid;
-      this.user.fecha = this.user.obtenerFechaHora();
-      // this.authSvc.SignIn(this.user,this.password);
-      let asd = this.fireSvc.add(this.user);
-      this.router.navigateByUrl('/home');
-    }
-    else{
-      console.log(user.code);
-      if(user.code == 'auth/invalid-email'){
-        window.alert("Ingrese un email valido por favor");
+  mostrarMensajeOk(mensaje:string){
+    Swal.fire({
+      title: mensaje,
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading()
+      },
+      willClose: () => {
+
       }
-      if(user.code == 'auth/weak-password'){
-        window.alert("La contraseña debe ser mayor a 6 caracteres.");
+    }).then((result) => {
+      /* Read more about handling dismissals below */
+      if (result.dismiss === Swal.DismissReason.timer) {
+        // console.log('Se envio la encuesta')
       }
-      if(user.code == 'auth/wrong-password'){
-        window.alert("Contraseña incorrecta, reingrese");
-      }
-      if(user.code == 'auth/email-already-in-use'){
-        window.alert("Email en uso");
-      }
-      
-    }
+    })
+  }
+  mostrarMensajeError(mensaje:string){
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: mensaje,
+    })
   }
 
 }

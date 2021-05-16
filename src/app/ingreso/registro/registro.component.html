@@ -2,7 +2,7 @@
 <div class="register-page">
     <div class="form">
         
-        <form [formGroup]="formGroup" [hidden]="flag" class="register-form needs-validation" novalidate (ngSubmit)="prueba()">
+        <form [formGroup]="formGroup" [hidden]="flag" class="register-form needs-validation" novalidate (ngSubmit)="register()">
             
             <select class="form-select" name="selectTipo" aria-label="Default select example" (change)="capturarSelectTipo()" formControlName="tipo" [(ngModel)]="tipo">
                 
@@ -31,23 +31,27 @@
                     <div class="col-md-6 mb-3">
                         <input type="number" placeholder="Edad" name="edad" class="form-control" id="edad" formControlName="edad"/>
                         <small class="invalid" *ngIf="formGroup.get('edad')?.errors?.required && formGroup.get('edad')?.touched">Edad requerida</small>
+                        <small class="invalid" *ngIf="formGroup.get('edad')?.errors?.min || formGroup.get('edad')?.errors?.max && formGroup.get('edad')?.touched">Edad entre 18 y 99 años</small>
+
                     </div>
                     <div class="col-md-6 mb-3">
                         <input type="number" placeholder="Dni" name="dni" class="form-control" id="dni" formControlName="dni"/>
                         <small class="invalid" *ngIf="formGroup.get('dni')?.errors?.required && formGroup.get('dni')?.touched">Dni requerido</small>
+                        <small class="invalid" *ngIf="formGroup.get('dni')?.errors?.min || formGroup.get('dni')?.errors?.max && formGroup.get('dni')?.touched">Dni incorrecto</small>
+
                     </div>
                 </div>
 
                 <div>
-                    <input type="text" placeholder="Obra Social" name="obraSocial" class="form-control" id="apellido" formControlName="obraSocial"/>
-                    <small class="invalid" *ngIf="formGroup.get('obraSocial')?.errors?.required && formGroup.get('obraSocial')?.touched">Obra social requerida</small>
+                    <input type="text" placeholder="Obra Social" name="descripcion" class="form-control" id="apellido" formControlName="descripcion"/>
+                    <small class="invalid" *ngIf="formGroup.get('descripcion')?.errors?.required && formGroup.get('descripcion')?.touched">Obra social requerida</small>
                 </div>
                 <div>
                     <input type="text" placeholder="Mail" name="email" class="form-control" id="email" formControlName="email"/>
                     <small class="invalid" *ngIf="formGroup.get('email')?.errors?.required && formGroup.get('email')?.touched">Mail requerido</small>
                 </div>
                 <div>
-                    <input type="text" placeholder="Contraseña" name="password" class="form-control" id="password" formControlName="password"/>
+                    <input type="password" placeholder="Contraseña" name="password" class="form-control" id="password" formControlName="password"/>
                     <small class="invalid" *ngIf="formGroup.get('password')?.errors?.required && formGroup.get('password')?.touched">Contraseña requerida</small>
                 </div>
                 <div>
@@ -96,36 +100,23 @@
 
                 <h5 class="mb-3">Especialidad</h5>
                 
-                <div class="sk-circle" *ngIf="!spinner">
-                    <div class="sk-circle1 sk-child"></div>
-                    <div class="sk-circle2 sk-child"></div>
-                    <div class="sk-circle3 sk-child"></div>
-                    <div class="sk-circle4 sk-child"></div>
-                    <div class="sk-circle5 sk-child"></div>
-                    <div class="sk-circle6 sk-child"></div>
-                    <div class="sk-circle7 sk-child"></div>
-                    <div class="sk-circle8 sk-child"></div>
-                    <div class="sk-circle9 sk-child"></div>
-                    <div class="sk-circle10 sk-child"></div>
-                    <div class="sk-circle11 sk-child"></div>
-                    <div class="sk-circle12 sk-child"></div>
-                  </div>
-
-                <div class="row" *ngIf="spinner">
+                <app-spinner [spinner]="spinner"></app-spinner>
+                  
+                <div class="row" *ngIf="!spinner">
                     <div class="form-check" >
                         <div >
 
                             <div *ngFor="let especialidad of especialidades; let i=index" >
 
                                 <label class="custom-control-label" for="{{ 'acceptable' + i}}">{{especialidad.nombre}}</label>
-                                <input type="radio" name="especialidad" id="especialidad{{especialidad.nombre}} + {{i}}" formControlName="especialidad" (change)="capturarRadioEspecialidad()"
+                                <input type="radio" name="descripcion" id="especialidad{{especialidad.nombre}} + {{i}}" formControlName="descripcion" (change)="capturarRadioEspecialidad()"
                                 [value]="especialidad.nombre">
                             </div>
                         </div>
                         <label class="custom-control-label" for="especialidad">Otra</label>
 
-                        <input type="radio" name="especialidad" id="especialidadOtro" formControlName="especialidad" (change)="capturarRadioEspecialidad()" value="Otra">
-                        <input *ngIf="mostrarInputRadioOtro" type="text" placeholder="Ingrese especialidad nueva" name="especialidadInput" class="form-control" id="especialidadInput" formControlName="especialidadInput"/>
+                        <input type="radio" name="descripcion" id="especialidadOtro" formControlName="descripcion" (change)="capturarRadioEspecialidad()" value="Otra">
+                        <input *ngIf="mostrarInputRadioOtro" type="text" placeholder="Ingrese especialidad nueva" name="descripcionInput" class="form-control" id="descripcionInput" formControlName="especialidadInput"/>
                         </div>
                 </div>
 
@@ -137,7 +128,7 @@
                     <small class="invalid" *ngIf="formGroup.get('email')?.errors?.required && formGroup.get('email')?.touched">Mail requerido</small>
                 </div>
                 <div>
-                    <input type="text" placeholder="Contraseña" name="password" class="form-control" id="password" formControlName="password"/>
+                    <input type="password" placeholder="Contraseña" name="password" class="form-control" id="password" formControlName="password"/>
                     <small class="invalid" *ngIf="formGroup.get('password')?.errors?.required && formGroup.get('password')?.touched">Contraseña requerida</small>
                 </div>
                 <div>
@@ -147,13 +138,15 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlFile1">Seleccione foto de perfil</label>
-                    <input type="file" class="form-control-file" id="fotoPerfil" formControlName="fotoPerfil"  (change)="onFileSelectedFoto($event,false)">
+                    <input type="file" class="form-control-file" id="fotoPerfil" formControlName="fotoPerfil" (change)="onFileSelectedFoto($event,false)">
                 </div>
 
             </div>
+            
             <!-- (click)="register()" -->
             <button type="submit" [disabled]="formGroup.invalid">Crear cuenta</button>
-            <p class="message">Ya estas registrado? <a [routerLink]="'/ingreso/login'"  >Iniciar Sesion</a></p>
+            <p class="message">Ya estas registrado? <a [routerLink]="'/ingreso/login'">Iniciar Sesion</a></p>
         </form>
+        <button (click)="prueba()">Prueba</button>
     </div>
 </div>

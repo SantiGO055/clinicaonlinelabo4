@@ -1,0 +1,8 @@
+.container{
+    display: flex;
+    width: 50%;
+}
+.contenedorLista{
+    border: 1px solid #000;
+
+}

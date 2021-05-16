@@ -1,3 +1,4 @@
+
 import { NavbarModule } from './navbar/navbar.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -12,13 +13,16 @@ import { BienvenidoComponent } from './pages/bienvenido/bienvenido.component';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from 'src/environments/environment';
-import { SpinnerComponent } from './componentes/spinner/spinner.component';
 
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { AdminComponent } from './componentes/admin/admin.component';
+
+import {SpinnerModule} from './componentes/spinner/spinner.module'
 @NgModule({
   declarations: [
     AppComponent,
     BienvenidoComponent,
-    SpinnerComponent
+    AdminComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,9 +33,11 @@ import { SpinnerComponent } from './componentes/spinner/spinner.component';
     AngularFireAuthModule,
     NgbCollapseModule,
     NgbModule,
-    NavbarModule
+    NavbarModule,
+    SweetAlert2Module.forRoot(),
+    SpinnerModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

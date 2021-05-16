@@ -1,8 +1,12 @@
+
+
+import { SpinnerModule } from './../componentes/spinner/spinner.module';
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { IngresoRoutingModule } from './ingreso-routing.module';
-import { IngresoComponent } from './ingreso.component';
+
 import { LoginComponent } from './login/login.component';
 import { RegistroComponent } from './registro/registro.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -12,7 +16,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 @NgModule({
   declarations: [
-    IngresoComponent,
+    
     LoginComponent,
     RegistroComponent
   ],
@@ -25,6 +29,12 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
     AngularFireStorageModule,
     AngularFireAuthModule,
     ReactiveFormsModule,
+    SpinnerModule
+    
+    
+    
+    
+    
   ]
 })
 export class IngresoModule { }

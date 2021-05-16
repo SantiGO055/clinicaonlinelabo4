@@ -83,7 +83,7 @@ export class FirebaseService {
   //  getAll(): AngularFirestoreCollection<Mensaje>{
   //   return this.mensajesColecction;
   // }
-  add(usuario: User){
+  addUser(usuario: User){
 
     return this.usuariosCollection.add(JSON.parse( JSON.stringify(usuario)));
     // return this.mensajesColecction.add({...mensaje});
@@ -126,6 +126,14 @@ export class FirebaseService {
     
     this.usuariosDoc = this.db.doc(`mensajes/${usuario.uid}`);
     this.usuariosDoc.update(usuario);
+  }
+  updateUsuario(usuario: User){
+    this.usuariosDoc = this.db.doc(`usuarios/${usuario.uid}`);
+    return this.usuariosDoc.update(usuario);
+  }
+  deshabilitarUsuario(usuario: User){
+    this.usuariosDoc = this.db.doc(`usuarios/${usuario.uid}`);
+    return this.usuariosDoc.update(usuario);
   }
   // addEstadisticaPuzzle(estadisticaPuzzle: Estadisticapuzzle){
 

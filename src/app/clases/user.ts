@@ -2,11 +2,18 @@ export class User {
     email: string;
     uid: string;
     username: string;
-    status?:string;
+    nombre: string;
+    apellido: string;
+    edad: string;
+    dni: string;
     fecha: string;
     especialista:boolean;
     fotoPerfil:string;
-    fotoPerfilDos:string;
+    fotoPerfilDos?:string;
+    descripcion:string;
+    aprobadoPorAdmin?:boolean;
+    admin?:boolean;
+    habilitado?:boolean;
     constructor(){
         this.email = "";
         this.uid = "";
