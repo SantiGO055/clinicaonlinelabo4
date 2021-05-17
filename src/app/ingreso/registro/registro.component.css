@@ -30,7 +30,7 @@ small{
 .register-page {
   width: 500px;
   height: auto;
-  padding: 1% 0 0;
+  padding: 8% 0 0;
   margin: auto;
   animation-name: loginRegister;
   animation-duration: 0.2s;

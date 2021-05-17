@@ -62,10 +62,19 @@ export class RegistroComponent implements OnInit {
       this.especialidades = especialidad;
     });
 
+
     
-    if(this.authSvc.isLogged.admin){
-      this.adminLogueado = this.authSvc.isLogged;
-      this.seLogueoAdmin = true;
+    
+    if(this.authSvc.isLogged != null){
+      if(this.authSvc.isLogged.admin){
+        this.adminLogueado = this.authSvc.isLogged;
+        this.seLogueoAdmin = true;
+        this.tipo = 'administrador';
+      }
+    }
+    else{
+      console.log("sin loguear");
+
     }
     
     this.formGroup = this.fb.group({
