@@ -1,7 +1,8 @@
 .divLogged{
     display:flex;
-    
+
     flex-direction: row;
+
 }
 
 p{

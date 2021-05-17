@@ -18,6 +18,14 @@ a{
     color: #4b778d;
     
 } */
+.loggedDiv{
+    justify-content: flex-end;
+    margin-left: 25%;
+}
+input[type=search]{
+    width:430px !important;
+    /* padding: 0 10%; */
+}
 a:hover{
     color: hsl(243, 80%, 62%);
 }
