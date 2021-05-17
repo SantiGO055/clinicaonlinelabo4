@@ -17,9 +17,22 @@
                     <td>{{usuario.apellido}}</td>
                     <td>{{usuario.nombre}}</td>
                     <td>{{usuario.email}}</td>
-                    <td><button type="button" *ngIf="usuario.aprobadoPorAdmin"(click)="habilitar(usuario,i)">{{mensajeHabilitado}}</button> </td>
-                    <td><button type="button" *ngIf="!usuario.aprobadoPorAdmin"(click)="habilitar(usuario,i)">{{mensajeDeshabilitado}}</button> </td>
+                    <!-- <td><button type="button" *ngIf="usuario.aprobadoPorAdmin"(click)="habilitar(usuario,i)">{{mensajeHabilitado}}</button> </td>
+                    <td><button type="button" *ngIf="!usuario.aprobadoPorAdmin"(click)="habilitar(usuario,i)">{{mensajeDeshabilitado}}</button> </td> -->
                     
+                      
+                    <!-- <form [formGroup]="formGroupCheck"> -->
+                        <!-- <div class="form-check" > -->
+
+                            <label class="switch" >
+                                <input name="check"  type="checkbox" ng-checked="usuario.aprobadoPorAdmin" [(ngModel)]="usuario.aprobadoPorAdmin" (change)="verificarChangeCheck(usuario,$event)">
+                                <span class="slider round"></span>
+                            </label>
+                        <!-- </div> -->
+                        <!-- <div class="row" *ngIf="!spinner"> -->
+                        <!-- </div> -->
+
+                    <!-- </form> -->
                     
                     
                     <!-- <button *ngIf="habilitado" (click)="deshabilitar(usuario,i)">{{mensajeBoton}}</button> -->

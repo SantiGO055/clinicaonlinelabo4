@@ -74,7 +74,7 @@ export class RegistroComponent implements OnInit {
     }
     else{
       console.log("sin loguear");
-
+      
     }
     
     this.formGroup = this.fb.group({

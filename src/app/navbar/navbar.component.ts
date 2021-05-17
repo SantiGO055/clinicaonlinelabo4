@@ -12,6 +12,7 @@ export class NavbarComponent implements OnInit {
   ocultarBotonLogout: boolean = true;
   ocultarLogin: boolean = true;
   ocultarRegistro: boolean = false;
+  ocultarBotonesLogueo: boolean;
   adminLogueado:boolean = false;
   usuario : User = new User();
   constructor(
@@ -26,13 +27,20 @@ export class NavbarComponent implements OnInit {
         if(res && res.uid){
           this.usuario = this.authSvc.obtenerUsuarioLogueado(res.email);
           console.log(this.usuario);
+          
           if(res.email === 'admin@admin.com' || this.usuario.admin){
             this.adminLogueado = true;
+          }
+          if(this.authSvc.isLogged == null){
+            this.ocultarBotonesLogueo = false;
+          }else{
+            this.ocultarBotonesLogueo = true;
           }
         }
         else{
           this.adminLogueado = false;
         }
+        
       });
   }
 

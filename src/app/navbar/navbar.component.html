@@ -15,10 +15,10 @@
         <a class="navbar-brand" [routerLink]="'/'"><img src="assets/healthcare.png"></a>
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
           
-          <li class="nav-item" >
+          <li class="nav-item" *ngIf="!ocultarBotonesLogueo">
             <a [routerLink]="'ingreso/login'" routerLinkActive="active" class="nav-link borderFade">Login</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="!ocultarBotonesLogueo">
             <a [routerLink]="'ingreso/registro'" routerLinkActive="active" class="nav-link borderFade" >Registrarse</a>
           </li>
   

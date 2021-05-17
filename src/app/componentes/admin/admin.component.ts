@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { lessThanValidatorExtension } from '@rxweb/reactive-form-validators/validators-extension';
 import { User } from 'src/app/clases/user';
 import { AuthService } from 'src/app/services/auth.service';
@@ -18,13 +19,18 @@ export class AdminComponent implements OnInit {
   mensajeDeshabilitado:string = 'Habilitar';
   mensajeHabilitado:string= 'Deshabilitar';
   mensaje = 'Listado de especialistas pendientes de aprobación';
+  checked:boolean = false;
   constructor(
     private authSvc: AuthService,
-    private fireSvc: FirebaseService
+    private fireSvc: FirebaseService,
+    private fb:FormBuilder,
   ) { 
     this.usuariosAAprobar = [];
     this.usuariosEspecialistas = [];
   }
+  public formGroupCheck!: FormGroup;
+
+
 
   ngOnInit(): void {
     this.fireSvc.getAllUsers().subscribe((usuarios)=>{
@@ -66,6 +72,18 @@ export class AdminComponent implements OnInit {
       });
     });
 
+    this.formGroupCheck = this.fb.group({
+      'check': ['',[Validators.required]]});
+  }
+  verificarChangeCheck(
+    usuario: User,
+    event
+    // usuario: User,index: number
+    ){
+      console.log(event.target.checked);
+      usuario.aprobadoPorAdmin = event.target.checked;
+      this.habilitar(usuario,0)
+    // this.habilitar(usuario,index);
   }
   habilitar(usuario:User,index:number){
     
@@ -74,18 +92,18 @@ export class AdminComponent implements OnInit {
     // this.habilitado = true;
     console.log(index);
 
-    if(usuario.aprobadoPorAdmin){
-      this.habilitado = false;
-      usuario.aprobadoPorAdmin = false;
-      this.mensajeDeshabilitado = "Deshabilitar";
-    }
-    else{
-      this.habilitado = true;
+    // if(usuario.aprobadoPorAdmin){
+    //   this.habilitado = false;
+    //   usuario.aprobadoPorAdmin = false;
+    //   this.mensajeDeshabilitado = "Deshabilitar";
+    // }
+    // else{
+    //   this.habilitado = true;
 
-      usuario.aprobadoPorAdmin = true;
-      this.mensajeHabilitado = "Habilitar";
+    //   usuario.aprobadoPorAdmin = true;
+    //   this.mensajeHabilitado = "Habilitar";
 
-    }
+    // }
     
     this.fireSvc.updateUsuario(usuario).then(()=>{
       // this.usuarios.splice(index,1);
