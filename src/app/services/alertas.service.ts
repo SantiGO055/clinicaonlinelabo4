@@ -32,6 +32,7 @@ export class AlertasService {
     return result;
   }
   mostraAlertaSimple(mensaje:string,titulo:string){
+    console.log(mensaje)
     Swal.fire({
       icon: 'error',
       title: titulo,
