@@ -101,7 +101,7 @@ export class AuthService {
           
         });
       }
-      console.log("sinverificar");
+      // console.log("sinverificar");
       // this.alertas.mostrarAlertaConfirmacionEmail('Email sin verificar','Verificación','Email enviado correctamente')
     }
     else{
@@ -114,7 +114,7 @@ export class AuthService {
             this.isLogged = null;
           }
           else{
-            console.log(this.isLogged);
+            // console.log(this.isLogged);
             localStorage.setItem('usuarioLogueado',JSON.stringify(this.isLogged));
 
             this.router.navigate(['/']);
@@ -155,7 +155,7 @@ export class AuthService {
         
     } 
     catch(error){
-      console.log(error);
+      // console.log(error);
       if(error.code == 'auth/invalid-email'){
 
         this.alertas.mostraAlertaSimple(error,'Error');
@@ -172,7 +172,7 @@ export class AuthService {
   }
   async register(user: User,password:string) {
     try {
-      console.log(user);
+      // console.log(user);
       var aux = this.afAuth.createUserWithEmailAndPassword(user.email,password).then(()=>{
       this.router.navigate(['/']);
 
@@ -194,7 +194,7 @@ export class AuthService {
       }
       // this.alertas.mostraAlertaSimple('Error: '+error,'Error');
       this.router.navigate(['ingreso/registro']);
-      console.log('Error on register user', error);
+      // console.log('Error on register user', error);
       return error;
     }
   }
@@ -218,7 +218,7 @@ export class AuthService {
         auxUser.email = <string>res.email;
         auxUser.uid = res.uid;
         auxUser.username = <string>res.displayName;
-        console.log(auxUser);
+        // console.log(auxUser);
       }
     });
     return auxUser;

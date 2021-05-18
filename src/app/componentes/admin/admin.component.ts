@@ -50,7 +50,7 @@ export class AdminComponent implements OnInit {
             this.mensajeHabilitado = "Deshabilitar";
             this.mensajeDeshabilitado = "Habilitar";
             this.mostrarListado = true;
-            console.log("este usuario no esta aprobado por admin "+usuario.email)
+            // console.log("este usuario no esta aprobado por admin "+usuario.email)
             this.spinner = false;
             
   
@@ -80,7 +80,7 @@ export class AdminComponent implements OnInit {
     event
     // usuario: User,index: number
     ){
-      console.log(event.target.checked);
+      // console.log(event.target.checked);
       usuario.aprobadoPorAdmin = event.target.checked;
       this.habilitar(usuario,0)
     // this.habilitar(usuario,index);
@@ -90,7 +90,7 @@ export class AdminComponent implements OnInit {
     this.spinner = true;
     this.usuariosAAprobar = [];
     // this.habilitado = true;
-    console.log(index);
+    // console.log(index);
 
     // if(usuario.aprobadoPorAdmin){
     //   this.habilitado = false;
@@ -109,7 +109,7 @@ export class AdminComponent implements OnInit {
       // this.usuarios.splice(index,1);
       
       this.spinner = false;
-      console.log(this.usuariosAAprobar);
+      // console.log(this.usuariosAAprobar);
       if(this.usuariosAAprobar.length == 0){
         this.mostrarListado = false;
         
@@ -129,7 +129,7 @@ export class AdminComponent implements OnInit {
     this.fireSvc.updateUsuario(usuario).then(()=>{
       // this.usuarios.splice(index,1);
       this.spinner = false;
-      console.log(this.usuariosAAprobar);
+      // console.log(this.usuariosAAprobar);
       if(this.usuariosAAprobar.length == 0){
         this.mostrarListado = false;
         

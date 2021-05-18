@@ -74,13 +74,13 @@ export class RegistroComponent implements OnInit {
           this.tipo = 'administrador';
         }
         else{
-          console.log("admin sin loguear");
+          // console.log("admin sin loguear");
           this.seLogueoAdmin = false;
   
         }
       }
       else{
-        console.log("sin loguear");
+        // console.log("sin loguear");
         
       }
     });
@@ -107,7 +107,7 @@ export class RegistroComponent implements OnInit {
     });
   }
   private chequearArchivos(control: AbstractControl):null | object {
-    console.log(control);
+    // console.log(control);
     
     if(this.subirArchivos){
       return {
@@ -123,13 +123,13 @@ export class RegistroComponent implements OnInit {
     
     if(multiple){
       if(filelist.length > 2){
-        console.log("seleccionar solo 2 archivos");
+        // console.log("seleccionar solo 2 archivos");
         this.subirArchivos = false;
         this.mensajeSubida = "Seleccionar solo 2 archivos";
       }
       else{
         if(filelist[0] != null ){
-          console.log("archivo 1?");
+          // console.log("archivo 1?");
 
           this.subirArchivos = true;
           const file = filelist[0];
@@ -140,12 +140,12 @@ export class RegistroComponent implements OnInit {
           
           this.mensajeArchivo = `Archivo preparado: ${filelist[0].name}`;
           this.nombreArchivo = this.user.obtenerFechaHora() + " " + filelist[0].name;
-          console.log(this.mensajeArchivo);
-          console.log(this.nombreArchivo);
+          // console.log(this.mensajeArchivo);
+          // console.log(this.nombreArchivo);
 
         }
         if(filelist[1] != null){
-          console.log("archivo 2?");
+          // console.log("archivo 2?");
           const file2 = filelist[1];
           
           this.formGroup.patchValue({
@@ -161,7 +161,7 @@ export class RegistroComponent implements OnInit {
 
     }
     else{
-      console.log("llegue");
+      // console.log("llegue");
       if(filelist[0] != null){
         this.subirArchivos = true;
         const file = filelist[0];
@@ -181,8 +181,8 @@ export class RegistroComponent implements OnInit {
     const archivo1 = this.formGroup.get('fileSource').value;
     this.referencia = this.fireSvc.referenciaCloudStorage(this.nombreArchivo);
     // console.log(archivo1);
-    console.log(this.formGroup.get('fileSource').value);
-    console.log(this.formGroup.get('fileSource2'));
+    // console.log(this.formGroup.get('fileSource').value);
+    // console.log(this.formGroup.get('fileSource2'));
 
 
     /** subo archivo 1 */
@@ -190,13 +190,13 @@ export class RegistroComponent implements OnInit {
 
       /** subo archivo 2 */
       if (this.formGroup.get('fileSource2').value != "") {
-        console.log(this.formGroup.get('fileSource2').value);
+        // console.log(this.formGroup.get('fileSource2').value);
         const archivo2 = this.formGroup.get('fileSource2').value;
         let referenciaArchivo2 = this.fireSvc.referenciaCloudStorage(this.nombreArchivo2);
         this.fireSvc.addFile(this.nombreArchivo2, archivo2).snapshotChanges().pipe(finalize(() => {
           referenciaArchivo2.getDownloadURL().subscribe(url => {
             this.downloadURLFoto2 = url;
-            console.log(this.downloadURLFoto2);
+            // console.log(this.downloadURLFoto2);
             this.user.fotoPerfilDos = this.downloadURLFoto2;
 
             // this.fireSvc.add
@@ -205,7 +205,7 @@ export class RegistroComponent implements OnInit {
             this.downloadURLFoto1 = url;
             this.user.fotoPerfil = this.downloadURLFoto1;
       
-            console.log(this.downloadURLFoto1);
+            // console.log(this.downloadURLFoto1);
             this.fireSvc.addUser(this.user);
           });
 
@@ -220,7 +220,7 @@ export class RegistroComponent implements OnInit {
             this.user.aprobadoPorAdmin = true;
           }
           this.user.aprobadoPorAdmin = false;
-          console.log(this.downloadURLFoto1);
+          // console.log(this.downloadURLFoto1);
           this.fireSvc.addUser(this.user);
         });
 
@@ -240,7 +240,7 @@ export class RegistroComponent implements OnInit {
     
     
     
-    console.log(this.formGroup);
+    // console.log(this.formGroup);
     this.user.nombre = this.formGroup.get('nombre').value;
     this.user.apellido = this.formGroup.get('apellido').value;
     this.user.edad = this.formGroup.get('edad').value;
@@ -285,9 +285,9 @@ export class RegistroComponent implements OnInit {
 
     }
     await this.authSvc.register(this.user,this.password).then((result)=>{
-      console.log(result);
+      // console.log(result);
       this.subirFoto().then(()=>{
-        console.log("prueba");
+        // console.log("prueba");
       });
     });
 
@@ -367,7 +367,7 @@ export class RegistroComponent implements OnInit {
   capturarRadioEspecialidad(){
     // this.formGroup.get('especialidad').value;
     this.radioEspecialidad = this.formGroup.get('descripcion').value;;
-    console.log(this.radioEspecialidad);
+    // console.log(this.radioEspecialidad);
     if(this.radioEspecialidad === "Otra"){
       this.mostrarInputRadioOtro = true;
     }
@@ -378,8 +378,8 @@ export class RegistroComponent implements OnInit {
   }
   prueba(){
     
-    console.log(this.formGroup);
-    console.log(this.tipo);
+    // console.log(this.formGroup);
+    // console.log(this.tipo);
     
     // if(this.formGroup.get("fotoPerfil2").value != ""){
     //   console.log("llegue");
