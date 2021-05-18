@@ -9,7 +9,6 @@ import { AuthService } from '../services/auth.service';
 })
 export class NavbarComponent implements OnInit {
   public toggleNavbar = true;
-  ocultarBotonLogout: boolean = true;
   ocultarLogin: boolean = true;
   ocultarRegistro: boolean = false;
   ocultarBotonesLogueo: boolean;
@@ -24,24 +23,31 @@ export class NavbarComponent implements OnInit {
     // console.log(this.authSvc.isLogged);
     
       this.authSvc.afAuth.authState.subscribe(res=>{
+        if(this.authSvc.isLogged == null){
+          
+        }else{
+          
+        }
         if(res && res.uid){
+          this.ocultarBotonesLogueo = true;
           this.usuario = this.authSvc.obtenerUsuarioLogueado(res.email);
           console.log(this.usuario);
           
-          if(res.email === 'admin@admin.com' || this.usuario.admin){
+          if(this.usuario.admin){
             this.adminLogueado = true;
           }
-          if(this.authSvc.isLogged == null){
-            this.ocultarBotonesLogueo = false;
-          }else{
-            this.ocultarBotonesLogueo = true;
-          }
+          
         }
         else{
           this.adminLogueado = false;
+          
         }
         
       });
+  }
+  obtenerEventoBotonLogueo(ocultarBoton: boolean){
+    console.log("recibi boton deslogueo "+ ocultarBoton);
+    this.ocultarBotonesLogueo = ocultarBoton;
   }
 
 }

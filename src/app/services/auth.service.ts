@@ -23,6 +23,7 @@ export class AuthService {
           this.usuarios.forEach(userAux => {
             // console.log(user)
             // console.log(userAux)
+            if(user != null)
             if(userAux.email == user.email){
               this.isLogged = userAux;
               // console.log(this.isLogged);
@@ -37,7 +38,7 @@ export class AuthService {
   //login
   async sendEmailVerification() {
     await (await this.afAuth.currentUser).sendEmailVerification();
-      this.router.navigate(['ingreso/login']);
+      this.router.navigate(['/']);
   }
   verificarSiAdminAprobo(usuario : User){
     let retorno = false;
@@ -140,10 +141,11 @@ export class AuthService {
         this.isLogged = user;
         
           
-          await this.afAuth.signInWithEmailAndPassword(user.email, password).then((result)=>{
+          return await this.afAuth.signInWithEmailAndPassword(user.email, password).then((result)=>{
             // user = this.obtenerUsuarioLogueado(user.email);
             // this.isLogged = user;
             // console.log(user);
+            
             localStorage.setItem('usuarioLogueado',JSON.stringify(this.isLogged));
     
             this.verificarAprobacion(result,user);
@@ -154,7 +156,13 @@ export class AuthService {
     } 
     catch(error){
       console.log(error);
-      this.alertas.mostraAlertaSimple(error,'Error');
+      if(error.code == 'auth/invalid-email'){
+
+      }
+      else{
+        this.alertas.mostraAlertaSimple(error,'Error');
+
+      }
       return error;
     }
   }
@@ -173,6 +181,13 @@ export class AuthService {
       // })
       // return await aux;
     } catch (error) {
+      if(error.code == 'auth/invalid-email'){
+
+      }
+      else{
+        this.alertas.mostraAlertaSimple(error,'Error');
+
+      }
       // this.alertas.mostraAlertaSimple('Error: '+error,'Error');
       this.router.navigate(['ingreso/registro']);
       console.log('Error on register user', error);

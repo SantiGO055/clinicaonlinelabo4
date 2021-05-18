@@ -1,4 +1,6 @@
-<div class="login-page">
+
+<app-spinner class="flag" [spinner]="flag"></app-spinner>
+<div *ngIf="!flag" class="login-page">
     <div class="form">
         
         <form class="form-group">

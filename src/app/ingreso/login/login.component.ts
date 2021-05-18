@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   password: string = '';
   emailRegister: string ='';
   passwordRegister: string = '';
-  flag: boolean = true;
+  flag: boolean = false;
   
   
  constructor(private afAuth: AngularFireAuth,
@@ -36,13 +36,16 @@ export class LoginComponent implements OnInit {
   //   this.flag = !this.flag;
   // }
   async login(){
+    this.flag = true;
     
 
     this.user.email = this.email;
     try {
       //verificar si el usuario esta habilitado o no
       
-      await this.authSvc.SignIn(this.user,this.password);
+      await this.authSvc.SignIn(this.user,this.password).then((res)=>{
+        this.flag = false;
+      });
       // console.log(user);
 
       // if (user.user.message == null ) {

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/clases/user';
 import { AuthService } from 'src/app/services/auth.service';
@@ -12,8 +12,10 @@ export class LoggedComponent implements OnInit {
   ocultarLogin: boolean = false;
   ocultarRegistro: boolean = false;
   ocultarMensaje : boolean = true;
+  @Input()ocultarBotonesLogueo : boolean = true;
   ocultarBotonLogout : boolean = true;
   logueado: boolean = false;
+  @Output()eventoOcultarBotonesLogueo:EventEmitter<any> = new EventEmitter<any>();
   
   @Input() usuario : any;
   usuarioLogueado: User;
@@ -54,19 +56,23 @@ export class LoggedComponent implements OnInit {
 async desloguear(){
   // this.usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
   this.ocultarMensaje = false;
+  
+  this.enviarEventoOcultarLogueo();
   if(this.usuario.email = this.usuarioLogueado.email){
         this.authSvc.afAuth.signOut();
-        this.ocultarBotonLogout = false;
         sessionStorage.clear();
         localStorage.removeItem("usuarioLogueado");
         this.router.navigate(["/ingreso/login"]);
         this.logueado = false;
       }
       else{
-        this.ocultarBotonLogout = true;
         this.logueado = true;
       }
 
+  }
+  enviarEventoOcultarLogueo(){
+    this.ocultarBotonesLogueo = false;
+    this.eventoOcultarBotonesLogueo.emit(this.ocultarBotonesLogueo);
   }
 
 }

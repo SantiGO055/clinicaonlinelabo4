@@ -36,6 +36,12 @@
     transform: translateY(0);
 }
 
+.flag{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  
+}
 
 .login-page {
   width: 360px;
