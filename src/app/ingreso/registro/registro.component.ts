@@ -64,18 +64,26 @@ export class RegistroComponent implements OnInit {
 
 
     
-    
-    if(this.authSvc.isLogged != null){
-      if(this.authSvc.isLogged.admin){
-        this.adminLogueado = this.authSvc.isLogged;
-        this.seLogueoAdmin = true;
-        this.tipo = 'administrador';
+    this.authSvc.afAuth.authState.subscribe(res=>{
+      // console.log(res);
+      // console.log(this.authSvc.isLogged);
+      if(this.authSvc.isLogged != null){
+        if(this.authSvc.isLogged.admin){
+          this.adminLogueado = this.authSvc.isLogged;
+          this.seLogueoAdmin = true;
+          this.tipo = 'administrador';
+        }
+        else{
+          console.log("admin sin loguear");
+          this.seLogueoAdmin = false;
+  
+        }
       }
-    }
-    else{
-      console.log("sin loguear");
-      
-    }
+      else{
+        console.log("sin loguear");
+        
+      }
+    });
     
     this.formGroup = this.fb.group({
       'nombre': ['',[Validators.required]],

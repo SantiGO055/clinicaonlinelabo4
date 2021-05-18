@@ -59,7 +59,8 @@ async desloguear(){
   
   this.enviarEventoOcultarLogueo();
   if(this.usuario.email = this.usuarioLogueado.email){
-        this.authSvc.afAuth.signOut();
+        this.authSvc.desloguear();
+        
         sessionStorage.clear();
         localStorage.removeItem("usuarioLogueado");
         this.router.navigate(["/ingreso/login"]);

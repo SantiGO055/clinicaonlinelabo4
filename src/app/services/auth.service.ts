@@ -158,13 +158,17 @@ export class AuthService {
       console.log(error);
       if(error.code == 'auth/invalid-email'){
 
+        this.alertas.mostraAlertaSimple(error,'Error');
       }
       else{
         this.alertas.mostraAlertaSimple(error,'Error');
-
       }
       return error;
     }
+  }
+  desloguear(){
+    this.isLogged = null;
+    this.afAuth.signOut();
   }
   async register(user: User,password:string) {
     try {
