@@ -4,7 +4,7 @@ import { lessThanValidatorExtension } from '@rxweb/reactive-form-validators/vali
 import { User } from 'src/app/clases/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
-
+import { NgxSpinnerService } from "ngx-spinner";
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -13,7 +13,7 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 export class AdminComponent implements OnInit {
   usuariosAAprobar: User[];
   usuariosEspecialistas: User[];
-  spinner: boolean = true;
+  spinnerPrueba: boolean = true;
   habilitado: boolean;
   mostrarListado: boolean = false;
   mensajeDeshabilitado:string = 'Habilitar';
@@ -24,6 +24,7 @@ export class AdminComponent implements OnInit {
     private authSvc: AuthService,
     private fireSvc: FirebaseService,
     private fb:FormBuilder,
+    private spinner: NgxSpinnerService
   ) { 
     this.usuariosAAprobar = [];
     this.usuariosEspecialistas = [];
@@ -45,13 +46,13 @@ export class AdminComponent implements OnInit {
           this.usuariosEspecialistas.push(JSON.parse(JSON.stringify(usuario)));
           if(!usuario.aprobadoPorAdmin){
             
-
+            
             this.habilitado=false;
             this.mensajeHabilitado = "Deshabilitar";
             this.mensajeDeshabilitado = "Habilitar";
             this.mostrarListado = true;
             // console.log("este usuario no esta aprobado por admin "+usuario.email)
-            this.spinner = false;
+            this.spinnerPrueba = false;
             
   
             // this.usuariosAAprobar.push(JSON.parse(JSON.stringify(usuario)));
@@ -65,7 +66,7 @@ export class AdminComponent implements OnInit {
   
               this.mensaje = 'No se encontraron usuarios para aprobar'
             }
-            this.spinner = false;
+            this.spinnerPrueba = false;
   
           }
         }
@@ -86,8 +87,8 @@ export class AdminComponent implements OnInit {
     // this.habilitar(usuario,index);
   }
   habilitar(usuario:User,index:number){
-    
-    this.spinner = true;
+    this.spinner.show();
+    this.spinnerPrueba = true;
     this.usuariosAAprobar = [];
     // this.habilitado = true;
     // console.log(index);
@@ -107,8 +108,8 @@ export class AdminComponent implements OnInit {
     
     this.fireSvc.updateUsuario(usuario).then(()=>{
       // this.usuarios.splice(index,1);
-      
-      this.spinner = false;
+      this.spinner.hide();
+      this.spinnerPrueba = false;
       // console.log(this.usuariosAAprobar);
       if(this.usuariosAAprobar.length == 0){
         this.mostrarListado = false;
@@ -119,7 +120,7 @@ export class AdminComponent implements OnInit {
 
   }
   deshabilitar(usuario:User,index:number){
-    this.spinner = true;
+    this.spinnerPrueba = true;
     this.usuariosAAprobar = [];
     this.habilitado = false;
     usuario.aprobadoPorAdmin = false;
@@ -128,7 +129,7 @@ export class AdminComponent implements OnInit {
     }
     this.fireSvc.updateUsuario(usuario).then(()=>{
       // this.usuarios.splice(index,1);
-      this.spinner = false;
+      this.spinnerPrueba = false;
       // console.log(this.usuariosAAprobar);
       if(this.usuariosAAprobar.length == 0){
         this.mostrarListado = false;
