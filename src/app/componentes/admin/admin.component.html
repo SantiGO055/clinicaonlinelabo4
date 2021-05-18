@@ -23,11 +23,13 @@
                       
                     <!-- <form [formGroup]="formGroupCheck"> -->
                         <!-- <div class="form-check" > -->
+                    <td>
+                        <label class="switch" >
+                            <input name="check"  type="checkbox" ng-checked="usuario.aprobadoPorAdmin" [(ngModel)]="usuario.aprobadoPorAdmin" (change)="verificarChangeCheck(usuario,$event)">
+                            <span class="slider round"></span>
+                        </label>
 
-                            <label class="switch" >
-                                <input name="check"  type="checkbox" ng-checked="usuario.aprobadoPorAdmin" [(ngModel)]="usuario.aprobadoPorAdmin" (change)="verificarChangeCheck(usuario,$event)">
-                                <span class="slider round"></span>
-                            </label>
+                    </td>
                         <!-- </div> -->
                         <!-- <div class="row" *ngIf="!spinner"> -->
                         <!-- </div> -->
