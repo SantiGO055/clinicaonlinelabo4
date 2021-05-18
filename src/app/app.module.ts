@@ -17,8 +17,9 @@ import { environment } from 'src/environments/environment';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { AdminComponent } from './componentes/admin/admin.component';
 
-
+import { NgxSpinnerModule } from "ngx-spinner";
 import {SpinnerModule} from './componentes/spinner/spinner.module'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,9 +39,12 @@ import {SpinnerModule} from './componentes/spinner/spinner.module'
     SweetAlert2Module.forRoot(),
     SpinnerModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxSpinnerModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
+  exports:[NgxSpinnerModule]
 })
 export class AppModule { }

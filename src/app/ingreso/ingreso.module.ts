@@ -14,6 +14,8 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { NgxSpinnerModule } from "ngx-spinner";
+
 @NgModule({
   declarations: [
     
@@ -29,8 +31,8 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
     AngularFireStorageModule,
     AngularFireAuthModule,
     ReactiveFormsModule,
-    SpinnerModule
-    
+    SpinnerModule,
+    NgxSpinnerModule
     
     
     

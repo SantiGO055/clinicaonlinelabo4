@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { User } from 'src/app/clases/user';
 import { AuthService } from 'src/app/services/auth.service';
-
+import { NgxSpinnerService } from "ngx-spinner";
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -22,7 +22,8 @@ export class LoginComponent implements OnInit {
   
  constructor(private afAuth: AngularFireAuth,
    private router: Router,
-   private authSvc: AuthService) { 
+   private authSvc: AuthService,
+   private spinner: NgxSpinnerService) { 
 
    }
 
@@ -36,7 +37,7 @@ export class LoginComponent implements OnInit {
   //   this.flag = !this.flag;
   // }
   async login(){
-    this.flag = true;
+    this.spinner.show();
     
 
     this.user.email = this.email;
@@ -44,6 +45,7 @@ export class LoginComponent implements OnInit {
       //verificar si el usuario esta habilitado o no
       
       await this.authSvc.SignIn(this.user,this.password).then((res)=>{
+        this.spinner.hide();
         this.flag = false;
       });
       // console.log(user);

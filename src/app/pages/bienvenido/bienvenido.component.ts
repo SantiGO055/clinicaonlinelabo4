@@ -9,7 +9,8 @@ import { NgbCarousel, NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 export class BienvenidoComponent implements OnInit {
   
   @ViewChild('carousel', { static: true }) carousel: NgbCarousel;
-  constructor(config: NgbCarouselConfig) {
+  constructor(config: NgbCarouselConfig,
+    ) {
     config.interval = 3000;
     config.keyboard = true;
     config.pauseOnHover = true;
@@ -21,5 +22,6 @@ export class BienvenidoComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    
   }
 }
