@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/clases/user';
 import { AuthService } from 'src/app/services/auth.service';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Especialidad } from 'src/app/clases/especialidad';
 import { Observable } from 'rxjs';
 import { AngularFireStorage, AngularFireStorageReference } from '@angular/fire/storage';
@@ -44,7 +44,7 @@ export class RegistroComponent implements OnInit {
   adminLogueado:User = new User();
   tarea: any;
   referencia: AngularFireStorageReference;
-  
+  checkArray = [];
   public formGroup!: FormGroup;
   constructor(private authSvc : AuthService, 
     private router: Router,
@@ -91,7 +91,7 @@ export class RegistroComponent implements OnInit {
       'tipo': ['',Validators.required],
       'edad': ['',[Validators.required,Validators.min(18),Validators.max(99)]],
       'dni': ['',[Validators.required,Validators.min(11111111),Validators.max(99999999)]],
-      'descripcion': ['',],
+      'descripcion': [''],
       'email': ['',[Validators.required, Validators.email,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       'password': ['',Validators.required],
       'confirmarPassword': ['',Validators.required],
@@ -269,12 +269,15 @@ export class RegistroComponent implements OnInit {
 
       let espAux = new Especialidad();
       if(this.formGroup.get('especialidadInput').value != ""){
-        espAux.nombre = this.formGroup.get('especialidadInput').value;
-        this.user.descripcion = espAux.nombre;
-        this.fireSvc.AddEspecialidades(espAux);
+        // espAux.nombre = this.formGroup.get('especialidadInput').value;
+        // this.user.descripcion = espAux.nombre;
+        
       }
       else{
-        this.user.descripcion = this.formGroup.get('especialidad').value;
+        
+        this.user.descripcion = JSON.parse(JSON.stringify(this.checkArray))
+        
+        // this.user.descripcion = this.formGroup.get('especialidad').value;
 
       }
     }
@@ -290,37 +293,6 @@ export class RegistroComponent implements OnInit {
         // console.log("prueba");
       });
     });
-
-    // if(userAux.message == null){
-    //   // this.alertaLogueo('Se creo el usuario con email: ' + this.user.email + ' correctamente', 'Registro exitoso');
-
-    //   this.authSvc.afAuth.signInWithEmailLink(this.user.email,'https://clinicaonline-72cfa.firebaseapp.com/__/auth/action');
-    //   this.mostrarMensajeOk("Usuario creado correctamente");
-
-    //   this.user.uid = userAux.user.uid;
-    //   this.user.fecha = this.user.obtenerFechaHora();
-    //   // this.authSvc.SignIn(this.user,this.password);
-      
-      
-    //   this.router.navigateByUrl('/');
-
-    // }
-    // else{
-    //   console.log(userAux.code);
-    //   if(userAux.code == 'auth/invalid-email'){
-    //     this.mostrarMensajeError("Ingrese un email valido por favor");
-    //   }
-    //   if(userAux.code == 'auth/weak-password'){
-    //     this.mostrarMensajeError("La contraseña debe ser mayor a 6 caracteres.");
-    //   }
-    //   if(userAux.code == 'auth/wrong-password'){
-    //     this.mostrarMensajeError("Contraseña incorrecta, reingrese");
-    //   }
-    //   if(userAux.code == 'auth/email-already-in-use'){
-    //     this.mostrarMensajeError("Email en uso");
-    //   }
-      
-    // }
   }
   chequearClave(controlName: string, matchingControlName: string): null | object{
     return (formGroup: FormGroup) => {
@@ -356,7 +328,7 @@ export class RegistroComponent implements OnInit {
     this.formGroup.get('apellido').setValue('');
     this.formGroup.get('edad').setValue('');
     this.formGroup.get('dni').setValue('');
-    this.formGroup.get('descripcion').setValue('');
+    // this.formGroup.get('descripcion').setValue('');
     this.formGroup.get('email').setValue('');
     this.formGroup.get('password').setValue('');
     this.formGroup.get('confirmarPassword').setValue('');
@@ -364,21 +336,89 @@ export class RegistroComponent implements OnInit {
     this.formGroup.get('especialidad').setValue('');
     this.formGroup.get('especialidadInput').setValue('');
   }
-  capturarRadioEspecialidad(){
-    // this.formGroup.get('especialidad').value;
-    this.radioEspecialidad = this.formGroup.get('descripcion').value;;
-    // console.log(this.radioEspecialidad);
-    if(this.radioEspecialidad === "Otra"){
-      this.mostrarInputRadioOtro = true;
-    }
-    else{
+  mostrarAgregarEspecialidad(){
+    this.mostrarInputRadioOtro= !this.mostrarInputRadioOtro;
+  }
+  agregarEspecialidad(){
+    let espAux = new Especialidad();
+    espAux.nombre = this.formGroup.get('especialidadInput').value
+    this.fireSvc.AddEspecialidades(espAux);
+    
+  }
+  capturarRadioEspecialidad(event){
+    // const isArray: FormArray = this.formGroup.get('descripcion') as FormArray;
 
-      this.mostrarInputRadioOtro = false;
+    // console.log(event);
+    // const formArray: FormArray = this.formGroup.get('descripcion') as FormArray;
+    // console.log(formArray);
+    // if(event.target.checked){
+    //   // Add a new control in the arrayForm
+    //   formArray.push(new FormControl(event.target.value));
+    // }
+    
+    // console.log(e);
+    // this.formGroup.get('especialidad').value;
+    
+    if(event.target.value === "Otra"){
+      this.checkArray.forEach((check)=>{
+        check = false;
+      });
     }
+    if(event.target.checked){
+      this.checkArray.push(event.target.value);
+      this.formGroup.get('descripcion').setValue(JSON.parse(JSON.stringify(this.checkArray)));
+    } else {
+      let i: number = 0;
+      this.checkArray.forEach((item) => {
+        console.log(item)
+        console.log(event.target.value)
+        if (item == event.target.value) {
+          this.checkArray.splice(i);
+          return;
+        }
+        if(event.target.value === "Otra"){
+          event.target.value = false;
+          console.log(this.formGroup.get('descripcion').value);
+          this.checkArray.splice(i);
+        }
+        i++;
+      });
+    }
+    // console.log(event.target.value)
+    console.log(this.checkArray);
+    // if (event.target.checked) {
+    //   checkArray.push(new FormControl(event.target.value));
+    // } else {
+    //   let i: number = 0;
+    //   checkArray.controls.forEach((item: FormControl) => {
+    //     if (item.value == event.target.value) {
+    //       checkArray.removeAt(i);
+    //       return;
+    //     }
+    //     i++;
+    //   });
+    // }
+    // console.log(checkArray);
+
+    // this.radioEspecialidad = this.formGroup.get('descripcion').value;
+    // console.log(this.radioEspecialidad);
+    // console.log(event);
+    // // console.log(this.radioEspecialidad);
+    // if(this.radioEspecialidad === "Otra"){
+    //   this.mostrarInputRadioOtro = true;
+    // }
+    // else{
+
+    //   this.mostrarInputRadioOtro = false;
+    // }
+  }
+  onCheckChange(e){
+    console.log(e);
   }
   prueba(){
-    
-    // console.log(this.formGroup);
+    // console.log(this.formGroup.get('descripcion'));
+
+    console.log(this.formGroup);
     // console.log(this.tipo);
     
     // if(this.formGroup.get("fotoPerfil2").value != ""){

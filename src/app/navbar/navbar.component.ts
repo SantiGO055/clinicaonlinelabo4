@@ -24,9 +24,9 @@ export class NavbarComponent implements OnInit {
     
       this.authSvc.afAuth.authState.subscribe(res=>{
         if(this.authSvc.isLogged == null){
-          
+          this.ocultarBotonesLogueo = false;
         }else{
-          
+          this.ocultarBotonesLogueo = true;
         }
         if(res && res.uid){
           this.ocultarBotonesLogueo = true;

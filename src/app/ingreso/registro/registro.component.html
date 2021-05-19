@@ -44,7 +44,7 @@
                 </div>
 
                 <div>
-                    <input type="text" placeholder="Obra Social" name="descripcion" class="form-control" id="apellido" formControlName="descripcion"/>
+                    <input type="text" placeholder="Obra Social" name="descripcion" class="form-check-input" id="apellido" formControlName="descripcion" />
                     <small class="invalid" *ngIf="formGroup.get('descripcion')?.errors?.required && formGroup.get('descripcion')?.touched">Obra social requerida</small>
                 </div>
                 <div>
@@ -110,15 +110,22 @@
                             <div *ngFor="let especialidad of especialidades; let i=index" >
 
                                 <label class="custom-control-label" for="{{ 'acceptable' + i}}">{{especialidad.nombre}}</label>
-                                <input type="radio" name="descripcion" id="especialidad{{especialidad.nombre}} + {{i}}" formControlName="descripcion" (change)="capturarRadioEspecialidad()"
+                                <!-- <input type="checkbox" ng-checked="especialista" id="especialidad{{especialidad.nombre}} + {{i}}"> -->
+                                <input type="checkbox" name="descripcion" id="especialidad{{especialidad.nombre}} + {{i}}" formControlName="descripcion" (change)="capturarRadioEspecialidad($event)"
                                 [value]="especialidad.nombre">
                             </div>
                         </div>
                         <label class="custom-control-label" for="especialidad">Otra</label>
+                        
+                        <button class="botonSubmit" *ngIf="!mostrarInputRadioOtro" (click)="mostrarAgregarEspecialidad()">Agregar especialidad</button>
+                        <!-- <input type="checkbox" name="descripcion" id="especialidadOtro" formControlName="descripcion" (change)="capturarRadioEspecialidad($event)" value="Otra"> -->
+                        <div class="mas">
+                            <input *ngIf="mostrarInputRadioOtro" type="text" placeholder="Ingrese especialidad nueva" name="descripcionInput" class="form-control" id="descripcionInput" formControlName="especialidadInput"/>
+                            <!-- <input type="button" class="mas rounded-circle" *ngIf="mostrarInputRadioOtro" (click)="agregarEspecialidad()" value="+"> -->
+                            <button type="button" class="btn btn-primary btn-circle btn-lg" *ngIf="mostrarInputRadioOtro" (click)="agregarEspecialidad()">+</button>
 
-                        <input type="radio" name="descripcion" id="especialidadOtro" formControlName="descripcion" (change)="capturarRadioEspecialidad()" value="Otra">
-                        <input *ngIf="mostrarInputRadioOtro" type="text" placeholder="Ingrese especialidad nueva" name="descripcionInput" class="form-control" id="descripcionInput" formControlName="especialidadInput"/>
                         </div>
+                    </div>
                 </div>
 
                 <!-- <input type="radio" placeholder="Especialidad" name="especialidad" class="form-control" id="especialidad" formControlName="especialidad"/> -->
@@ -201,9 +208,9 @@
             </div>
             
             <!-- (click)="register()" -->
-            <button type="submit" [disabled]="formGroup.invalid">Crear cuenta</button>
+            <button class="botonSubmit" type="submit" [disabled]="formGroup.invalid">Crear cuenta</button>
             <p class="message">Ya estas registrado? <a [routerLink]="'/ingreso/login'">Iniciar Sesion</a></p>
         </form>
-        <!-- <button (click)="prueba()">Prueba</button> -->
+        <button class="botonSubmit" (click)="prueba()">Prueba</button>
     </div>
 </div>

@@ -10,10 +10,11 @@ export class User {
     especialista:boolean;
     fotoPerfil:string;
     fotoPerfilDos?:string;
-    descripcion:string;
+    descripcion:string[];
     aprobadoPorAdmin?:boolean;
     admin?:boolean;
     constructor(){
+        this.descripcion = [];
         this.email = "";
         this.uid = "";
         this.username = "";
