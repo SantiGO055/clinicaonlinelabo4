@@ -45,6 +45,7 @@ export class RegistroComponent implements OnInit {
   tarea: any;
   referencia: AngularFireStorageReference;
   checkArray = [];
+  especialidadCheck:any;
   public formGroup!: FormGroup;
   constructor(private authSvc : AuthService, 
     private router: Router,
@@ -91,7 +92,10 @@ export class RegistroComponent implements OnInit {
       'tipo': ['',Validators.required],
       'edad': ['',[Validators.required,Validators.min(18),Validators.max(99)]],
       'dni': ['',[Validators.required,Validators.min(11111111),Validators.max(99999999)]],
-      'descripcion': ['',Validators.required],
+      'obraSocial': ['',[Validators.required]],
+      'descripcion': [false],
+      'descrArr': this.fb.array([]),
+      
       'email': ['',[Validators.required, Validators.email,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       'password': ['',Validators.required],
       'confirmarPassword': ['',Validators.required],
@@ -235,9 +239,7 @@ export class RegistroComponent implements OnInit {
   
   async register(){
 
-    
-    
-    
+    console.log(this.formGroup);
     
     
     // console.log(this.formGroup);
@@ -264,6 +266,7 @@ export class RegistroComponent implements OnInit {
     }
     else if(this.tipo === "especialista"){
       this.user.especialista = true;
+      this.formGroup.get('obraSocial').setErrors(null);
       
       
 
@@ -323,18 +326,21 @@ export class RegistroComponent implements OnInit {
     // 'especialidadInput': ['',],
     // 'fileSource': ['', ],
     // 'fileSource2': ['', ]
+    
     this.tipo = this.tipo;
-    this.formGroup.get('nombre').setValue('');
-    this.formGroup.get('apellido').setValue('');
-    this.formGroup.get('edad').setValue('');
-    this.formGroup.get('dni').setValue('');
-    // this.formGroup.get('descripcion').setValue('');
-    this.formGroup.get('email').setValue('');
-    this.formGroup.get('password').setValue('');
-    this.formGroup.get('confirmarPassword').setValue('');
-    this.formGroup.get('fotoPerfil').setValue('');
-    this.formGroup.get('especialidad').setValue('');
-    this.formGroup.get('especialidadInput').setValue('');
+    // if()
+    // this.formGroup.reset();
+    // this.formGroup.get('nombre').setValue('');
+    // this.formGroup.get('apellido').setValue('');
+    // this.formGroup.get('edad').setValue('');
+    // this.formGroup.get('dni').setValue('');
+    // // this.formGroup.get('descripcion').setValue('');
+    // this.formGroup.get('email').setValue('');
+    // this.formGroup.get('password').setValue('');
+    // this.formGroup.get('confirmarPassword').setValue('');
+    // this.formGroup.get('fotoPerfil').setValue('');
+    // this.formGroup.get('especialidad').setValue('');
+    // this.formGroup.get('especialidadInput').setValue('');
   }
   mostrarAgregarEspecialidad(){
     this.mostrarInputRadioOtro= !this.mostrarInputRadioOtro;
@@ -358,6 +364,8 @@ export class RegistroComponent implements OnInit {
     
     // console.log(e);
     // this.formGroup.get('especialidad').value;
+    // const checkArray: FormArray = this.formGroup.get('checkArray') as FormArray;
+    // console.log(checkArray);
     
     if(event.target.value === "Otra"){
       this.checkArray.forEach((check)=>{
@@ -366,7 +374,7 @@ export class RegistroComponent implements OnInit {
     }
     if(event.target.checked){
       this.checkArray.push(event.target.value);
-      this.formGroup.get('descripcion').setValue(JSON.parse(JSON.stringify(this.checkArray)));
+      this.formGroup.get('especialidad').setValue(JSON.parse(JSON.stringify(this.checkArray)));
     } else {
       let i: number = 0;
       this.checkArray.forEach((item) => {
@@ -417,7 +425,7 @@ export class RegistroComponent implements OnInit {
   }
   prueba(){
     // console.log(this.formGroup.get('descripcion'));
-
+    this.formGroup.get('obraSocial').setErrors(null);
     console.log(this.formGroup);
     // console.log(this.tipo);
     

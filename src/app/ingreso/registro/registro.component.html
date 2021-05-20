@@ -44,8 +44,8 @@
                 </div>
 
                 <div>
-                    <input type="text" placeholder="Obra Social" name="descripcion" class="form-control" id="apellido" formControlName="descripcion" />
-                    <small class="invalid" *ngIf="formGroup.get('descripcion')?.errors?.required && formGroup.get('descripcion')?.touched">Obra social requerida</small>
+                    <input type="text" placeholder="Obra Social" name="obraSocial" class="form-control" id="obraSocial" formControlName="obraSocial" />
+                    <small class="invalid" *ngIf="formGroup.get('obraSocial')?.errors?.required && formGroup.get('obraSocial')?.touched">Obra social requerida</small>
                 </div>
                 <div>
                     <input type="text" placeholder="Mail" name="email" class="form-control" id="email" formControlName="email"/>
@@ -111,7 +111,9 @@
 
                                 <label class="custom-control-label" for="especialidad{{especialidad.nombre}}">{{especialidad.nombre}}</label>
                                 <!-- <input type="checkbox" ng-checked="especialista" id="especialidad{{especialidad.nombre}} + {{i}}"> -->
-                                <input type="checkbox" name='descripcion' id="especialidad{{especialidad.nombre}}" formControlName="descripcion" (change)="capturarRadioEspecialidad($event)"
+                                <!-- <input type="checkbox" name='especialidadCheck' (change)="capturarRadioEspecialidad($event)"
+                                [value]="especialidad.nombre"> -->
+                                <input type="checkbox" name='especialidadCheck' (change)="capturarRadioEspecialidad($event)"
                                 [value]="especialidad.nombre">
                             </div>
                         </div>
@@ -120,7 +122,7 @@
                         <button class="botonSubmit" *ngIf="!mostrarInputRadioOtro" (click)="mostrarAgregarEspecialidad()">Agregar especialidad</button>
                         <!-- <input type="checkbox" name="descripcion" id="especialidadOtro" formControlName="descripcion" (change)="capturarRadioEspecialidad($event)" value="Otra"> -->
                         <div class="mas">
-                            <input *ngIf="mostrarInputRadioOtro" type="text" placeholder="Ingrese especialidad nueva" name="descripcionInput" class="form-control" id="descripcionInput" formControlName="descripcion"/>
+                            <input *ngIf="mostrarInputRadioOtro" type="text" placeholder="Ingrese especialidad nueva" name="especialidadInput" class="form-control" id="especialidadInput" formControlName="especialidadInput"/>
                             <!-- <input type="button" class="mas rounded-circle" *ngIf="mostrarInputRadioOtro" (click)="agregarEspecialidad()" value="+"> -->
                             <button type="button" class="btn btn-primary btn-circle btn-lg" *ngIf="mostrarInputRadioOtro" (click)="agregarEspecialidad()">+</button>
 
