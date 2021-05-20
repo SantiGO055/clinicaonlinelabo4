@@ -91,7 +91,7 @@ export class RegistroComponent implements OnInit {
       'tipo': ['',Validators.required],
       'edad': ['',[Validators.required,Validators.min(18),Validators.max(99)]],
       'dni': ['',[Validators.required,Validators.min(11111111),Validators.max(99999999)]],
-      'descripcion': [''],
+      'descripcion': ['',Validators.required],
       'email': ['',[Validators.required, Validators.email,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       'password': ['',Validators.required],
       'confirmarPassword': ['',Validators.required],
@@ -430,6 +430,19 @@ export class RegistroComponent implements OnInit {
     // else{
     // }
 
+  }
+  prueba2(){
+    this.formGroup.get('nombre').setValue('Pruebaa');
+    this.formGroup.get('apellido').setValue('Pruebita');
+    this.formGroup.get('edad').setValue('29');
+    this.formGroup.get('dni').setValue('12123456');
+    // this.formGroup.get('descripcion').setValue('');
+    this.formGroup.get('email').setValue('asdqweert4356@hotmail.com');
+    this.formGroup.get('password').setValue('123456');
+    this.formGroup.get('confirmarPassword').setValue('123456');
+    // this.formGroup.get('fotoPerfil').setValue('');
+    // this.formGroup.get('especialidad').setValue('');
+    // this.formGroup.get('especialidadInput').setValue('');
   }
   mostrarMensajeOk(mensaje:string){
     Swal.fire({

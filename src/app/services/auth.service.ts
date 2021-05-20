@@ -11,6 +11,7 @@ import { FirebaseService } from './firebase.service';
 })
 export class AuthService {
   public isLogged: any;
+  public emailVerificado: boolean;
   public usuarios: User[] = [];
   logueado : boolean = false;
   public logueadoObs: Observable<User>;
@@ -26,6 +27,14 @@ export class AuthService {
             if(user != null)
             if(userAux.email == user.email){
               this.isLogged = userAux;
+              if(user.emailVerified){
+                
+                this.emailVerificado=true;
+              }
+              else{
+                this.emailVerificado=true;
+
+              }
               // console.log(this.isLogged);
   
             }
@@ -136,8 +145,10 @@ export class AuthService {
     
     // console.log(user);
     try {
+      console.log(user);
       
       user = this.obtenerUsuarioLogueado(user.email);
+      console.log(user);
         this.isLogged = user;
         
           
@@ -173,6 +184,7 @@ export class AuthService {
   async register(user: User,password:string) {
     try {
       // console.log(user);
+      console.log(user);
       var aux = this.afAuth.createUserWithEmailAndPassword(user.email,password).then(()=>{
       this.router.navigate(['/']);
 
