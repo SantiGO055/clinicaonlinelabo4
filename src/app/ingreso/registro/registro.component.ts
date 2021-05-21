@@ -50,6 +50,7 @@ export class RegistroComponent implements OnInit {
 
   seleccioneEsp: boolean = false;
   seleccionePac: boolean = false;
+  seleccioneAdm: boolean = false;
 
   public formGroup!: FormGroup;
   constructor(private authSvc : AuthService, 
@@ -60,7 +61,11 @@ export class RegistroComponent implements OnInit {
     ) { }
 
     
-    
+    pruebaSeleccionAdmin(){
+      this.tipo = "administrador"
+      this.seleccioneAdm = true;
+      console.log(this.tipo);
+    }
 
   ngOnInit(): void {
     this.fireSvc.getEspecialidades().subscribe((especialidad:Especialidad[])=>{
@@ -77,7 +82,7 @@ export class RegistroComponent implements OnInit {
         if(this.authSvc.isLogged.admin){
           this.adminLogueado = this.authSvc.isLogged;
           this.seLogueoAdmin = true;
-          this.tipo = 'administrador';
+          this.tipo = 'administrador';this.seleccioneAdm = true;
         }
         else{
           // console.log("admin sin loguear");

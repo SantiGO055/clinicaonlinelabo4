@@ -176,7 +176,7 @@ body {
   
 }
 .buttonAdmin {
-  background: url("https://ehorus.com/wp-content/uploads/2018/06/administrador-de-sistemas-featured-1080x675.png");
+  background: url("https://cdn.pixabay.com/photo/2014/04/03/11/56/manager-312603_960_720.png");
   background-repeat:no-repeat;
   background-position: center center;
   /* min-height:20%; */
@@ -184,7 +184,7 @@ body {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  background-size: 95%;
+  background-size: 80%;
   
   border: none;
   color: white;

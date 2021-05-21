@@ -5,21 +5,21 @@
         <div class="botones" >
             <div *ngIf="!seleccioneEsp">
                 <label>Especialista</label> 
-                <button (click)="tipo = 'especialista'; seleccioneEsp = true; seleccionePac = false" class="btn buttonEspecialista button5"></button>
+                <button (click)="tipo = 'especialista'; seleccioneEsp = true; seleccionePac = false; seleccioneAdm = false" class="btn buttonEspecialista button5"></button>
 
             </div>
             <div *ngIf="!seleccionePac">
                 <label>Paciente</label> 
-                <button (click)="tipo = 'paciente' ; seleccionePac = true ; seleccioneEsp = false" class="btn buttonPaciente button5"></button>
+                <button (click)="tipo = 'paciente' ; seleccionePac = true ; seleccioneEsp = false; seleccioneAdm = false" class="btn buttonPaciente button5"></button>
 
             </div>
-            <div *ngIf="seLogueoAdmin">
+            <div *ngIf="!seleccioneAdm && seLogueoAdmin">
                 <label>Administrador</label> 
-                <button (click)="tipo = 'administrador' ; seleccioneEsp = false ; seleccionePac = false" class="btn buttonAdmin button5"></button>
+                <button (click)="this.tipo = 'administrador';this.seleccioneAdm = true; seleccionePac = false; seleccioneEsp = false "class="btn buttonAdmin button5"></button>
 
             </div>
         </div>
-        <form [formGroup]="formGroup" [hidden]="flag" class="register-form needs-validation" novalidate (ngSubmit)="register()" *ngIf="seleccioneEsp || seleccionePac">
+        <form [formGroup]="formGroup" [hidden]="flag" class="register-form needs-validation" novalidate (ngSubmit)="register()" *ngIf="seleccioneEsp || seleccionePac || seleccioneAdm">
 
             <!-- <select class="form-select" name="selectTipo" aria-label="Default select example" (change)="capturarSelectTipo()" formControlName="tipo" [(ngModel)]="tipo">
                 
