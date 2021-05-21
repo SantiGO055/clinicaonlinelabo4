@@ -22,33 +22,43 @@ export class LoggedComponent implements OnInit {
   constructor(private authSvc : AuthService, private router: Router) { }
   ngOnInit(): void {
     
+    // this.authSvc.logueadoObs.subscribe((logueado)=>{
+    //   if(logueado){
+    //     console.log(logueado);
+    //   }
+    // })
     this.authSvc.afAuth.authState.subscribe(res=>{
 
       this.usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
       console.log(res);
       console.log(this.usuarioLogueado);
-      if(res && res.uid){
-        // console.log(res);
-        //TODO verificar por que no muestra estado logueado
-        if(this.usuarioLogueado.admin){
-          // console.log(res)
-
-          this.logueado = true;
-          this.usuario.email = res.email;
-          this.ocultarMensaje = true;
-        }
-        else if(this.usuarioLogueado.aprobadoPorAdmin || this.usuarioLogueado.paciente){
-
-          // console.log(res)
+      try {
+        if(res && res.uid){
+          // console.log(res);
+          //TODO verificar por que no muestra estado logueado
+          if(this.usuarioLogueado.admin){
+            // console.log(res)
   
-          this.logueado = true;
-          this.usuario.email = res.email;
-          this.ocultarMensaje = true;
+            this.logueado = true;
+            this.usuario.email = res.email;
+            this.ocultarMensaje = true;
+          }
+          else if(this.usuarioLogueado.aprobadoPorAdmin || this.usuarioLogueado.paciente){
+  
+            // console.log(res)
+    
+            this.logueado = true;
+            this.usuario.email = res.email;
+            this.ocultarMensaje = true;
+          }
         }
-      }
-      else{
-        this.logueado = false;
-        this.ocultarMensaje = false;
+        else{
+          this.logueado = false;
+          this.ocultarMensaje = false;
+        }
+        
+      } catch (error) {
+          console.log(error);
       }
     });
     // console.log(this.authSvc.isLogged);
@@ -57,10 +67,12 @@ export class LoggedComponent implements OnInit {
 }
 async desloguear(){
   // this.usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
-  this.ocultarMensaje = false;
-  
-  this.enviarEventoOcultarLogueo();
-  if(this.usuario.email = this.usuarioLogueado.email){
+    this.ocultarMensaje = false;
+    
+    this.enviarEventoOcultarLogueo();
+    if(this.usuario.email != null){
+
+      if(this.usuario.email = this.usuarioLogueado.email){
         this.authSvc.desloguear();
         
         sessionStorage.clear();
@@ -71,6 +83,7 @@ async desloguear(){
       else{
         this.logueado = true;
       }
+    }
 
   }
   enviarEventoOcultarLogueo(){

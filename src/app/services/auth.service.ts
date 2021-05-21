@@ -14,7 +14,7 @@ export class AuthService {
   public emailVerificado: boolean;
   public usuarios: User[] = [];
   logueado : boolean = false;
-  public logueadoObs: Observable<User>;
+  public logueadoObs: Observable<any>;
   constructor(public afAuth: AngularFireAuth,private router: Router,
     private alertas: AlertasService,
     private fireSvc: FirebaseService) {
@@ -176,6 +176,9 @@ export class AuthService {
           // console.log(user);
           if(this.verificarAprobacion(result,user)){
             localStorage.setItem('usuarioLogueado',JSON.stringify(this.isLogged));
+            this.logueadoObs = new Observable( observer => {
+              observer.next(true);
+            })
             // console.log("aprobado?")
           }
           

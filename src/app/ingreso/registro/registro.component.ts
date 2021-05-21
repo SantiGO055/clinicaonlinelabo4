@@ -66,7 +66,7 @@ export class RegistroComponent implements OnInit {
 
       this.formGroup.get('obraSocial').setErrors(null);
         
-      console.log("asdasdasdasddddddddddddddddddddddddddddddd");
+      
      this.tipo = 'especialista';
      this.seleccioneEsp = true;
      this.seleccionePac = false;
