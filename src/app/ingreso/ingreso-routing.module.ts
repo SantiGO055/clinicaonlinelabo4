@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { BienvenidoComponent } from '../pages/bienvenido/bienvenido.component';
+import { BotonesregistroComponent } from './botonesregistro/botonesregistro.component';
 
 
 const routes: Routes = [

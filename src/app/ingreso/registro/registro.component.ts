@@ -46,6 +46,11 @@ export class RegistroComponent implements OnInit {
   referencia: AngularFireStorageReference;
   checkArray = [];
   especialidadCheck:any;
+  seleccione : boolean = false;
+
+  seleccioneEsp: boolean = false;
+  seleccionePac: boolean = false;
+
   public formGroup!: FormGroup;
   constructor(private authSvc : AuthService, 
     private router: Router,

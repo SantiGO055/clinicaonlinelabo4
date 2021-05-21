@@ -2,17 +2,36 @@
 <div class="register-page">
     <div class="form">
         
-        <form [formGroup]="formGroup" [hidden]="flag" class="register-form needs-validation" novalidate (ngSubmit)="register()">
-            
-            <select class="form-select" name="selectTipo" aria-label="Default select example" (change)="capturarSelectTipo()" formControlName="tipo" [(ngModel)]="tipo">
+        <div class="botones" >
+            <div *ngIf="!seleccioneEsp">
+                <label>Especialista</label> 
+                <button (click)="tipo = 'especialista'; seleccioneEsp = true; seleccionePac = false" class="btn buttonEspecialista button5"></button>
+
+            </div>
+            <div *ngIf="!seleccionePac">
+                <label>Paciente</label> 
+                <button (click)="tipo = 'paciente' ; seleccionePac = true ; seleccioneEsp = false" class="btn buttonPaciente button5"></button>
+
+            </div>
+            <div *ngIf="seLogueoAdmin">
+                <label>Administrador</label> 
+                <button (click)="tipo = 'administrador' ; seleccioneEsp = false ; seleccionePac = false" class="btn buttonAdmin button5"></button>
+
+            </div>
+        </div>
+        <form [formGroup]="formGroup" [hidden]="flag" class="register-form needs-validation" novalidate (ngSubmit)="register()" *ngIf="seleccioneEsp || seleccionePac">
+
+            <!-- <select class="form-select" name="selectTipo" aria-label="Default select example" (change)="capturarSelectTipo()" formControlName="tipo" [(ngModel)]="tipo">
                 
                 <option selected >Seleccione tipo de alta</option>
                 
                 <option value="paciente">Paciente</option>
                 <option value="especialista">Especialista</option>
                 <option *ngIf="seLogueoAdmin" value="administrador">Administrador</option>
-              </select>
-            <div *ngIf="tipo === 'paciente'">
+              </select> -->
+            <div *ngIf="tipo === 'paciente' && seleccionePac">
+                <h5 class="mb-3">Alta de paciente</h5>
+
                 <div class="row">
                     <div class="col-md-6 mb-3">
                        
@@ -72,7 +91,8 @@
                 </div> -->
 
             </div>
-            <div *ngIf="tipo === 'especialista'">
+            <div *ngIf="tipo === 'especialista' && seleccioneEsp">
+                <h5 class="mb-3">Alta de especialista</h5>
                 <div class="row">
                     <div class="col-md-6 mb-3">
                        
@@ -153,6 +173,8 @@
 
             </div>
             <div *ngIf="tipo === 'administrador'">
+                <h5 class="mb-3">Alta de administrador</h5>
+
                 <div class="row">
                     <div class="col-md-6 mb-3">
                        

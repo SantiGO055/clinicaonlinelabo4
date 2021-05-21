@@ -53,7 +53,7 @@ small{
 .register-page {
   width: 500px;
   height: auto;
-  padding: 8% 0 0;
+  padding: 5% 0 0;
   margin: auto;
   animation-name: loginRegister;
   animation-duration: 0.2s;
@@ -151,3 +151,107 @@ body {
 
 
 
+
+.buttonEspecialista {
+  background: url("https://i.pinimg.com/736x/39/97/b8/3997b837ba0548ec1a5430ee31fb43aa.jpg");
+  background-repeat:no-repeat;
+  background-position: center center;
+  /* min-height:20%; */
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-size: 95%;
+  
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  position: relative;
+
+  
+}
+.buttonAdmin {
+  background: url("https://ehorus.com/wp-content/uploads/2018/06/administrador-de-sistemas-featured-1080x675.png");
+  background-repeat:no-repeat;
+  background-position: center center;
+  /* min-height:20%; */
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-size: 95%;
+  
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  position: relative;
+
+  
+}
+.buttonPaciente {
+  background: url("https://image.freepik.com/vector-gratis/ilustracion-vectorial-pequeno-personaje-dibujos-animados-lindo-paciente-hombre-roto-brazo-derecho-vendaje-yeso-o-brazo-enyesado_52005-73.jpg");
+  background-repeat:no-repeat;
+  background-position: center center;
+  /* min-height:20%; */
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-size: 100%;
+  
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  position: relative;
+
+  
+}
+.btn:hover{
+  box-shadow: 0px 8px 15px rgb(0, 0, 0);
+  opacity: 1;
+
+}
+img{
+  width:50%;
+}
+.button1 {border-radius: 2px;}
+.button2 {border-radius: 4px;}
+.button3 {border-radius: 8px;}
+.button4 {border-radius: 12px;}
+.button5 {border-radius: 50%;}
+
+.btn {
+  display:block;
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+
+  border: 1px solid rgb(0, 0, 0);
+
+  opacity: 0.8;
+  box-shadow: 0px 8px 15px rgb(70, 68, 68);
+  
+  
+}
+
+.botones{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2% 0 3%;
+}
