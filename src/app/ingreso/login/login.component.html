@@ -11,16 +11,24 @@
             <button type="submit" (click)="login()">login</button>
             
             <p class="message">No estás registrado? <a [routerLink]="'/ingreso/registro'">Crear cuenta</a></p>
-            <button type="button" class="test" (click)="completarCamposAdmin()">Usuario admin</button>
-            <button type="button" class="test" (click)="completarCamposTest2()">Usuario test 2</button>
-            <button type="button" class="test" (click)="completarCamposTest3()">Usuario test 3</button>
-        </form>
+            <!-- <button type="button" class="test" (click)="completarCamposAdmin()">Usuario admin</button>
+                <button type="button" class="test" (click)="completarCamposTest2()">Usuario test 2</button>
+                <button type="button" class="test" (click)="completarCamposTest3()">Usuario test 3</button> -->
+            </form>
+        </div>
     </div>
-</div>
-
-<ngx-spinner
-  bdColor="rgba(51,51,51,0.8)"
-  size="medium"
-  color="#fff"
-  type="ball-clip-rotate"
-></ngx-spinner>
+    
+    <ngx-spinner
+    bdColor="rgba(51,51,51,0.8)"
+    size="medium"
+    color="#fff"
+    type="ball-clip-rotate"
+    ></ngx-spinner>
+    <div class="cardLogueo">
+        <app-spinner [spinner]="spinnerChico"></app-spinner>
+        <div *ngIf="!spinnerChico">
+            <app-logueorapido [usuarios]="userAux" (eventoLogueoUsuario)="capturarHardcodeo($event)"></app-logueorapido>
+        
+        </div>
+    
+    </div>

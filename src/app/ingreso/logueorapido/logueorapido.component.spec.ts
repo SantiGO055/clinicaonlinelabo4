@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BotonesregistroComponent } from './botonesregistro.component';
+import { LogueorapidoComponent } from './logueorapido.component';
 
-describe('BotonesregistroComponent', () => {
-  let component: BotonesregistroComponent;
-  let fixture: ComponentFixture<BotonesregistroComponent>;
+describe('LogueorapidoComponent', () => {
+  let component: LogueorapidoComponent;
+  let fixture: ComponentFixture<LogueorapidoComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BotonesregistroComponent ]
+      declarations: [ LogueorapidoComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BotonesregistroComponent);
+    fixture = TestBed.createComponent(LogueorapidoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

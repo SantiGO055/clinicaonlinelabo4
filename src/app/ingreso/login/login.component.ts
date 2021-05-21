@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { User } from 'src/app/clases/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { NgxSpinnerService } from "ngx-spinner";
+import { FirebaseService } from 'src/app/services/firebase.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -18,21 +19,37 @@ export class LoginComponent implements OnInit {
   emailRegister: string ='';
   passwordRegister: string = '';
   flag: boolean = false;
-  
+  // userEsp1: User = new User();
+  // userEsp2: User = new User();
+  // userPac1: User = new User();
+  // userPac2: User = new User();
+  userAdm: User = new User();
+  userAux: User[] = [];
+  spinnerChico: boolean = true;
   
  constructor(private afAuth: AngularFireAuth,
    private router: Router,
    private authSvc: AuthService,
-   private spinner: NgxSpinnerService) { 
+   private spinner: NgxSpinnerService,
+   private fireSvc: FirebaseService) { 
 
    }
 
    
   user: User = new User();
 
-  
   ngOnInit(): void {
+    this.fireSvc.getAllUsers().subscribe((usr)=>{
+      sessionStorage.clear();
+      this.spinnerChico = false;
+      this.userAux = usr;
+    });
   }
+  capturarHardcodeo(usuario: User){
+    this.email = usuario.email;
+    this.password = usuario.password;
+  }
+  
   // if(this.router.routerState.snapshot.url == "/LoginComponent"){
   //   this.flag = !this.flag;
   // }

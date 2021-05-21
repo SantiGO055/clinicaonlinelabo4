@@ -7,12 +7,14 @@ export class User {
     edad: string;
     dni: string;
     fecha: string;
-    especialista:boolean;
+    especialista?:boolean;
     fotoPerfil:string;
     fotoPerfilDos?:string;
     descripcion:string[];
     aprobadoPorAdmin?:boolean;
     admin?:boolean;
+    paciente?:boolean;
+    password?:string;
     constructor(){
         this.descripcion = [];
         this.email = "";

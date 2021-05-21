@@ -1,5 +1,4 @@
-registro:
-favbutton con una imagen de fondo del boton que sean redondos
+registro: favbutton con una imagen de fondo del boton que sean redondos - hecho
 
 login:
 en alguno de los dos laterales aparece en cuadro tipo card la foto del usuario que voy a cargar de testeo, boton cuadrado

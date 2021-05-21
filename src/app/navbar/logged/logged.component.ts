@@ -23,9 +23,10 @@ export class LoggedComponent implements OnInit {
   ngOnInit(): void {
     
     this.authSvc.afAuth.authState.subscribe(res=>{
+
       this.usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
-      // console.log(res);
-      // console.log(this.usuarioLogueado);
+      console.log(res);
+      console.log(this.usuarioLogueado);
       if(res && res.uid){
         // console.log(res);
         //TODO verificar por que no muestra estado logueado
@@ -36,9 +37,10 @@ export class LoggedComponent implements OnInit {
           this.usuario.email = res.email;
           this.ocultarMensaje = true;
         }
-        if(res.emailVerified && this.usuarioLogueado.aprobadoPorAdmin){
-          // console.log(res)
+        else if(this.usuarioLogueado.aprobadoPorAdmin || this.usuarioLogueado.paciente){
 
+          // console.log(res)
+  
           this.logueado = true;
           this.usuario.email = res.email;
           this.ocultarMensaje = true;

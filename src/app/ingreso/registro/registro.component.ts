@@ -61,28 +61,45 @@ export class RegistroComponent implements OnInit {
     ) { }
 
     
-    pruebaSeleccionAdmin(){
-      this.tipo = "administrador"
-      this.seleccioneAdm = true;
-      console.log(this.tipo);
-    }
 
+    mostrarEspecialista(){
+
+      this.formGroup.get('obraSocial').setErrors(null);
+        
+      console.log("asdasdasdasddddddddddddddddddddddddddddddd");
+     this.tipo = 'especialista';
+     this.seleccioneEsp = true;
+     this.seleccionePac = false;
+     this.seleccioneAdm = false
+    }
+    mostrarPaciente(){
+      this.tipo = 'paciente' ;
+      this.seleccionePac = true ;
+      this.seleccioneEsp = false;
+      this.seleccioneAdm = false
+    }
+    mostrarAdmin(){
+      this.tipo = 'administrador';
+      this.seleccioneAdm = true; 
+      this.seleccionePac = false;
+      this.seleccioneEsp = false 
+    }
   ngOnInit(): void {
     this.fireSvc.getEspecialidades().subscribe((especialidad:Especialidad[])=>{
       this.spinner = false;
       this.especialidades = especialidad;
+      
     });
-
+    
 
     
     this.authSvc.afAuth.authState.subscribe(res=>{
-      // console.log(res);
       // console.log(this.authSvc.isLogged);
       if(this.authSvc.isLogged != null){
         if(this.authSvc.isLogged.admin){
           this.adminLogueado = this.authSvc.isLogged;
           this.seLogueoAdmin = true;
-          this.tipo = 'administrador';this.seleccioneAdm = true;
+          
         }
         else{
           // console.log("admin sin loguear");
@@ -99,7 +116,7 @@ export class RegistroComponent implements OnInit {
     this.formGroup = this.fb.group({
       'nombre': ['',[Validators.required]],
       'apellido': ['',Validators.required],
-      'tipo': ['',Validators.required],
+      // 'tipo': ['',Validators.required],
       'edad': ['',[Validators.required,Validators.min(18),Validators.max(99)]],
       'dni': ['',[Validators.required,Validators.min(11111111),Validators.max(99999999)]],
       'obraSocial': ['',[Validators.required]],
@@ -229,6 +246,7 @@ export class RegistroComponent implements OnInit {
       else{
         this.referencia.getDownloadURL().subscribe(url => {
           this.downloadURLFoto1 = url;
+          console.log(this.downloadURLFoto1, this.downloadURLFoto2)
           this.user.fotoPerfil = this.downloadURLFoto1;
           if(this.user.email === 'admin@admin.com'){
             this.user.aprobadoPorAdmin = true;
@@ -248,7 +266,7 @@ export class RegistroComponent implements OnInit {
   }
   
   async register(){
-
+    this.formGroup.get('obraSocial').setErrors(null);
     console.log(this.formGroup);
     
     
@@ -265,7 +283,9 @@ export class RegistroComponent implements OnInit {
 
     
     if(this.tipo === "paciente"){
-      
+      this.user.aprobadoPorAdmin = true;
+
+      this.user.paciente = true;
       this.user.descripcion = this.formGroup.get('descripcion').value;
       this.user.especialista = false;
       
@@ -275,6 +295,8 @@ export class RegistroComponent implements OnInit {
       }
     }
     else if(this.tipo === "especialista"){
+      this.user.aprobadoPorAdmin = false;
+      this.user.especialista = true;
       this.user.especialista = true;
       this.formGroup.get('obraSocial').setErrors(null);
       
@@ -301,11 +323,13 @@ export class RegistroComponent implements OnInit {
 
     }
     await this.authSvc.register(this.user,this.password).then((result)=>{
-      // console.log(result);
+      this.user.uid = result.user.uid;
+      console.log(result);
       this.subirFoto().then(()=>{
         // console.log("prueba");
       });
     });
+    
   }
   chequearClave(controlName: string, matchingControlName: string): null | object{
     return (formGroup: FormGroup) => {
@@ -435,7 +459,7 @@ export class RegistroComponent implements OnInit {
   }
   prueba(){
     // console.log(this.formGroup.get('descripcion'));
-    this.formGroup.get('obraSocial').setErrors(null);
+    
     console.log(this.formGroup);
     // console.log(this.tipo);
     

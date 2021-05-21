@@ -30,7 +30,7 @@ export class NavbarComponent implements OnInit {
         }
         if(res && res.uid){
           this.ocultarBotonesLogueo = true;
-          this.usuario = this.authSvc.obtenerUsuarioLogueado(res.email);
+          this.usuario = this.authSvc.obtenerUsuario(res.email);
           // console.log(this.usuario);
           
           if(this.usuario.admin){

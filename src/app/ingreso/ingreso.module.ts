@@ -15,14 +15,14 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { NgxSpinnerModule } from "ngx-spinner";
-import { BotonesregistroComponent } from './botonesregistro/botonesregistro.component';
+import { LogueorapidoComponent } from './logueorapido/logueorapido.component';
 
 @NgModule({
   declarations: [
     
     LoginComponent,
     RegistroComponent,
-    BotonesregistroComponent
+    LogueorapidoComponent
   ],
   imports: [
     CommonModule,

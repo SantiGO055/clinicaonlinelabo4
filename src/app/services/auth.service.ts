@@ -73,48 +73,63 @@ export class AuthService {
   verificarUsuarioALoguearEspecialista(email:string){
     let retorno = false;
     this.usuarios.forEach(usuario => {
-        if(usuario.email === email){
+        if(usuario.email === email && usuario.especialista){
           
-            if(usuario.especialista){
-              retorno = true;
-            }
-            else{
-              retorno = false;
-            }
+          retorno = true;
 
           
+        }
+        else{
+          retorno = false;
         }
     });
     return retorno;
   }
   verificarAprobacion(result:any,user:User){
+    let retorno = false;
+    // console.log(result);
+
+    user = this.obtenerUsuario(user.email);
+    this.isLogged = user;
+    // console.log(user);
+
     if(!result.user.emailVerified){
+      // console.log("Sin verificar");
       //si no esta verificado veo si es admin pasa de una
+      // console.log(user);
       if(user.admin == true){
-        localStorage.setItem('usuarioLogueado',JSON.stringify(this.isLogged));
+        localStorage.setItem('usuarioLogueado',JSON.stringify(user));
 
         this.router.navigate(['/']);
         
       }
       //si no es admin muestro alerta de que no esta verificado
       else{
-        this.alertas.mostrarAlertaConfirmacionEmail('Email sin verificar','Verificación','Verifique su casilla de mail para verificar la cuenta').then(()=>{
-          if(this.alertas.reenvioEmail){
+        if(user.paciente){
+          localStorage.setItem('usuarioLogueado',JSON.stringify(user));
 
-            this.sendEmailVerification();
-          }
-          else{
-            this.router.navigate(['ingreso/login']);
-
-          }
+          this.router.navigate(['/']);
+        }
+        else{
+          this.alertas.mostrarAlertaConfirmacionEmail('Email sin verificar','Verificación','Verifique su casilla de mail para verificar la cuenta').then(()=>{
+            if(this.alertas.reenvioEmail){
+  
+              this.sendEmailVerification();
+            }
+            else{
+              this.router.navigate(['ingreso/login']);
+  
+            }
+            
+          });
           
-        });
+        }
       }
       // console.log("sinverificar");
       // this.alertas.mostrarAlertaConfirmacionEmail('Email sin verificar','Verificación','Email enviado correctamente')
     }
     else{
-      
+      // console.log("Verificado");
       //si esta verificado y el perfil es especialista
       if(this.verificarUsuarioALoguearEspecialista(result.user.email)){
         //si es especialista verifico si admin lo aprobo
@@ -124,49 +139,54 @@ export class AuthService {
           }
           else{
             // console.log(this.isLogged);
-            localStorage.setItem('usuarioLogueado',JSON.stringify(this.isLogged));
+            localStorage.setItem('usuarioLogueado',JSON.stringify(user));
 
             this.router.navigate(['/']);
           }
 
         }
         else{
-          localStorage.setItem('usuarioLogueado',JSON.stringify(this.isLogged));
+          retorno = true;
+          localStorage.setItem('usuarioLogueado',JSON.stringify(user));
 
           //si esta verificado y no es especialista
           this.router.navigate(['/']);
         }
-
-      
-      
     }
+    return retorno;
   }
   async SignIn(user: User,password:string) {
     
     // console.log(user);
     try {
-      console.log(user);
+      // console.log(user);
       
-      user = this.obtenerUsuarioLogueado(user.email);
-      console.log(user);
-        this.isLogged = user;
+      // user = this.obtenerUsuarioLogueado(user.email);
+      // console.log(user.email);
         
           
-          return await this.afAuth.signInWithEmailAndPassword(user.email, password).then((result)=>{
-            // user = this.obtenerUsuarioLogueado(user.email);
-            // this.isLogged = user;
-            // console.log(user);
-            
+        return await this.afAuth.signInWithEmailAndPassword(user.email, password).then((result)=>{
+          // user = this.obtenerUsuarioLogueado(user.email);
+          // this.isLogged = user;
+
+          // this.isLogged = user;
+          // console.log(result);
+          
+          // localStorage.setItem('usuarioLogueado',JSON.stringify(this.isLogged));
+          // console.log(user);
+          if(this.verificarAprobacion(result,user)){
             localStorage.setItem('usuarioLogueado',JSON.stringify(this.isLogged));
-    
-            this.verificarAprobacion(result,user);
-            
-            return result;
-          });
+            // console.log("aprobado?")
+          }
+          
+          // console.log(this.obtenerUsuarioLogueado(this.isLogged.email));
+          return result;
+        });
         
     } 
     catch(error){
       // console.log(error);
+      
       if(error.code == 'auth/invalid-email'){
 
         this.alertas.mostraAlertaSimple(error,'Error');
@@ -184,13 +204,16 @@ export class AuthService {
   async register(user: User,password:string) {
     try {
       // console.log(user);
-      console.log(user);
-      var aux = this.afAuth.createUserWithEmailAndPassword(user.email,password).then(()=>{
+      // console.log(user);
+      var aux = this.afAuth.createUserWithEmailAndPassword(user.email,password).then((user)=>{
+        
       this.router.navigate(['/']);
 
-        this.SignIn(user,password);
+        // this.SignIn(user,password);
         this.sendEmailVerification();
+        return user;
       });
+      // console.log(aux);
       return aux;
       // (await aux).user?.updateProfile({
       //   displayName: user.username
@@ -201,21 +224,24 @@ export class AuthService {
 
       }
       else{
-        this.alertas.mostraAlertaSimple(error,'Error');
-
+        
       }
+      this.alertas.mostraAlertaSimple(error,'Error');
       // this.alertas.mostraAlertaSimple('Error: '+error,'Error');
       this.router.navigate(['ingreso/registro']);
       // console.log('Error on register user', error);
       return error;
     }
   }
-  obtenerUsuarioLogueado(email: string){
+  obtenerUsuario(email: string){
     let userAux: User = new User();
 
       this.usuarios.forEach(user => {
-        if(user.email === email){
-          userAux = user;
+        // console.log(user)
+        // console.log(email)
+        if(user.email == email){
+          userAux = Object.assign({},user) ;
+          return;
           
         }
       });
