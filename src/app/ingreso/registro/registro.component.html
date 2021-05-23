@@ -228,9 +228,27 @@
                 </div>
                 
                 <!-- (click)="register()" -->
+                <re-captcha class="captcha"
+                    formControlName="captcha"
+                    name="captcha"
+                    required
+                    siteKey="6LcOuyYTAAAAAHTjFuqhA52fmfJ_j5iFk5PsfXaU"
+                ></re-captcha>
                 <button class="botonSubmit" type="submit" [disabled]="formGroup.invalid">Crear cuenta</button>
                 <p class="message">Ya estas registrado? <a [routerLink]="'/ingreso/login'">Iniciar Sesion</a></p>
+                
             </div>
+            <!-- <div [hidden]="captchaControl.valid || captchaControl.pristine" class="error">
+                Captcha must be solved
+              </div> -->
+              <!-- <div [hidden]="!captchaControl.valid" class="success">Captcha is valid</div>
+                <div [hidden]="captchaProtectedForm.form.valid" class="error">
+                    The form must be filled out
+                </div>
+                <div [hidden]="!captchaProtectedForm.form.valid" class="success">
+                    The form is valid
+                </div> -->
+            <!-- <re-captcha (resolved)="resolved($event)" siteKey="6LdN3-caAAAAAAX6mBKNnpf6-by7UVhMVzGzxPoM"></re-captcha> -->
             <!-- <select class="form-select" name="selectTipo" aria-label="Default select example" (change)="capturarSelectTipo()" formControlName="tipo" [(ngModel)]="tipo">
                 
                 <option selected >Seleccione tipo de alta</option>
@@ -241,6 +259,6 @@
               </select> -->
         </form>
         <!-- <input type="button" (click)="prueba2()" value="prueba 2">-->
-        <button class="botonSubmit" (click)="prueba()">Prueba</button> 
+        <!-- <button class="botonSubmit" (click)="prueba()">Prueba</button>  -->
     </div>
 </div>

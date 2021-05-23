@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit {
     });
   }
   capturarHardcodeo(usuario: User){
+    
     this.email = usuario.email;
     this.password = usuario.password;
   }

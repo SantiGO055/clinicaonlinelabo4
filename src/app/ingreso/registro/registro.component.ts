@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { AngularFireStorage, AngularFireStorageReference } from '@angular/fire/storage';
 import { finalize } from 'rxjs/operators';
 import Swal from'sweetalert2';
+import { ReCaptchaV3Service } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-registro',
@@ -113,6 +114,7 @@ export class RegistroComponent implements OnInit {
       }
     });
     
+    
     this.formGroup = this.fb.group({
       'nombre': ['',[Validators.required]],
       'apellido': ['',Validators.required],
@@ -127,6 +129,7 @@ export class RegistroComponent implements OnInit {
       'password': ['',Validators.required],
       'confirmarPassword': ['',Validators.required],
       'fotoPerfil': ['',Validators.required],
+      'captcha': ['',Validators.required],
       'especialidad': ['',],
       'especialidadInput': ['',],
       'fileSource': ['', ],
@@ -149,6 +152,7 @@ export class RegistroComponent implements OnInit {
       return null;
     }
   }
+  
   onFileSelectedFoto(event,multiple) {
     const filelist = event.target.files;
     

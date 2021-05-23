@@ -5,7 +5,7 @@
         
         <form class="form-group">
             
-            <input type="text" id="email" class="form-control" placeholder="Email" [(ngModel)]="email"  name="email">
+            <input type="text" id="email" class="form-control" placeholder="Email" [(ngModel)]="email" name="email">
             <input type="password" id="password" class="form-control" placeholder="Contraseña" [(ngModel)]="password" name="password" >
             
             <button type="submit" (click)="login()">login</button>
@@ -27,7 +27,8 @@
     <div class="cardLogueo">
         <app-spinner [spinner]="spinnerChico"></app-spinner>
         <div *ngIf="!spinnerChico">
-            <app-logueorapido [usuarios]="userAux" (eventoLogueoUsuario)="capturarHardcodeo($event)"></app-logueorapido>
+            <app-logueorapido [usuarios]="userAux" 
+             (eventoLogueoUsuario)="capturarHardcodeo($event)"></app-logueorapido>
         
         </div>
     

@@ -20,11 +20,18 @@ import { AdminComponent } from './componentes/admin/admin.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import {SpinnerModule} from './componentes/spinner/spinner.module'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CargarusuarioDirective } from './directivas/cargarusuario.directive';
+import { MisturnosComponent } from './pages/misturnos/misturnos.component';
+import { RecaptchaDirective } from './directivas/recaptcha.directive';
+
 @NgModule({
   declarations: [
     AppComponent,
     BienvenidoComponent,
     AdminComponent,
+    CargarusuarioDirective,
+    MisturnosComponent,
+    RecaptchaDirective,
   ],
   imports: [
     BrowserModule,
