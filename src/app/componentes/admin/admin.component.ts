@@ -90,21 +90,7 @@ export class AdminComponent implements OnInit {
     this.spinner.show();
     this.spinnerPrueba = true;
     this.usuariosAAprobar = [];
-    // this.habilitado = true;
-    // console.log(index);
-
-    // if(usuario.aprobadoPorAdmin){
-    //   this.habilitado = false;
-    //   usuario.aprobadoPorAdmin = false;
-    //   this.mensajeDeshabilitado = "Deshabilitar";
-    // }
-    // else{
-    //   this.habilitado = true;
-
-    //   usuario.aprobadoPorAdmin = true;
-    //   this.mensajeHabilitado = "Habilitar";
-
-    // }
+    
     
     this.fireSvc.updateUsuario(usuario).then(()=>{
       // this.usuarios.splice(index,1);

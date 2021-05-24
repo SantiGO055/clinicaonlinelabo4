@@ -12,6 +12,8 @@ export class LoggedComponent implements OnInit {
   ocultarLogin: boolean = false;
   ocultarRegistro: boolean = false;
   ocultarMensaje : boolean = true;
+  pruebaDrop : boolean = true;
+  isOpened : boolean = true;
   @Input()ocultarBotonesLogueo : boolean = true;
   ocultarBotonLogout : boolean = true;
   logueado: boolean = false;
@@ -70,7 +72,8 @@ async desloguear(){
     this.ocultarMensaje = false;
     
     this.enviarEventoOcultarLogueo();
-    if(this.usuario.email != null){
+    if(this.usuario != null && this.usuarioLogueado != null){
+
 
       if(this.usuario.email = this.usuarioLogueado.email){
         this.authSvc.desloguear();

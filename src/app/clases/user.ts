@@ -1,3 +1,5 @@
+import { Turnos } from "./turnos";
+
 export class User {
     email: string;
     uid: string;
@@ -15,6 +17,9 @@ export class User {
     admin?:boolean;
     paciente?:boolean;
     password?:string;
+    disponibilidad?:any;
+    disponibilidadEsp?:any[];
+    turno?: Turnos;
     constructor(){
         this.descripcion = [];
         this.email = "";

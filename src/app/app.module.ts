@@ -2,7 +2,6 @@
 import { NavbarModule } from './navbar/navbar.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AngularFireModule } from '@angular/fire';
@@ -21,8 +20,16 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import {SpinnerModule} from './componentes/spinner/spinner.module'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CargarusuarioDirective } from './directivas/cargarusuario.directive';
-import { MisturnosComponent } from './pages/misturnos/misturnos.component';
-import { RecaptchaDirective } from './directivas/recaptcha.directive';
+
+
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+
+import { AltaTurnoComponent } from './componentes/turnos/alta-turno/alta-turno.component';
+import { MiperfilComponent } from './componentes/miperfil/miperfil.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 
 @NgModule({
   declarations: [
@@ -30,8 +37,10 @@ import { RecaptchaDirective } from './directivas/recaptcha.directive';
     BienvenidoComponent,
     AdminComponent,
     CargarusuarioDirective,
-    MisturnosComponent,
-    RecaptchaDirective,
+    AltaTurnoComponent,
+    MiperfilComponent
+    
+    
   ],
   imports: [
     BrowserModule,
@@ -46,9 +55,10 @@ import { RecaptchaDirective } from './directivas/recaptcha.directive';
     SweetAlert2Module.forRoot(),
     SpinnerModule,
     FormsModule,
-    ReactiveFormsModule,
     NgxSpinnerModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    NgSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent],

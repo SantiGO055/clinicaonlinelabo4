@@ -1,0 +1,52 @@
+
+
+
+  <div class="card mb-3" style="max-width: 540px;">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img src={{usuarioLogueado.fotoPerfil}} style="height: 100px;" class="card-img" alt="...">
+        <img *ngIf="usuarioLogueado.fotoPerfilDos" src={{usuarioLogueado.fotoPerfilDos}} class="card-img" alt="...">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+            <h5 *ngIf="usuarioLogueado.especialista" class="card-title">Especialista</h5>
+            <h5 *ngIf="usuarioLogueado.admin" class="card-title">Administrador</h5>
+            <h5 *ngIf="usuarioLogueado.paciente" class="card-title">Paciente</h5>
+            <p class="card-text"><strong>Nombre: </strong> {{usuarioLogueado.nombre}}</p>
+            <p class="card-text"><strong>Apellido: </strong> {{usuarioLogueado.apellido}}</p>
+            <p class="card-text"><strong>Email: </strong> {{usuarioLogueado.email}}</p>
+            <p class="card-text"><strong>Fecha de creacion de cuenta: </strong> {{usuarioLogueado.fecha }}</p>
+            <p><strong>Dni: </strong>{{usuarioLogueado.dni}}</p>
+            <div *ngIf="usuarioLogueado.especialista">
+                <strong>Especialidades: </strong>
+                <div *ngFor="let esp of usuarioLogueado.descripcion">
+                  {{esp}}
+                    
+                    <!-- <input type="datetime-local" [(ngModel)]="usuarioLogueado.disponibilidadEsp"> <input type="button" (click)="seleccionDispo(esp)" value="Agregar"> -->
+                    
+                </div>
+                <div>
+                  <strong>Agregar disponibilidad: </strong>
+                    <ng-select [(ngModel)]="especialidad" (change)="capturarSelectEspecialidad(especialidad)">
+                      <ng-option *ngFor="let esp of usuarioLogueado.descripcion"> {{esp}} </ng-option>
+                    </ng-select>
+
+                </div>
+                <div *ngIf="especialidad">
+                  
+                  
+                  <input type="datetime-local" [(ngModel)]="usuarioLogueado.disponibilidadEsp"> <input type="button" (click)="seleccionDispo()" value="Agregar">
+                </div>
+              </div>
+              <div *ngIf="disp != null">
+                <strong>Fechas disponibles: </strong>
+                <div *ngFor="let fecha of usuarioLogueado.disponibilidadEsp">
+                  <p>{{fecha.descripcion}}</p> <p> {{fecha.disponibilidadEsp |date:"medium"}} </p>
+                </div>
+
+              </div>
+                
+        </div>
+      </div>
+    </div>
+  </div>

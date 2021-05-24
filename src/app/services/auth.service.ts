@@ -53,9 +53,10 @@ export class AuthService {
     let retorno = false;
     this.usuarios.forEach(user => {
 
-      if( usuario.email = user.email){
+      console.log(usuario);
+      if( usuario.email == user.email){
         if(usuario.aprobadoPorAdmin == false){
-
+          console.log("No esta aprobado");
           retorno = false;
         }
         else{
@@ -71,6 +72,7 @@ export class AuthService {
   }
 
   verificarUsuarioALoguearEspecialista(email:string){
+    console.log(email);
     let retorno = false;
     this.usuarios.forEach(usuario => {
         if(usuario.email === email && usuario.especialista){
@@ -131,9 +133,16 @@ export class AuthService {
     else{
       // console.log("Verificado");
       //si esta verificado y el perfil es especialista
-      if(this.verificarUsuarioALoguearEspecialista(result.user.email)){
+      // console.log(user)
+      if(
+        user.especialista
+        // this.verificarUsuarioALoguearEspecialista(result.user.email)
+        ){
         //si es especialista verifico si admin lo aprobo
-          if(!this.verificarSiAdminAprobo(user)){
+          if(
+            !user.aprobadoPorAdmin
+            // !this.verificarSiAdminAprobo(user)
+            ){
             this.alertas.mostraAlertaSimple('Un administrador debe verificar su usuario','Verificación');
             this.isLogged = null;
           }

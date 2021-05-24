@@ -25,6 +25,7 @@
     "@angular/platform-browser-dynamic": "~11.2.13",
     "@angular/router": "~11.2.13",
     "@ng-bootstrap/ng-bootstrap": "^9.1.1",
+    "@ng-select/ng-select": "^6.1.0",
     "@rxweb/reactive-form-validators": "^2.1.2",
     "@sweetalert2/ngx-sweetalert2": "^10.0.0",
     "bootstrap": "^5.0.1",
@@ -62,6 +63,6 @@
   },
   "engines": {
     "node": "v14.15.1",
-    "npm": "7.11.2"
+    "npm": "7.14.0"
   }
 }

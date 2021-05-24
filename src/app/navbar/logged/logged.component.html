@@ -3,20 +3,33 @@
         Bienvenido {{usuario.email}}
     </p>
     
-    <div class="btn-group " ngbDropdown role="group" aria-label="Button group with nested dropdown">
-    <button class="btn btn-outline-secondary" ngbDropdownToggle></button>
-    <div class="dropdown-menu pull-left" ngbDropdownMenu>
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+    <!-- <div class="btn-group dropdown"  ngbDropdown role="group" aria-label="Button group with nested dropdown">
+        <button class="btn btn-outline-ksecondary"  ngbDropdownToggle aria-expanded="true" ></button>
+        
+        <div class="dropdown-menu dropdown singleDro pull-left" ngbDropdownMenu 
+        
+        >
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 
-            
-            <button class="btn btn-outline-secondary" [routerLink]="'/'">Mi Perfil</button>
-            <button class="btn btn-outline-secondary" [routerLink]="'/misturnos'">Mis turnos</button>
-            
-            <button class="btn btn-outline-secondary" type="button" (click)="desloguear()">Logout<img src="./assets/logout.svg"></button>
-            
+                
+                <button class="btn btn-outline-secondary" ></button>
+                <button class="btn btn-outline-secondary" ></button>
+                
+                <button class="btn btn-outline-secondary" type="button" >Logout</button>
+                
 
-        </ul>
+            </ul>
+        </div>
+    </div> -->
+
+    <div class="dropdown">
+        <button class="dropbtn "><img src="./assets/arrow.svg"></button>
+        <div class="dropdown-content pull-right">
+          <a [routerLink]="'/miperfil'">Mi Perfil</a>
+          <a [routerLink]="'/misturnos'">Mis Turnos</a>
+          <a *ngIf="(this.usuarioLogueado != null && this.usuarioLogueado.paciente )|| (this.usuarioLogueado != null && this.usuarioLogueado.admin)" [routerLink]="'/solicitarTurno'">Solicitar Turno</a>
+          <a type="button" (click)="desloguear()">Desloguear<img src="./assets/logout.svg"></a>
+        
+        </div>
     </div>
-    </div>
-
 </div>

@@ -5,21 +5,27 @@ import { Observable } from 'rxjs';
 import { User } from '../clases/user';
 import { map } from 'rxjs/operators';
 import { AngularFireStorage } from '@angular/fire/storage';
+import { Turnos } from '../clases/turnos';
+import { Baja } from '../clases/baja';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
   public formCompleted: boolean = false;
-  private dbpath = '/usuarios'; //nombre de la coleccion que creara para los documentos
-  private dbpathEspecialidad = '/especialidades'; //nombre de la coleccion que creara para los documentos
-  // private dbPathPuzzle = '/juegos-puzzle'; //nombre de la coleccion que creara para los documentos
-  // private dbPathTateti = '/juegos-tateti'; //nombre de la coleccion que creara para los documentos
-  // private dbPathPpt = '/juegos-ppt'; //nombre de la coleccion que creara para los documentos
-  // private dbPathMemo = '/juegos-memotest'; //nombre de la coleccion que creara para los documentos
-  // private dbPathEncuesta = '/encuesta'; //nombre de la coleccion que creara para los documentos
+  private dbpath = '/usuarios';
+  private dbpathEspecialidad = '/especialidades';
+  private dbpathTurno = '/turnos';
+  private dbPathBajas = '/bajas';
+  // private dbPathPuzzle = '/juegos-puzzle';
+  // private dbPathTateti = '/juegos-tateti';
+  // private dbPathPpt = '/juegos-ppt';
+  // private dbPathMemo = '/juegos-memotest';
+  // private dbPathEncuesta = '/encuesta';
   usuariosCollection: AngularFirestoreCollection<User>;
   especialidadCollection: AngularFirestoreCollection<Especialidad>;
+  turnosCollection: AngularFirestoreCollection<Turnos>;
+  bajasCollection: AngularFirestoreCollection<Baja>;
   // puzzleColecction: AngularFirestoreCollection<Estadisticapuzzle>;
   // tatetiCollection: AngularFirestoreCollection<Estadisticatateti>;
   // pptCollection: AngularFirestoreCollection<Estadisticappt>;
@@ -31,6 +37,8 @@ export class FirebaseService {
   usuariosDoc: AngularFirestoreDocument<User> | undefined;
   public usuarios: Observable<User[]>;
   public especialidades: Observable<Especialidad[]>;
+  public turnos: Observable<Turnos[]>;
+  public bajas: Observable<Baja[]>;
   // public encuesta: Observable<Encuesta[]>;
   // public puzzleEstadistica: Observable<Estadisticapuzzle[]>;
   // public memoEstadistica: Observable<Estadisticamemotest[]>;
@@ -53,6 +61,25 @@ export class FirebaseService {
     this.especialidades = this.especialidadCollection.snapshotChanges().pipe(map(actions=>{
       return actions.map(a=>{
         const data = a.payload.doc.data() as Especialidad;
+        data.id = a.payload.doc.id;
+        return data;
+      });
+    }));
+
+
+    this.turnosCollection = db.collection(this.dbpathTurno);
+    this.turnos = this.turnosCollection.snapshotChanges().pipe(map(actions=>{
+      return actions.map(a=>{
+        const data = a.payload.doc.data() as Turnos;
+        data.id = a.payload.doc.id;
+        return data;
+      });
+    }));
+
+    this.bajasCollection = db.collection(this.dbPathBajas);
+    this.bajas = this.bajasCollection.snapshotChanges().pipe(map(actions=>{
+      return actions.map(a=>{
+        const data = a.payload.doc.data() as Baja;
         data.id = a.payload.doc.id;
         return data;
       });
@@ -93,48 +120,36 @@ export class FirebaseService {
 
   }
   getEspecialidades(){
-    //  return this.db.collection(this.dbpath).snapshotChanges();
     return this.especialidades;
    }
-  // addTateti(estadisticaTateti: Estadisticatateti){
-  //   return this.tatetiCollection.add(JSON.parse( JSON.stringify(estadisticaTateti)));
-  // }
-  // getMensajeFromEmail(email: string){
-  //   return this.mensajesColecction.ref.get().then((doc)=>{
-  //     if(!doc.empty){
-  //       console.log(doc.docs[0].data());
-  //     }
-  //   });
-  // }
-  // addMemo(estadisticaMemo: Estadisticamemotest){
-  //   return this.memoCollection.add(JSON.parse( JSON.stringify(estadisticaMemo)));
-  // }
-  // addEncuesta(encuesta: Encuesta){
-  //   this.formCompleted = true;
-  //   return this.encuestaCollection.add(JSON.parse( JSON.stringify(encuesta)));
-  // }
-
-  // getAllEncuesta(){
-  //   return this.encuesta;
-  // }
   
+
+   /** Bajas */
+   /** Antes de dar la baja modificar y poner baja: true */
+  addBaja(baja: Baja,usuario: User){
+    this.updateUsuario(usuario);
+    return this.bajasCollection.add(JSON.parse( JSON.stringify(baja)));
+
+  }
+  getBajas(){
+    return this.bajas;
+   }
+
+   /** Usuarios */
   deleteUser(usuario: User){
     this.usuariosDoc = this.db.doc(`mensajes/${usuario.uid}`);
     this.usuariosDoc.delete();
-  }
-  updateMensaje(usuario: User){
-    
-    this.usuariosDoc = this.db.doc(`mensajes/${usuario.uid}`);
-    this.usuariosDoc.update(usuario);
   }
   updateUsuario(usuario: User){
     this.usuariosDoc = this.db.doc(`usuarios/${usuario.uid}`);
     return this.usuariosDoc.update(usuario);
   }
-  deshabilitarUsuario(usuario: User){
-    this.usuariosDoc = this.db.doc(`usuarios/${usuario.uid}`);
-    return this.usuariosDoc.update(usuario);
-  }
+
+  /*** Turnos */
+  getAllTurnos(){
+    //  return this.db.collection(this.dbpath).snapshotChanges();
+    return this.turnos;
+   }
   // addEstadisticaPuzzle(estadisticaPuzzle: Estadisticapuzzle){
 
   //   console.log(estadisticaPuzzle);

@@ -1,29 +1,17 @@
-<div class="row row-cols-1 row-cols-md-3 g-4">
-    <div class="col" *ngFor="let usuario of usuarios ; let i= index">
-        <div class="card "  >
-            <div *ngIf="i < 5">
-                <img class="img" [src]="usuario.fotoPerfil" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title" *ngIf="usuario.admin">Administrador</h5>
-                    <h5 class="card-title" *ngIf="usuario.especialista">Especialista</h5>
-                    <h5 class="card-title" *ngIf="usuario.paciente">Paciente</h5>
-                    <p class="card-text">{{usuario.nombre}}, {{usuario.apellido}}</p>
-                    <a class="btn btn-primary" (click)="loguear(usuario)">Loguear</a>
-                </div>
-        
-            </div>
-        
-      </div>
-    </div>
-    
-  </div>
+  <div class="card mb-3" style="max-width: 540px;" *ngFor="let usuario of usuarios ; let i= index">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img class="img" [src]="usuario.fotoPerfil" class="card-img-top" alt="...">
 
-<div class="container">
-    <div class="row">
-        
-        <!-- <div class="col-sm-6" > -->
-            
-        <!-- </div> -->
-        
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+            <h5 class="card-title" *ngIf="usuario.admin">Administrador</h5>
+            <h5 class="card-title" *ngIf="usuario.especialista">Especialista</h5>
+            <h5 class="card-title" *ngIf="usuario.paciente">Paciente</h5>
+          <p class="card-text">{{usuario.nombre}}, {{usuario.apellido}}. {{usuario.email}}</p>
+          <a class="btn btn-primary" (click)="loguear(usuario)">Loguear</a>
+        </div>
+      </div>
     </div>
   </div>

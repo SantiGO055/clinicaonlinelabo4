@@ -11,8 +11,9 @@ export class NavbarComponent implements OnInit {
   public toggleNavbar = true;
   ocultarLogin: boolean = true;
   ocultarRegistro: boolean = false;
-  ocultarBotonesLogueo: boolean;
+  ocultarBotonesLogueo: boolean = false;
   adminLogueado:boolean = false;
+  usuarioLogueado: boolean = false;
   usuario : User = new User();
   constructor(
     private authSvc: AuthService
@@ -23,24 +24,31 @@ export class NavbarComponent implements OnInit {
     // console.log(this.authSvc.isLogged);
     
       this.authSvc.afAuth.authState.subscribe(res=>{
-        if(this.authSvc.isLogged == null){
-          this.ocultarBotonesLogueo = false;
-        }else{
-          this.ocultarBotonesLogueo = true;
-        }
-        if(res && res.uid){
-          this.ocultarBotonesLogueo = true;
-          this.usuario = this.authSvc.obtenerUsuario(res.email);
-          // console.log(this.usuario);
-          
-          if(this.usuario.admin){
-            this.adminLogueado = true;
+        this.usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
+        if(this.usuarioLogueado != null){
+
+          if(this.authSvc.isLogged == null){
+            this.ocultarBotonesLogueo = false;
+          }else{
+            this.ocultarBotonesLogueo = true;
           }
-          
+          if(res && res.uid){
+            this.ocultarBotonesLogueo = true;
+            this.usuario = this.authSvc.obtenerUsuario(res.email);
+            // console.log(this.usuario);
+            
+            if(this.usuario.admin){
+              this.adminLogueado = true;
+            }
+            
+          }
+          else{
+            this.adminLogueado = false;
+            
+          }
         }
         else{
           this.adminLogueado = false;
-          
         }
         
       });

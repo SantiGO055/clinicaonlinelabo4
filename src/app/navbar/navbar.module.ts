@@ -13,7 +13,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 @NgModule({
   declarations: [
     NavbarComponent,
-    LoggedComponent
+    LoggedComponent,
   ],
   imports: [
     CommonModule,
@@ -22,6 +22,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
     NgbModule,
     BrowserModule,
     AngularFireAuthModule,
+    
   ],
   exports:[NavbarComponent]
 })

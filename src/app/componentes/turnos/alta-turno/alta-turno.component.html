@@ -1,0 +1,52 @@
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div>
+    <div class="dropdown dropdown-menu-right" *ngFor="let especialidad of especialidades" >
+      <button class="dropbtn " >{{especialidad}}</button>
+      <div class="dropdown-content" *ngFor="let especialista of especialistas">
+          <div >
+              
+              <a (click)="mostrarHorarios(especialidad,especialista)">{{especialista.nombre}}, {{especialista.apellido}} </a>
+          </div>
+      
+      </div>
+  </div>
+
+</div>
+<!-- Muestro el especialista seleccionado -->
+<div *ngIf="mostrarTurnos">
+
+    <table class="table table-striped form-group">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Email</th>
+                <th>Horarios</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{medicoSeleccionado.apellido}}</td>
+                <td>{{medicoSeleccionado.nombre}}</td>
+                <td>{{medicoSeleccionado.email}}</td>
+                <div>
+
+                </div>
+
+                <td >
+                    <p *ngFor="let horarios of medicoSeleccionado.disponibilidad"> {{horarios | date: "medium"}} </p>
+                </td>
+                
+            </tr>
+
+                
+            </tbody>
+        </table>
+</div>
+  

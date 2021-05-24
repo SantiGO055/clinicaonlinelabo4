@@ -204,7 +204,8 @@ export class RegistroComponent implements OnInit {
           fileSource: file
         });
         this.mensajeArchivo = `Archivo preparado: ${filelist[0].name}`;
-        this.nombreArchivo2 = this.user.obtenerFechaHora() + " " + filelist[0].name;
+        this.nombreArchivo = this.user.obtenerFechaHora() + " " + filelist[0].name;
+        console.log(this.nombreArchivo);
 
       }
 
@@ -283,6 +284,7 @@ export class RegistroComponent implements OnInit {
 
     this.password = this.formGroup.get('password').value;
     this.user.fecha = this.user.obtenerFechaHora();
+    this.user.password = this.password;
     
 
     
@@ -350,35 +352,8 @@ export class RegistroComponent implements OnInit {
     }
   }
   capturarSelectTipo(){
-    // 'nombre': ['',[Validators.required]],
-    // 'apellido': ['',Validators.required],
-    // 'tipo': ['',Validators.required],
-    // 'edad': ['',[Validators.required,Validators.min(18),Validators.max(99)]],
-    // 'dni': ['',[Validators.required,Validators.min(11111111),Validators.max(99999999)]],
-    // 'descripcion': ['',Validators.required],
-    // 'email': ['',Validators.required],
-    // 'password': ['',Validators.required],
-    // 'confirmarPassword': ['',Validators.required],
-    // 'fotoPerfil': ['',Validators.required],
-    // 'especialidad': ['',],
-    // 'especialidadInput': ['',],
-    // 'fileSource': ['', ],
-    // 'fileSource2': ['', ]
     
     this.tipo = this.tipo;
-    // if()
-    // this.formGroup.reset();
-    // this.formGroup.get('nombre').setValue('');
-    // this.formGroup.get('apellido').setValue('');
-    // this.formGroup.get('edad').setValue('');
-    // this.formGroup.get('dni').setValue('');
-    // // this.formGroup.get('descripcion').setValue('');
-    // this.formGroup.get('email').setValue('');
-    // this.formGroup.get('password').setValue('');
-    // this.formGroup.get('confirmarPassword').setValue('');
-    // this.formGroup.get('fotoPerfil').setValue('');
-    // this.formGroup.get('especialidad').setValue('');
-    // this.formGroup.get('especialidadInput').setValue('');
   }
   mostrarAgregarEspecialidad(){
     this.mostrarInputRadioOtro= !this.mostrarInputRadioOtro;
@@ -390,20 +365,6 @@ export class RegistroComponent implements OnInit {
     
   }
   capturarRadioEspecialidad(event){
-    // const isArray: FormArray = this.formGroup.get('descripcion') as FormArray;
-
-    // console.log(event);
-    // const formArray: FormArray = this.formGroup.get('descripcion') as FormArray;
-    // console.log(formArray);
-    // if(event.target.checked){
-    //   // Add a new control in the arrayForm
-    //   formArray.push(new FormControl(event.target.value));
-    // }
-    
-    // console.log(e);
-    // this.formGroup.get('especialidad').value;
-    // const checkArray: FormArray = this.formGroup.get('checkArray') as FormArray;
-    // console.log(checkArray);
     
     if(event.target.value === "Otra"){
       this.checkArray.forEach((check)=>{

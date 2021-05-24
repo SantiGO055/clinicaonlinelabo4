@@ -8,17 +8,17 @@
                 <div class="botones" >
                     <div *ngIf="!seleccioneEsp">
                         <label>Alta de especialista</label> 
-                        <button (click)="mostrarEspecialista()" class="btn buttonEspecialista button5"></button>
+                        <button (click)="mostrarEspecialista()" class="btn buttonEspecialista button5 btn-redondoEsp"></button>
         
                     </div>
                     <div *ngIf="!seleccionePac">
                         <label>Alta de paciente</label> 
-                        <button (click)="mostrarPaciente()" class="btn buttonPaciente button5"></button>
+                        <button (click)="mostrarPaciente()" class="btn buttonPaciente button5 btn-redondoEsp"></button>
         
                     </div>
                     <div *ngIf="!seleccioneAdm && seLogueoAdmin">
                         <label>Alta de administrador</label> 
-                        <button (click)="mostrarAdmin()"class="btn buttonAdmin button5"></button>
+                        <button (click)="mostrarAdmin()"class="btn buttonAdmin button5 btn-redondoEsp"></button>
         
                     </div>
                 </div>
@@ -138,7 +138,7 @@
                             <button class="botonSubmit" *ngIf="!mostrarInputRadioOtro" (click)="mostrarAgregarEspecialidad()">Agregar especialidad</button>
                             <!-- <input type="checkbox" name="descripcion" id="especialidadOtro" formControlName="descripcion" (change)="capturarRadioEspecialidad($event)" value="Otra"> -->
                             <div class="mas">
-                                <input *ngIf="mostrarInputRadioOtro" type="text" placeholder="Ingrese especialidad nueva" name="especialidadInput" class="form-control" id="especialidadInput" formControlName="especialidadInput"/>
+                                <input *ngIf="mostrarInputRadioOtro" type="text" placeholder="Ingrese especialidad nueva" name="especialidadInput" class="form-control button1" id="especialidadInput" formControlName="especialidadInput"/>
                                 <!-- <input type="button" class="mas rounded-circle" *ngIf="mostrarInputRadioOtro" (click)="agregarEspecialidad()" value="+"> -->
                                 <button type="button" class="btn btn-primary btn-circle btn-lg" *ngIf="mostrarInputRadioOtro" (click)="agregarEspecialidad()">+</button>
     
