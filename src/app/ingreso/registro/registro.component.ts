@@ -38,6 +38,7 @@ export class RegistroComponent implements OnInit {
   porcentaje:number = 0;
   urlLocal:string;
   mensajeSubida:string = "";
+  especialidadInputt:string = "";
   finalizado:boolean = false;
   archivo1;
   subirArchivos:boolean = false;

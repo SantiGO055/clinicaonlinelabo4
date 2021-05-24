@@ -6,7 +6,7 @@
 <br>
 <br>
 <div>
-    <div class="dropdown dropdown-menu-right" *ngFor="let especialidad of especialidades" >
+    <!-- <div class="dropdown dropdown-menu-right" *ngFor="let especialidad of especialidades" >
       <button class="dropbtn " >{{especialidad}}</button>
       <div class="dropdown-content" *ngFor="let especialista of especialistas">
           <div >
@@ -15,7 +15,49 @@
           </div>
       
       </div>
+  </div> -->
+  <div class="row">
+    <div class="col-4">
+      <div class="list-group" id="list-tab" role="tablist" >
+          <div *ngFor="let especialidad of especialidades">
+
+              <a class="list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list" href={{especialidad.nombre}} role="tab" aria-controls=especialidad.nombre>Home</a>
+          </div>
+        <!-- <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="list-profile">Profile</a>
+        <a class="list-group-item list-group-item-action" id="list-messages-list" data-bs-toggle="list" href="#list-messages" role="tab" aria-controls="list-messages">Messages</a>
+        <a class="list-group-item list-group-item-action" id="list-settings-list" data-bs-toggle="list" href="#list-settings" role="tab" aria-controls="list-settings">Settings</a> -->
+      </div>
+    </div>
+    <div class="col-8">
+      <div class="tab-content" id="nav-tabContent">
+          <div *ngFor="let especialidad of especialidades">
+
+              <div  class="tab-pane fade show " id={{especialidad.nombre}} role="tabpanel" aria-labelledby="list-home-list">...</div>
+          </div>
+        <!-- <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">...</div>
+        <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">...</div>
+        <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">...</div> -->
+      </div>
+    </div>
   </div>
+  <!-- <div class="dropdown dropdown-menu-right" *ngFor="let especialidad of especialidades" >
+    <button class="dropbtn ">{{especialidad}}</button>
+
+    <div class="dropdown-content" *ngFor="let especialista of especialistas">
+        <div >
+                <button class="dropbtn ">{{especialidad}}</button>
+            
+                <div class="dropdown-content" *ngFor="let especialista of especialistas">
+                    <div >
+                        
+                        <a (click)="mostrarHorarios(especialidad,especialista)">{{especialista.nombre}}, {{especialista.apellido}} </a>
+                    </div>
+                
+                </div>
+        </div>
+    
+    </div>
+</div> -->
 
 </div>
 <!-- Muestro el especialista seleccionado -->

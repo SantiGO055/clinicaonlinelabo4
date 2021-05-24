@@ -19,23 +19,35 @@ export class MiperfilComponent implements OnInit {
 
   ngOnInit(): void {
     this.usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
+    if(this.usuarioLogueado.especialista){
+
+      this.usuarioLogueado.disponibilidadEsp.forEach(esp=>{
+        console.log(esp);
+        this.disp = this.usuarioLogueado.disponibilidadEsp;
+        console.log(this.disp);
+  
+      })
+    }
   }
   seleccionDispo(){
-    console.info(this.especialidad)
+    // console.info(this.especialidad)
 
     const prueba = {
-      descripcion: this.especialidad,
-      disponibilidadEsp: this.usuarioLogueado.disponibilidadEsp
+      especialidad: this.especialidad,
+      fechayhora: this.usuarioLogueado.disponibilidadEsp,
+      disponible: true
     };
-    console.info(prueba);
+    
+    // console.info(prueba);
     this.disp.push(JSON.parse(JSON.stringify(prueba)));
     
-
+    
     this.usuarioLogueado.disponibilidadEsp = this.disp;
     // this.usuarioLogueado.disponibilidadEsp.slice(0,1)
-    console.log(this.usuarioLogueado)
+    // console.log(this.usuarioLogueado)
     this.fireSvc.updateUsuario(this.usuarioLogueado);
-
+    
+    console.log(this.usuarioLogueado.disponibilidadEsp);
   }
   capturarSelectEspecialidad(value){
     this.especialidad = value.$ngOptionLabel;

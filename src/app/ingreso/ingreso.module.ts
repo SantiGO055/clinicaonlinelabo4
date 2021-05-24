@@ -20,6 +20,7 @@ import {CargarusuarioDirective} from './../directivas/cargarusuario.directive'
 // import { RecaptchaModule } from "ng-recaptcha";
 
 import { RecaptchaFormsModule, RecaptchaModule, ReCaptchaV3Service } from 'ng-recaptcha';
+import { EnterDirective } from '../directivas/enter.directive';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import { RecaptchaFormsModule, RecaptchaModule, ReCaptchaV3Service } from 'ng-re
     LoginComponent,
     RegistroComponent,
     LogueorapidoComponent,
-    
+    EnterDirective
   ],
   imports: [
     CommonModule,

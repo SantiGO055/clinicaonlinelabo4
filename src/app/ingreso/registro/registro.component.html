@@ -3,7 +3,7 @@
     <div class="form">
         
         
-        <form [formGroup]="formGroup" [hidden]="flag" class="register-form needs-validation" novalidate (ngSubmit)="register()" >
+        <form [formGroup]="formGroup" [hidden]="flag" class="register-form needs-validation" novalidate (ngSubmit)="register()" (keydown.enter)="$event.preventDefault()" >
             <div >
                 <div class="botones" >
                     <div *ngIf="!seleccioneEsp">
@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="seleccioneEsp || seleccionePac || seleccioneAdm">
+            <div *ngIf="seleccioneEsp || seleccionePac || seleccioneAdm" >
 
                 <div *ngIf="tipo === 'paciente' && seleccionePac">
                     <h5 class="mb-3">Alta de paciente</h5>
@@ -135,12 +135,12 @@
                             </div>
                             <label class="custom-control-label" for='descripcion'>Otra</label>
                             
-                            <button class="botonSubmit" *ngIf="!mostrarInputRadioOtro" (click)="mostrarAgregarEspecialidad()">Agregar especialidad</button>
+                            <button class="botonSubmit" *ngIf="!mostrarInputRadioOtro" (click)="mostrarAgregarEspecialidad()" >Agregar especialidad</button>
                             <!-- <input type="checkbox" name="descripcion" id="especialidadOtro" formControlName="descripcion" (change)="capturarRadioEspecialidad($event)" value="Otra"> -->
                             <div class="mas">
-                                <input *ngIf="mostrarInputRadioOtro" type="text" placeholder="Ingrese especialidad nueva" name="especialidadInput" class="form-control button1" id="especialidadInput" formControlName="especialidadInput"/>
+                                <input *ngIf="mostrarInputRadioOtro" type="text" placeholder="Ingrese especialidad nueva (Enter o click en +)" name="especialidadInput" class="form-control button1" id="especialidadInput" formControlName="especialidadInput" [appEnter]="formGroup.get('especialidadInput').value"/>
                                 <!-- <input type="button" class="mas rounded-circle" *ngIf="mostrarInputRadioOtro" (click)="agregarEspecialidad()" value="+"> -->
-                                <button type="button" class="btn btn-primary btn-circle btn-lg" *ngIf="mostrarInputRadioOtro" (click)="agregarEspecialidad()">+</button>
+                                <button type="button" class="btn btn-primary btn-circle btn-lg" *ngIf="mostrarInputRadioOtro" (click)="agregarEspecialidad()" >+</button>
     
                             </div>
                         </div>

@@ -27,7 +27,7 @@
                 </div>
                 <div>
                   <strong>Agregar disponibilidad: </strong>
-                    <ng-select [(ngModel)]="especialidad" (change)="capturarSelectEspecialidad(especialidad)">
+                    <ng-select [(ngModel)]="especialidad" (change)="capturarSelectEspecialidad(especialidad)" >
                       <ng-option *ngFor="let esp of usuarioLogueado.descripcion"> {{esp}} </ng-option>
                     </ng-select>
 
@@ -37,13 +37,13 @@
                   
                   <input type="datetime-local" [(ngModel)]="usuarioLogueado.disponibilidadEsp"> <input type="button" (click)="seleccionDispo()" value="Agregar">
                 </div>
-              </div>
-              <div *ngIf="disp != null">
-                <strong>Fechas disponibles: </strong>
-                <div *ngFor="let fecha of usuarioLogueado.disponibilidadEsp">
-                  <p>{{fecha.descripcion}}</p> <p> {{fecha.disponibilidadEsp |date:"medium"}} </p>
+                <div *ngIf="disp != null">
+                  <strong>Fechas disponibles: </strong>
+                  <div *ngFor="let fecha of usuarioLogueado.disponibilidadEsp">
+                    <p>{{fecha.especialidad}}</p> <p> {{fecha.fechayhora |date:"medium"}} </p>
+                  </div>
+  
                 </div>
-
               </div>
                 
         </div>

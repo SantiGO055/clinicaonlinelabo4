@@ -26,7 +26,7 @@
         <button class="dropbtn "><img src="./assets/arrow.svg"></button>
         <div class="dropdown-content pull-right">
           <a [routerLink]="'/miperfil'">Mi Perfil</a>
-          <a [routerLink]="'/misturnos'">Mis Turnos</a>
+          <a *ngIf="this.usuarioLogueado.paciente" [routerLink]="'/misturnos'">Mis Turnos</a>
           <a *ngIf="(this.usuarioLogueado != null && this.usuarioLogueado.paciente )|| (this.usuarioLogueado != null && this.usuarioLogueado.admin)" [routerLink]="'/solicitarTurno'">Solicitar Turno</a>
           <a type="button" (click)="desloguear()">Desloguear<img src="./assets/logout.svg"></a>
         
