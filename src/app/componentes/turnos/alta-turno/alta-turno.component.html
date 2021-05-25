@@ -46,7 +46,16 @@
                         <td>{{medicoSeleccionado.nombre}}</td>
                         <td>{{medicoSeleccionado.email}}</td>
                         <td >
-                            <p *ngFor="let horarios of medicoSeleccionado.disponibilidadEsp"> {{horarios.fechayhora | date: "medium"}} <button class="btn btn-primary" (click)="seleccionMedico(horarios.fechayhora,medicoSeleccionado)">Tomar turno</button> </p>
+                            <div *ngFor="let horarios of medicoSeleccionado.disponibilidadEsp"> 
+                                <div *ngIf="horarios.especialidad == especialidadSeleccionada">
+                                    {{horarios.fechayhora | date: "medium"}}
+
+                                    <button class="btn btn-primary" (click)="seleccionMedico(horarios.fechayhora,medicoSeleccionado)">Tomar turno</button> </div>
+                                    <div *ngIf="horarios.especialidad != especialidadSeleccionada">
+                                        <p>No hay horarios disponibles</p>
+                                    </div>
+                                </div>
+
                             
                         </td>
                         <div>

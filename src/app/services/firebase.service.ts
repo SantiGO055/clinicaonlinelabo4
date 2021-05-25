@@ -150,6 +150,11 @@ export class FirebaseService {
     //  return this.db.collection(this.dbpath).snapshotChanges();
     return this.turnos;
    }
+  addTurno(turno: Turnos){
+
+    return this.turnosCollection.add(JSON.parse( JSON.stringify(turno)));
+  // return this.mensajesColecction.add({...mensaje});
+  }
   // addEstadisticaPuzzle(estadisticaPuzzle: Estadisticapuzzle){
 
   //   console.log(estadisticaPuzzle);

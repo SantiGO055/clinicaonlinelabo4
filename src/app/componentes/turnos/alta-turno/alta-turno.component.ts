@@ -35,75 +35,7 @@ export class AltaTurnoComponent implements OnInit {
     private alerta: AlertasService
   ) {
    }
-   capturarEsp(especialidad:string){
-     this.medicoSeleccionado = new User();
-     this.pacienteSeleccionado = new User();
-     this.turno = new Turnos();
-     this.mostrarMensajeSeleccion = false;
-     this.mostrarMensajePaciente = false;
-
-     this.especialidadSeleccionada = especialidad;
-     console.log(this.especialidadSeleccionada)
-    this.mostrarTurnos = false;
-
-     this.medicosSeleccionados.splice(0);
-    // console.log(especialidad);
-    this.especialistas.forEach(espEsp => {
-      espEsp.descripcion.forEach(esp => {
-          // console.log(esp)
-          if(esp == especialidad){
-            // console.log(espEsp);
-            this.medicosSeleccionados.push(espEsp);
-            console.log(this.medicosSeleccionados);
-            this.muestroMedicos = true;
-            
-          }
-      });
-    });
-   }
-   capturarMed(medico: User){
-     this.mostrarTurnos = true;
-    this.medicoSeleccionado = medico;
-    console.log(medico);
-    
-   }
-   seleccionMedico(horario: string,medico: User){
-    this.mostrarMensajeSeleccion = true;
-     console.log(this.especialidadSeleccionada)
-     this.turno.especialidad = this.especialidadSeleccionada;
-     this.turno.especialista = medico;
-     this.turno.fecha = horario;
-     if(this.usuarioLogueado.admin){
-
-     }
-     else if(this.usuarioLogueado.paciente){
-      this.turno.paciente = this.usuarioLogueado;
-     }
-     console.log(this.turno);
-   }
-   seleccionPaciente(paciente:User){
-    this.mostrarMensajePaciente = true;
-     this.pacienteSeleccionado = paciente;
-     this.turno.paciente = this.pacienteSeleccionado;
-   }
-   confirmarTurno(){
-      this.alerta.mostraAlertaTurno('Desea confirmar turno?','Confirmar turno').then(()=>{
-        if(this.alerta.confirmoTurno){
-          //TODO subir turno y modificar el usuario con el turno no disponible en esa fecha
-          console.log("confirme turno")
-        }
-        else{
-          console.log("no confirme turno")
-        }
-      });
-    //  if(this.alerta.mostraAlertaTurno('Desea confirmar turno?','Confirmar turno')){
-    //    this.medicoSeleccionado.disponibilidadEsp.forEach((asd)=>{
-    //     console.log(asd);
-    //    })
-    //    /** ADD turno */
-    //   // this.fireSvc
-    //  }
-   }
+   
   ngOnInit(): void {
 
     this.usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
@@ -113,7 +45,7 @@ export class AltaTurnoComponent implements OnInit {
     });
     
     this.fireSvc.getEspecialidades().subscribe((especialidades)=>{
-      console.log(especialidades);
+      // console.log(especialidades);
       especialidades.forEach(element => {
         
         this.especialidades.push(element.nombre);
@@ -122,11 +54,11 @@ export class AltaTurnoComponent implements OnInit {
       
     });
     this.fireSvc.getAllUsers().subscribe((usuarios)=>{
-      console.log(this.turno);
+      // console.log(this.turno);
       usuarios.forEach(usr => {
         if(usr.especialista){
-          console.log(usr)
-          console.log(usuarios)
+          // console.log(usr)
+          // console.log(usuarios)
           this.especialistas.push(JSON.parse(JSON.stringify(usr)));
         }
         if(usr.paciente){
@@ -137,6 +69,103 @@ export class AltaTurnoComponent implements OnInit {
       
     });
   }
+  capturarEsp(especialidad:string){
+    this.medicoSeleccionado = new User();
+    this.pacienteSeleccionado = new User();
+    this.turno = new Turnos();
+    this.mostrarMensajeSeleccion = false;
+    this.mostrarMensajePaciente = false;
+
+    this.especialidadSeleccionada = especialidad;
+    // console.log(this.especialistas)
+   this.mostrarTurnos = false;
+
+    this.medicosSeleccionados.splice(0);
+   // console.log(especialidad);
+   this.especialistas.forEach((espEsp: User) => {
+     //TODO chequear esto
+    //  console.log(espEsp)
+     espEsp.disponibilidadEsp.forEach(esp => {
+        //  console.log(esp)
+
+         if(this.medicosSeleccionados.length > 0){
+           this.medicosSeleccionados.forEach(element => {
+             if(element.uid === espEsp.uid){
+
+             }
+             else{
+              if(esp.especialidad == especialidad){
+                // console.log(espEsp);
+                this.medicosSeleccionados.push(espEsp);
+     
+                // console.log(this.medicosSeleccionados);
+                this.muestroMedicos = true;
+                
+              }
+             }
+           });
+         }
+         else{
+          this.medicosSeleccionados.push(espEsp);
+         }
+         
+     });
+   });
+  }
+  capturarMed(medico: User){
+    this.mostrarTurnos = true;
+   this.medicoSeleccionado = medico;
+   console.log(this.medicoSeleccionado);
+   
+  }
+  seleccionMedico(horario: string,medico: User){
+   this.mostrarMensajeSeleccion = true;
+   //  console.log(this.especialidadSeleccionada)
+    this.turno.especialidad = this.especialidadSeleccionada;
+    this.turno.especialista = medico;
+    this.turno.fecha = horario;
+    if(this.usuarioLogueado.admin){
+
+    }
+    else if(this.usuarioLogueado.paciente){
+     this.turno.paciente = this.usuarioLogueado;
+    }
+   //  console.log(this.turno);
+  }
+  seleccionPaciente(paciente:User){
+   this.mostrarMensajePaciente = true;
+    this.pacienteSeleccionado = paciente;
+    this.turno.paciente = this.pacienteSeleccionado;
+  }
+  confirmarTurno(){
+     this.alerta.mostraAlertaTurno('Desea confirmar turno?','Confirmar turno').then(()=>{
+       if(this.alerta.confirmoTurno){
+         //TODO subir turno y modificar el usuario con el turno no disponible en esa fecha
+         console.log("confirme turno")
+         //this.fireSvc.addTurno(this.turno)
+         this.medicoSeleccionado.disponibilidadEsp.forEach(element => {
+           console.log(element.especialidad)
+           console.log(this.especialidadSeleccionada)
+           if(element.especialidad == this.especialidadSeleccionada){
+             console.log("hola");
+             element.disponible = false;
+           }
+           
+         });
+         
+       }
+       else{
+         console.log("no confirme turno")
+       }
+     });
+   //  if(this.alerta.mostraAlertaTurno('Desea confirmar turno?','Confirmar turno')){
+   //    this.medicoSeleccionado.disponibilidadEsp.forEach((asd)=>{
+   //     console.log(asd);
+   //    })
+   //    /** ADD turno */
+   //   // this.fireSvc
+   //  }
+  }
   
 
   chequearEspecialista(){
@@ -144,7 +173,7 @@ export class AltaTurnoComponent implements OnInit {
       esp.descripcion.forEach(especialidadEspecialista => {
         this.especialidades.forEach(especialidadesCargadas => {
             if(especialidadEspecialista == especialidadesCargadas){
-                console.log(especialidadEspecialista)
+                // console.log(especialidadEspecialista)
             }
           });
           
