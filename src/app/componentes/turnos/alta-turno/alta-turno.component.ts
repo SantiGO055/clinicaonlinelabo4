@@ -28,6 +28,7 @@ export class AltaTurnoComponent implements OnInit {
   pacienteSeleccionado:User;
   mostrarMensajeSeleccion: boolean = false;
   mostrarMensajePaciente: boolean = false;
+  mostrarBotonConfirmar: boolean = false;
   
 
   constructor(
@@ -70,55 +71,75 @@ export class AltaTurnoComponent implements OnInit {
     });
   }
   capturarEsp(especialidad:string){
+    
     this.medicoSeleccionado = new User();
     this.pacienteSeleccionado = new User();
     this.turno = new Turnos();
     this.mostrarMensajeSeleccion = false;
     this.mostrarMensajePaciente = false;
+    this.muestroMedicos = false;
+
 
     this.especialidadSeleccionada = especialidad;
-    // console.log(this.especialistas)
+    // console.log(especialidad)
    this.mostrarTurnos = false;
-
+   this.muestroMedicos = true;
     this.medicosSeleccionados.splice(0);
-   // console.log(especialidad);
+   console.log(this.especialistas);
    this.especialistas.forEach((espEsp: User) => {
      //TODO chequear esto
-    //  console.log(espEsp)
+    console.log(espEsp)
+    if(espEsp.disponibilidadEsp){
+
+    
      espEsp.disponibilidadEsp.forEach(esp => {
         //  console.log(esp)
-
-         if(this.medicosSeleccionados.length > 0){
-           this.medicosSeleccionados.forEach(element => {
-             if(element.uid === espEsp.uid){
-
-             }
-             else{
-              if(esp.especialidad == especialidad){
-                // console.log(espEsp);
-                this.medicosSeleccionados.push(espEsp);
-     
-                // console.log(this.medicosSeleccionados);
-                this.muestroMedicos = true;
-                
-              }
-             }
-           });
-         }
-         else{
+        if(esp.especialidad == especialidad && esp.disponible){
           this.medicosSeleccionados.push(espEsp);
-         }
+          this.muestroMedicos = true;
+          if(this.medicosSeleccionados.length > 0){
+            this.medicosSeleccionados.forEach(element => {
+              if(element.uid === espEsp.uid){
+ 
+              }
+              else{
+               
+                 // console.log(espEsp);
+                 
+      
+                 // console.log(this.medicosSeleccionados);
+                 
+                 
+               }
+              
+            });
+          }
+          else{
+            if(esp.disponible){
+              this.medicosSeleccionados.push(espEsp);
+ 
+            }
+          }
+        }
          
      });
+    }
    });
   }
   capturarMed(medico: User){
     this.mostrarTurnos = true;
+    this.mostrarMensajeSeleccion = false;
+    this.mostrarMensajePaciente = false; 
    this.medicoSeleccionado = medico;
+   
    console.log(this.medicoSeleccionado);
    
   }
-  seleccionMedico(horario: string,medico: User){
+  tomarTurno(horario: string,medico: User){
+    this.mostrarBotonConfirmar = true;
+    if(this.usuarioLogueado.paciente){
+      
+    }
    this.mostrarMensajeSeleccion = true;
    //  console.log(this.especialidadSeleccionada)
     this.turno.especialidad = this.especialidadSeleccionada;
@@ -138,6 +159,10 @@ export class AltaTurnoComponent implements OnInit {
     this.turno.paciente = this.pacienteSeleccionado;
   }
   confirmarTurno(){
+    console.log(this.medicoSeleccionado);
+    if(this.medicosSeleccionados != null){
+
+    
      this.alerta.mostraAlertaTurno('Desea confirmar turno?','Confirmar turno').then(()=>{
        if(this.alerta.confirmoTurno){
          //TODO subir turno y modificar el usuario con el turno no disponible en esa fecha
@@ -148,7 +173,17 @@ export class AltaTurnoComponent implements OnInit {
            console.log(this.especialidadSeleccionada)
            if(element.especialidad == this.especialidadSeleccionada){
              console.log("hola");
-             element.disponible = false;
+             let aux = {
+               disponibilidad: false,
+               especialidad: this.especialidadSeleccionada,
+               fechayhora: this.turno.fecha
+             }
+             
+             element = aux;
+
+            console.log(element);
+            // this.fireSvc.updateUsuario()
+            console.log(this.medicoSeleccionado)
            }
            
          });
@@ -158,6 +193,7 @@ export class AltaTurnoComponent implements OnInit {
          console.log("no confirme turno")
        }
      });
+    }
    //  if(this.alerta.mostraAlertaTurno('Desea confirmar turno?','Confirmar turno')){
    //    this.medicoSeleccionado.disponibilidadEsp.forEach((asd)=>{
    //     console.log(asd);

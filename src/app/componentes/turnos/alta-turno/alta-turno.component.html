@@ -47,13 +47,11 @@
                         <td>{{medicoSeleccionado.email}}</td>
                         <td >
                             <div *ngFor="let horarios of medicoSeleccionado.disponibilidadEsp"> 
-                                <div *ngIf="horarios.especialidad == especialidadSeleccionada">
+                                <div *ngIf="horarios.especialidad == especialidadSeleccionada && horarios.disponible">
                                     {{horarios.fechayhora | date: "medium"}}
 
-                                    <button class="btn btn-primary" (click)="seleccionMedico(horarios.fechayhora,medicoSeleccionado)">Tomar turno</button> </div>
-                                    <div *ngIf="horarios.especialidad != especialidadSeleccionada">
-                                        <p>No hay horarios disponibles</p>
-                                    </div>
+                                    <button class="btn btn-primary" (click)="tomarTurno(horarios.fechayhora,medicoSeleccionado)">Tomar turno</button> </div>
+                                    
                                 </div>
 
                             
@@ -116,7 +114,7 @@
                         Paciente: <strong>{{pacienteSeleccionado.nombre}} {{pacienteSeleccionado.apellido}}</strong>
                         
                     </h2>
-                    <button *ngIf="mostrarMensajePaciente" class="btn btn-primary" (click)="confirmarTurno()">Confirmar turno seleccionado</button>
+                    <button *ngIf="mostrarBotonConfirmar" class="btn btn-primary" (click)="confirmarTurno()">Confirmar turno seleccionado</button>
     
                 </div>
         </div>

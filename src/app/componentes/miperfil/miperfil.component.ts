@@ -21,9 +21,9 @@ export class MiperfilComponent implements OnInit {
     this.usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
     if(this.usuarioLogueado.especialista){
 
-      this.usuarioLogueado.disponibilidadEsp.forEach(esp=>{
+      this.usuarioLogueado.disponibilidad.forEach(esp=>{
         console.log(esp);
-        this.disp = this.usuarioLogueado.disponibilidadEsp;
+        this.disp = this.usuarioLogueado.disponibilidad;
         console.log(this.disp);
   
       })
@@ -50,7 +50,9 @@ export class MiperfilComponent implements OnInit {
     console.log(this.usuarioLogueado.disponibilidadEsp);
   }
   capturarSelectEspecialidad(value){
-    this.especialidad = value.$ngOptionLabel;
+    console.log(value);
+    
+    this.especialidad = value.$ngOptionLabel.trim();
     console.info()
   }
 

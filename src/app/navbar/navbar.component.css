@@ -20,7 +20,7 @@ a{
 } */
 .loggedDiv{
     justify-content: flex-end;
-    margin-left: 70%;
+    margin-left: 60%;
 }
 input[type=search]{
     width:430px !important;
