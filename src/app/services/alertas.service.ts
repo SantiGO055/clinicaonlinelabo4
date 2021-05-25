@@ -6,6 +6,7 @@ import Swal from'sweetalert2';
 export class AlertasService {
 
   public reenvioEmail:boolean = false;
+  public confirmoTurno:boolean = false;
   constructor() { }
   async mostrarAlertaConfirmacionEmail(mensaje:string,titulo:string,mensajeConfirmed:string){
     const result = await Swal.fire({
@@ -38,6 +39,33 @@ export class AlertasService {
       title: titulo,
       text: mensaje,
     })
+  }
+  public async mostraAlertaTurno(mensaje:string,titulo:string) {
+    // console.log(mensaje)
+    let retorno = false;
+    let result = await Swal.fire({
+      title: titulo,
+      text: mensaje,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar'
+    })
+
+      if (result.isConfirmed) {
+        console.log(result)
+        Swal.fire(
+          'Turno confirmado',
+          'El turno ha sido tomado',
+          'success'
+        )
+        this.confirmoTurno = true;
+      }
+      else{
+        this.confirmoTurno= false;
+      }
+    return result;
   }
   
 }

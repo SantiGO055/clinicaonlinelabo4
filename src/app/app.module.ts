@@ -31,7 +31,6 @@ import { MiperfilComponent } from './componentes/miperfil/miperfil.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { EnterDirective } from './directivas/enter.directive';
 
-
 @NgModule({
   declarations: [
     AppComponent,

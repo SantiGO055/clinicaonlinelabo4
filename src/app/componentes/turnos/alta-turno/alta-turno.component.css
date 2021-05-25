@@ -1,3 +1,18 @@
+.div{
+  padding: 5% 0 0 25%;
+
+}
+.solicitarTurno{
+  padding: 0 0 0 25%;
+  border: 3px solid #73AD21;
+}
+h4{
+  padding: 0 0 0 20%;
+}
+h5{
+  padding: 0 0 0 30%;
+
+}
 
 .dropbtn {
     background-color: #04AA6D;

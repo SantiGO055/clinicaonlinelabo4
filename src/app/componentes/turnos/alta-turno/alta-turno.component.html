@@ -1,94 +1,121 @@
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<div>
-    <!-- <div class="dropdown dropdown-menu-right" *ngFor="let especialidad of especialidades" >
-      <button class="dropbtn " >{{especialidad}}</button>
-      <div class="dropdown-content" *ngFor="let especialista of especialistas">
-          <div >
-              
-              <a (click)="mostrarHorarios(especialidad,especialista)">{{especialista.nombre}}, {{especialista.apellido}} </a>
-          </div>
-      
-      </div>
-  </div> -->
-  <div class="row">
-    <div class="col-4">
-      <div class="list-group" id="list-tab" role="tablist" >
-          <div *ngFor="let especialidad of especialidades">
+<div class="div">
 
-              <a class="list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list" href={{especialidad.nombre}} role="tab" aria-controls=especialidad.nombre>Home</a>
-          </div>
-        <!-- <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="list-profile">Profile</a>
-        <a class="list-group-item list-group-item-action" id="list-messages-list" data-bs-toggle="list" href="#list-messages" role="tab" aria-controls="list-messages">Messages</a>
-        <a class="list-group-item list-group-item-action" id="list-settings-list" data-bs-toggle="list" href="#list-settings" role="tab" aria-controls="list-settings">Settings</a> -->
-      </div>
+</div>
+<div class="solicitarTurno">
+
+    <div *ngIf="muestroEspecialidades">
+    <h4>Especialidades</h4>
+    
+    
+    <div >
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+            <div *ngFor="let especialidad of especialidades">
+                <input type="radio" class="btn-check" name="btnradio" id={{especialidad}} autocomplete="off" (change)="capturarEsp(especialidad)">
+                <label class="btn btn-outline-primary" for={{especialidad}}>{{especialidad}}</label>
+    
+            </div>
+          
+          
+        </div>
     </div>
-    <div class="col-8">
-      <div class="tab-content" id="nav-tabContent">
-          <div *ngFor="let especialidad of especialidades">
-
-              <div  class="tab-pane fade show " id={{especialidad.nombre}} role="tabpanel" aria-labelledby="list-home-list">...</div>
-          </div>
-        <!-- <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">...</div>
-        <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">...</div>
-        <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">...</div> -->
-      </div>
     </div>
-  </div>
-  <!-- <div class="dropdown dropdown-menu-right" *ngFor="let especialidad of especialidades" >
-    <button class="dropbtn ">{{especialidad}}</button>
-
-    <div class="dropdown-content" *ngFor="let especialista of especialistas">
-        <div >
-                <button class="dropbtn ">{{especialidad}}</button>
-            
-                <div class="dropdown-content" *ngFor="let especialista of especialistas">
-                    <div >
+    <div *ngIf="muestroMedicos">
+    
+        <h4>Medicos</h4>
+        <div *ngIf="medicosSeleccionados.length > 0" class="btn-group" role="groupMedico" aria-label="groupMedico">
+            <div *ngFor="let medico of medicosSeleccionados">
+                <input type="radio" class="btn-check" name="btnradio" id={{medico.dni}} autocomplete="off" (change)="capturarMed(medico)">
+                <label class="btn btn-outline-primary" for={{medico.dni}}>{{medico.nombre}}</label>
+        
+            </div>
+        </div>
+        <div *ngIf="mostrarTurnos">
+            <h5>Medico</h5>
+            <table class="table table-striped form-group">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Email</th>
+                        <th>Horarios</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{medicoSeleccionado.apellido}}</td>
+                        <td>{{medicoSeleccionado.nombre}}</td>
+                        <td>{{medicoSeleccionado.email}}</td>
+                        <td >
+                            <p *ngFor="let horarios of medicoSeleccionado.disponibilidadEsp"> {{horarios.fechayhora | date: "medium"}} <button class="btn btn-primary" (click)="seleccionMedico(horarios.fechayhora,medicoSeleccionado)">Tomar turno</button> </p>
+                            
+                        </td>
+                        <div>
+        
+                        </div>
+        
                         
-                        <a (click)="mostrarHorarios(especialidad,especialista)">{{especialista.nombre}}, {{especialista.apellido}} </a>
-                    </div>
+                    </tr>
+        
+                        
+                    </tbody>
+                </table>
+                <!-- Si admin esta logueado, selecciono el paciente -->
+                <div *ngIf="usuarioLogueado.admin">
+                    <h5>Paciente</h5>
+                    <table  class="table table-striped form-group">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Email</th>
+                                <th>Dni</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let paciente of pacientes">
+                                <td>{{paciente.apellido}}</td>
+                                <td>{{paciente.nombre}}</td>
+                                <td>{{paciente.email}}</td>
+                                <td>{{paciente.dni}}<button class="btn btn-primary" (click)="seleccionPaciente(paciente)">Seleccionar paciente</button></td>
+                                <!-- <td >
+                                    <p *ngFor="let horarios of medicoSeleccionado.disponibilidadEsp"> {{horarios.fechayhora | date: "medium"}} <button>Tomar turno</button> </p>
+                                    
+                                </td> -->
+                                
                 
+                                
+                            </tr>
+                
+                                
+                        </tbody>
+                    </table>
+                </div>
+                <div >
+                    <div *ngIf="mostrarMensajeSeleccion">
+                        <h2 >Turno para el dia: 
+                        </h2>
+                        <h2 >
+                            <strong>{{turno.fecha | date: "medium"}}</strong>
+                        </h2>
+    
+                        <h2>
+                            Medico:<strong>{{medicoSeleccionado.nombre}} {{medicoSeleccionado.apellido}}</strong> 
+                        </h2>
+                    </div>
+                    <h2 *ngIf="mostrarMensajePaciente">
+                        
+                        Paciente: <strong>{{pacienteSeleccionado.nombre}} {{pacienteSeleccionado.apellido}}</strong>
+                        
+                    </h2>
+                    <button *ngIf="mostrarMensajePaciente" class="btn btn-primary" (click)="confirmarTurno()">Confirmar turno seleccionado</button>
+    
                 </div>
         </div>
-    
     </div>
-</div> -->
-
+    
+      
+    
+    
+    <!-- Muestro el especialista seleccionado -->
+      
 </div>
-<!-- Muestro el especialista seleccionado -->
-<div *ngIf="mostrarTurnos">
-
-    <table class="table table-striped form-group">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Email</th>
-                <th>Horarios</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{medicoSeleccionado.apellido}}</td>
-                <td>{{medicoSeleccionado.nombre}}</td>
-                <td>{{medicoSeleccionado.email}}</td>
-                <div>
-
-                </div>
-
-                <td >
-                    <p *ngFor="let horarios of medicoSeleccionado.disponibilidad"> {{horarios | date: "medium"}} </p>
-                </td>
-                
-            </tr>
-
-                
-            </tbody>
-        </table>
-</div>
-  
