@@ -21,12 +21,16 @@ export class MiperfilComponent implements OnInit {
     this.usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
     if(this.usuarioLogueado.especialista){
 
-      this.usuarioLogueado.disponibilidad.forEach(esp=>{
-        console.log(esp);
-        this.disp = this.usuarioLogueado.disponibilidad;
-        console.log(this.disp);
+      console.log(this.usuarioLogueado);
+      // this.usuarioLogueado.disponibilidadEsp.forEach(esp=>{
+      //   if(esp){
+
+      //   }
+      //   console.log(esp);
+      //   this.disp = this.usuarioLogueado.disponibilidad;
+      //   console.log(this.disp);
   
-      })
+      // })
     }
   }
   seleccionDispo(){
