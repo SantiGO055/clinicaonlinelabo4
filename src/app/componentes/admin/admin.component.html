@@ -8,7 +8,7 @@
     <div class="contenedorLista form" >
 
         <h5>Listado de usuarios especialistas</h5>
-    
+
         <table class="table table-striped form-group">
             <thead>
                 <tr>
@@ -30,9 +30,9 @@
                         <td *ngIf="!usuario.baja">{{usuario.email}}</td>
                         <!-- <td><button type="button" *ngIf="usuario.aprobadoPorAdmin"(click)="habilitar(usuario,i)">{{mensajeHabilitado}}</button> </td>
                                 <td><button type="button" *ngIf="!usuario.aprobadoPorAdmin"(click)="habilitar(usuario,i)">{{mensajeDeshabilitado}}</button> </td> -->
-                                
-                            
-                        
+
+
+
                         <!-- <form [formGroup]="formGroupCheck"> -->
                             <!-- <div class="form-check" > -->
                         <td *ngIf="!usuario.aprobadoPorAdmin && !usuario.baja">
@@ -55,8 +55,8 @@
                         <!-- </div> -->
 
                     <!-- </form> -->
-                    
-                    
+
+
                     <!-- <button *ngIf="habilitado" (click)="deshabilitar(usuario,i)">{{mensajeBoton}}</button> -->
                     <!-- <td><button *ngIf="usuario.aprobadoPorAdmin" (click)="deshabilitar(usuario,i)">{{mensajeBoton}}</button></td> -->
 
@@ -65,7 +65,7 @@
                         <!-- </button></td> -->
                     </tr>
 
-                    
+
                 </tbody>
                 <button type="submit" [routerLink]="'/ingreso/registro'">Nuevo usuario</button>
             </table>
