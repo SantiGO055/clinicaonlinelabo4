@@ -1,36 +1,11 @@
-import { Turnos } from "./turnos";
+import { User } from "./user";
 
-export class User {
-    email: string;
-    uid: string;
-    username: string;
-    nombre: string;
-    apellido: string;
-    edad: string;
-    dni: string;
-    fecha: string;
-    especialista?:boolean;
-    fotoPerfil:string;
-    fotoPerfilDos?:string;
-    descripcion:string[];
-    aprobadoPorAdmin?:boolean;
-    admin?:boolean;
-    paciente?:boolean;
-    password?:string;
-    disponibilidad?:any;
-    disponibilidadEsp?:any[];
-    turno?: Turnos;
-    baja?:boolean;
-    constructor(){
-        this.descripcion = [];
-        this.email = "";
-        this.uid = "";
-        this.username = "";
-        
-        this.fecha = '';
-        this.fotoPerfil = "";
-        this.fotoPerfilDos = "";
-    }
+export class BajaUsuario {
+    id:string;
+    fecha:string;
+    hora:string;
+    usuario:User;
+    motivo:string;
     obtenerFechaHora(){
         var fecha:Date = new Date();
         var segString: string = '';

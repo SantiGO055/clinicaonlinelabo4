@@ -1,16 +1,1 @@
-registro: favbutton con una imagen de fondo del boton que sean redondos - hecho
-
-login:
-en alguno de los dos laterales aparece en cuadro tipo card la foto del usuario que voy a cargar de testeo, boton cuadrado
-2 especialistas, 2 pacientes, 1 o 2 administradores
-directiva que reciba usuario y que muestre la foto y cargue en los inputs usuario y password
-
-para habilitar deshabilitar:
-primera vez que se inscriben puede ser que debamos modificar su especialidad, habilitacion para empezar a trabajar, despues aparte cuando el doctor no viene mas se realiza una baja.
-crear coleccion de baja con fecha hora y motivo
-hacer boton para habilitar y otro para baja con array de objetos con los cambios
-
-
-el turno no es estado que se modifique
-sino que se inserta cambios de estado
-al dar de baja, 
+Tengo hecho 2 pipe y 1 directiva

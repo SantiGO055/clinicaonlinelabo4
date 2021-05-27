@@ -5,6 +5,8 @@ import { User } from 'src/app/clases/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { NgxSpinnerService } from "ngx-spinner";
+import { AlertasService } from 'src/app/services/alertas.service';
+import { BajaUsuario } from 'src/app/clases/bajaUsuario';
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -20,11 +22,14 @@ export class AdminComponent implements OnInit {
   mensajeHabilitado:string= 'Deshabilitar';
   mensaje = 'Listado de especialistas pendientes de aprobación';
   checked:boolean = false;
+  mostrarBaja:boolean = false;
+  bajaUser:BajaUsuario = new BajaUsuario();
   constructor(
     private authSvc: AuthService,
     private fireSvc: FirebaseService,
     private fb:FormBuilder,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private alertas: AlertasService
   ) { 
     this.usuariosAAprobar = [];
     this.usuariosEspecialistas = [];
@@ -46,6 +51,7 @@ export class AdminComponent implements OnInit {
           this.usuariosEspecialistas.push(JSON.parse(JSON.stringify(usuario)));
           if(!usuario.aprobadoPorAdmin){
             
+            this.mostrarBaja = false;
             
             this.habilitado=false;
             this.mensajeHabilitado = "Deshabilitar";
@@ -59,6 +65,7 @@ export class AdminComponent implements OnInit {
   
           }
           else{
+            this.mostrarBaja = true;
             this.habilitado = true;
             this.mensajeHabilitado = "Deshabilitar";
             this.mensajeDeshabilitado = "Habilitar";
@@ -83,10 +90,10 @@ export class AdminComponent implements OnInit {
     ){
       // console.log(event.target.checked);
       usuario.aprobadoPorAdmin = event.target.checked;
-      this.habilitar(usuario,0)
+      this.habilitar(usuario)
     // this.habilitar(usuario,index);
   }
-  habilitar(usuario:User,index:number){
+  habilitar(usuario:User){
     this.spinner.show();
     this.spinnerPrueba = true;
     this.usuariosAAprobar = [];
@@ -123,6 +130,24 @@ export class AdminComponent implements OnInit {
       }
       
     });
+  }
+  bajaUsuario(usuario: User){
+    this.mostrarBaja = false;
+    for (let i = 0; i < this.usuariosEspecialistas.length; i++) {
+      if(this.usuariosEspecialistas[i] == usuario){
+        this.alertas.mostraAlertaInput('Ingrese motivo de la baja').then(texto=>{
+          console.log(texto);
+          this.usuariosEspecialistas[i].aprobadoPorAdmin = false;
+          this.usuariosEspecialistas[i].baja = true;
+          this.bajaUser.usuario = this.usuariosEspecialistas[i];
+          this.bajaUser.fecha = this.bajaUser.obtenerFechaHora();
+          this.bajaUser.motivo = texto;
+          this.fireSvc.addBaja(this.bajaUser,this.usuariosEspecialistas[i]);
+        });
+        
+      }
+      
+    }
   }
 
 }

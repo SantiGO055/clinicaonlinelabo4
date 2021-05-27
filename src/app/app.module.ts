@@ -19,7 +19,6 @@ import { AdminComponent } from './componentes/admin/admin.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import {SpinnerModule} from './componentes/spinner/spinner.module'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CargarusuarioDirective } from './directivas/cargarusuario.directive';
 
 
 
@@ -30,15 +29,22 @@ import { AltaTurnoComponent } from './componentes/turnos/alta-turno/alta-turno.c
 import { MiperfilComponent } from './componentes/miperfil/miperfil.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { EnterDirective } from './directivas/enter.directive';
+import { MostrarturnosComponent } from './componentes/turnos/mostrarturnos/mostrarturnos.component';
+import { FilterPipe } from './pipes/filter.pipe';
+import { MisturnosComponent } from './componentes/turnos/misturnos/misturnos.component';
+import { CortarLetraPipe } from './pipes/cortar-letra.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     BienvenidoComponent,
     AdminComponent,
-    CargarusuarioDirective,
     AltaTurnoComponent,
     MiperfilComponent,
+    MostrarturnosComponent,
+    FilterPipe,
+    MisturnosComponent,
+    CortarLetraPipe,
     
     
     

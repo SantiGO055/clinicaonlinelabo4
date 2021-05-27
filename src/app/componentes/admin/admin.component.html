@@ -15,27 +15,41 @@
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Email</th>
-                    <th>Habilitar/Deshabilitar</th>
+                    <th>Habilitar usuario</th>
+                    <div *ngIf="mostrarBaja">
+                        <th >Baja</th>
+
+                    </div>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let usuario of usuariosEspecialistas;index as i">
-                    <td>{{usuario.apellido}}</td>
-                    <td>{{usuario.nombre}}</td>
-                    <td>{{usuario.email}}</td>
-                    <!-- <td><button type="button" *ngIf="usuario.aprobadoPorAdmin"(click)="habilitar(usuario,i)">{{mensajeHabilitado}}</button> </td>
-                    <td><button type="button" *ngIf="!usuario.aprobadoPorAdmin"(click)="habilitar(usuario,i)">{{mensajeDeshabilitado}}</button> </td> -->
-                    
-                      
-                    <!-- <form [formGroup]="formGroupCheck"> -->
-                        <!-- <div class="form-check" > -->
-                    <td>
-                        <label class="switch" >
-                            <input name="check"  type="checkbox" ng-checked="usuario.aprobadoPorAdmin" [(ngModel)]="usuario.aprobadoPorAdmin" (change)="verificarChangeCheck(usuario,$event)">
-                            <span class="slider round"></span>
-                        </label>
 
-                    </td>
+                        <td *ngIf="!usuario.baja">{{usuario.apellido}}</td>
+                        <td *ngIf="!usuario.baja">{{usuario.nombre}}</td>
+                        <td *ngIf="!usuario.baja">{{usuario.email}}</td>
+                        <!-- <td><button type="button" *ngIf="usuario.aprobadoPorAdmin"(click)="habilitar(usuario,i)">{{mensajeHabilitado}}</button> </td>
+                                <td><button type="button" *ngIf="!usuario.aprobadoPorAdmin"(click)="habilitar(usuario,i)">{{mensajeDeshabilitado}}</button> </td> -->
+                                
+                            
+                        
+                        <!-- <form [formGroup]="formGroupCheck"> -->
+                            <!-- <div class="form-check" > -->
+                        <td *ngIf="!usuario.aprobadoPorAdmin && !usuario.baja">
+                            <!-- <label class="switch" >
+                                <input name="check"  type="checkbox" ng-checked="usuario.aprobadoPorAdmin" [(ngModel)]="usuario.aprobadoPorAdmin" (change)="verificarChangeCheck(usuario,$event)">
+                                <span class="slider round"></span>
+                            </label> -->
+                            <button class="btn btn-primary" (click)="habilitar(usuario)">
+                                Habilitar
+                            </button>
+
+                        </td>
+                        <td *ngIf="usuario.aprobadoPorAdmin && !usuario.baja" (click)="bajaUsuario(usuario)">
+                            <button class="btn btn-primary">
+                                Baja
+                            </button>
+                        </td>
                         <!-- </div> -->
                         <!-- <div class="row" *ngIf="!spinner"> -->
                         <!-- </div> -->

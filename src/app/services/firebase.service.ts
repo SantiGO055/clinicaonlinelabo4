@@ -6,7 +6,7 @@ import { User } from '../clases/user';
 import { map } from 'rxjs/operators';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Turnos } from '../clases/turnos';
-import { Baja } from '../clases/baja';
+import { BajaUsuario } from '../clases/bajaUsuario';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +25,7 @@ export class FirebaseService {
   usuariosCollection: AngularFirestoreCollection<User>;
   especialidadCollection: AngularFirestoreCollection<Especialidad>;
   turnosCollection: AngularFirestoreCollection<Turnos>;
-  bajasCollection: AngularFirestoreCollection<Baja>;
+  bajasCollection: AngularFirestoreCollection<BajaUsuario>;
   // puzzleColecction: AngularFirestoreCollection<Estadisticapuzzle>;
   // tatetiCollection: AngularFirestoreCollection<Estadisticatateti>;
   // pptCollection: AngularFirestoreCollection<Estadisticappt>;
@@ -35,10 +35,11 @@ export class FirebaseService {
 
 
   usuariosDoc: AngularFirestoreDocument<User> | undefined;
+  turnosDoc: AngularFirestoreDocument<Turnos> | undefined;
   public usuarios: Observable<User[]>;
   public especialidades: Observable<Especialidad[]>;
   public turnos: Observable<Turnos[]>;
-  public bajas: Observable<Baja[]>;
+  public bajas: Observable<BajaUsuario[]>;
   // public encuesta: Observable<Encuesta[]>;
   // public puzzleEstadistica: Observable<Estadisticapuzzle[]>;
   // public memoEstadistica: Observable<Estadisticamemotest[]>;
@@ -79,7 +80,7 @@ export class FirebaseService {
     this.bajasCollection = db.collection(this.dbPathBajas);
     this.bajas = this.bajasCollection.snapshotChanges().pipe(map(actions=>{
       return actions.map(a=>{
-        const data = a.payload.doc.data() as Baja;
+        const data = a.payload.doc.data() as BajaUsuario;
         data.id = a.payload.doc.id;
         return data;
       });
@@ -126,7 +127,7 @@ export class FirebaseService {
 
    /** Bajas */
    /** Antes de dar la baja modificar y poner baja: true */
-  addBaja(baja: Baja,usuario: User){
+  addBaja(baja: BajaUsuario,usuario: User){
     this.updateUsuario(usuario);
     return this.bajasCollection.add(JSON.parse( JSON.stringify(baja)));
 
@@ -155,23 +156,9 @@ export class FirebaseService {
     return this.turnosCollection.add(JSON.parse( JSON.stringify(turno)));
   // return this.mensajesColecction.add({...mensaje});
   }
-  // addEstadisticaPuzzle(estadisticaPuzzle: Estadisticapuzzle){
-
-  //   console.log(estadisticaPuzzle);
-  //   return this.puzzleColecction.add(JSON.parse( JSON.stringify(estadisticaPuzzle)));
-
-  // }
-  // addPPT(estadisticaPPT: Estadisticappt){
-  //   return this.pptCollection.add(JSON.parse( JSON.stringify(estadisticaPPT)));
-  // }
-  // getEmail(user: User){
-
-  //   this.mensajes.forEach(element => {
-      
-  //     console.log(element);
-  //   });
-  //   // this.mensajes
-  //   // this.db.collection(this.dbpath).doc()
-  //   // user.email
-  // }
+  updateTurno(turno: Turnos){
+    this.turnosDoc = this.db.doc(`turnos/${turno.id}`);
+    return this.turnosDoc.update(turno);
+  }
+  
 }

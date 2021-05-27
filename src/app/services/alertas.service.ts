@@ -67,5 +67,21 @@ export class AlertasService {
       }
     return result;
   }
+
+  public async mostraAlertaInput(titulo:string){
+    // console.log(mensaje)
+    
+    const { value: text } = await Swal.fire({
+      input: 'textarea',
+      inputLabel: titulo,
+      inputPlaceholder: 'Ingrese motivo de la baja...',
+      inputAttributes: {
+        'aria-label': 'Ingrese motivo de la baja...'
+      },
+      showCancelButton: true
+    })
+    
+    return text;
+  }
   
 }
