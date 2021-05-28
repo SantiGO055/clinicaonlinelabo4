@@ -1,1 +1,27 @@
 Tengo hecho 2 pipe y 1 directiva
+
+turnos:
+colleccion turnos donde esta el alta con especialista, fecha, hora y su estado
+turnos = {
+    especialista: saraza,
+    paciente: saraza,
+    fecha: 2021-05-25,
+    hora: 18:00,
+    estado: RECHAZADO,
+}
+
+coleccion cancelar turnos donde esta el paciente, especialista, coleccion de turno, fecha y hora de baja y su estado
+
+estadosTurnos = {
+    especialista: "saraza",
+    paciente: "saraza",
+    fecha: 2021-05-25,
+    hora: 18:00,
+    estado: "ACEPTADO",
+    turno: "saraza",
+    comentario?: "motivo del rechazo, cancelacion o comentario/reseña en caso de que haya"
+    diagnostico?: "diagnostico del medico en caso de que haya"
+}
+
+
+COMENTARIO ES LO MISMO QUE RESEÑA?

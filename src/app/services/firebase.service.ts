@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Turnos } from '../clases/turnos';
 import { BajaUsuario } from '../clases/bajaUsuario';
+import { EstadoTurno } from '../clases/estado-turno';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class FirebaseService {
   private dbpathEspecialidad = '/especialidades';
   private dbpathTurno = '/turnos';
   private dbPathBajas = '/bajas';
+  private dbPathEstadoTurnos = '/estadoTurnos';
   // private dbPathPuzzle = '/juegos-puzzle';
   // private dbPathTateti = '/juegos-tateti';
   // private dbPathPpt = '/juegos-ppt';
@@ -26,6 +28,7 @@ export class FirebaseService {
   especialidadCollection: AngularFirestoreCollection<Especialidad>;
   turnosCollection: AngularFirestoreCollection<Turnos>;
   bajasCollection: AngularFirestoreCollection<BajaUsuario>;
+  estadosCollection: AngularFirestoreCollection<EstadoTurno>;
   // puzzleColecction: AngularFirestoreCollection<Estadisticapuzzle>;
   // tatetiCollection: AngularFirestoreCollection<Estadisticatateti>;
   // pptCollection: AngularFirestoreCollection<Estadisticappt>;
@@ -36,10 +39,12 @@ export class FirebaseService {
 
   usuariosDoc: AngularFirestoreDocument<User> | undefined;
   turnosDoc: AngularFirestoreDocument<Turnos> | undefined;
+  estadosDoc: AngularFirestoreDocument<EstadoTurno> | undefined;
   public usuarios: Observable<User[]>;
   public especialidades: Observable<Especialidad[]>;
   public turnos: Observable<Turnos[]>;
   public bajas: Observable<BajaUsuario[]>;
+  public estados: Observable<EstadoTurno[]>;
   // public encuesta: Observable<Encuesta[]>;
   // public puzzleEstadistica: Observable<Estadisticapuzzle[]>;
   // public memoEstadistica: Observable<Estadisticamemotest[]>;
@@ -49,6 +54,8 @@ export class FirebaseService {
     private storage : AngularFireStorage) {
     
     // this.mensajes = db.collection<Mensaje>('mensajes').valueChanges();
+
+    /** Usuarios */
     this.usuariosCollection = db.collection(this.dbpath);
     this.usuarios = this.usuariosCollection.snapshotChanges().pipe(map(actions=>{
       return actions.map(a=>{
@@ -57,7 +64,8 @@ export class FirebaseService {
         return data;
       });
     }));
-
+    
+    /** especialidades */
     this.especialidadCollection = db.collection(this.dbpathEspecialidad);
     this.especialidades = this.especialidadCollection.snapshotChanges().pipe(map(actions=>{
       return actions.map(a=>{
@@ -67,6 +75,7 @@ export class FirebaseService {
       });
     }));
 
+    /** turnos */
 
     this.turnosCollection = db.collection(this.dbpathTurno);
     this.turnos = this.turnosCollection.snapshotChanges().pipe(map(actions=>{
@@ -77,10 +86,21 @@ export class FirebaseService {
       });
     }));
 
+    /** baja usuarios */
     this.bajasCollection = db.collection(this.dbPathBajas);
     this.bajas = this.bajasCollection.snapshotChanges().pipe(map(actions=>{
       return actions.map(a=>{
         const data = a.payload.doc.data() as BajaUsuario;
+        data.id = a.payload.doc.id;
+        return data;
+      });
+    }));
+
+    /**estados */
+    this.estadosCollection = db.collection(this.dbPathEstadoTurnos);
+    this.estados = this.estadosCollection.snapshotChanges().pipe(map(actions=>{
+      return actions.map(a=>{
+        const data = a.payload.doc.data() as EstadoTurno;
         data.id = a.payload.doc.id;
         return data;
       });
@@ -129,6 +149,7 @@ export class FirebaseService {
    /** Antes de dar la baja modificar y poner baja: true */
   addBaja(baja: BajaUsuario,usuario: User){
     this.updateUsuario(usuario);
+    
     return this.bajasCollection.add(JSON.parse( JSON.stringify(baja)));
 
   }
@@ -146,7 +167,7 @@ export class FirebaseService {
     return this.usuariosDoc.update(usuario);
   }
 
-  /*** Turnos */
+  //#region /*** Turnos */
   getAllTurnos(){
     //  return this.db.collection(this.dbpath).snapshotChanges();
     return this.turnos;
@@ -160,5 +181,22 @@ export class FirebaseService {
     this.turnosDoc = this.db.doc(`turnos/${turno.id}`);
     return this.turnosDoc.update(turno);
   }
+  //#endregion
   
+  //#region Estado de los turnos
+  getAllEstados(){
+    return this.estados;
+  }
+  /** Modifico el estado del turno updateandolo y creo coleccion nueva de estado de ese turno */
+  addEstado(estado: EstadoTurno, turno: Turnos){
+    this.updateTurno(turno);
+
+    return this.estadosCollection.add(JSON.parse(JSON.stringify(estado)));
+  }
+  updateEstado(estado: EstadoTurno){
+    this.estadosDoc = this.db.doc(`estadoTurnos/${estado.id}`);
+    return this.estadosDoc.update(estado);
+  }
+
+  //#endregion
 }

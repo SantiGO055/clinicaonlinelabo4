@@ -5,6 +5,7 @@ export enum Estados {
     ACEPTADO = 'ACEPTADO',
     REALIZADO = 'REALIZADO',
     RECHAZADO = 'RECHAZADO',
+    CANCELADO = 'CANCELADO',
   }
   
 export class Turnos {
@@ -16,6 +17,7 @@ export class Turnos {
     especialidad:string;
     estado: string;
     descripcion:string;
+    resenia:string = '';
     constructor(){
       this.estado = Estados.RECHAZADO;
     }

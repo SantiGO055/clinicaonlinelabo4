@@ -40,6 +40,14 @@ export class AlertasService {
       text: mensaje,
     })
   }
+  mostraAlertaSimpleSuccess(mensaje:string,titulo:string){
+    // console.log(mensaje)
+    Swal.fire({
+      
+      title: titulo,
+      text: mensaje,
+    })
+  }
   public async mostraAlertaTurno(mensaje:string,titulo:string) {
     // console.log(mensaje)
     let retorno = false;
