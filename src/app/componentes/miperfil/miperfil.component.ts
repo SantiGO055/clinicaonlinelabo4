@@ -28,6 +28,7 @@ export class MiperfilComponent implements OnInit {
   sliderDiaSemanaString: string = 'Lunes';
   maxSliderTurno: number = 22;
   maxSliderHora: number = 19;
+  turnoAux: Turnoesp;
   constructor(
     private fireSvc: FirebaseService
   ) {
@@ -172,35 +173,7 @@ export class MiperfilComponent implements OnInit {
         break;
     }
   }
-//   botones = [
-//     '8:00',
-//     '8:30',
-//     '9:00',
-//     '9:30',
-//     '10:00',
-//     '10:30',
-//     '11:00',
-//     '11:30',
-//     '12:00',
-//     '12:30',
-//     '13:00',
-//     '13:30',
-//     '14:00',
-//     '14:30',
-//     '15:00',
-//     '15:30',
-//     '16:00',
-//     '16:30',
-//     '17:00',
-//     '17:30',
-//     '18:00',
-//     '18:30',
-//     '19:00',
 
-// ]
-  calculoHorarios(){
-
-  }
   ngOnInit(): void {
 
     this.sliderDiaSemanaString = 'Lunes';
@@ -256,7 +229,7 @@ export class MiperfilComponent implements OnInit {
       console.log(this.arrayHorarios);
 
     
-    
+      
 
   }
   
@@ -267,7 +240,7 @@ export class MiperfilComponent implements OnInit {
     console.log(this.fechaSeleccionada);
   }
 
-  calcularArrayHorarios(){
+  calcularArrayHorarios(especialidad:string){
     let aux: number;
     let auxArr: Horarios[] = [];
     let auxStr:any;
@@ -277,11 +250,7 @@ export class MiperfilComponent implements OnInit {
     if(this.sliderCantTurnos)
     for (let i = 0; i < this.sliderCantTurnos; i++) {
       
-//       horarios: Horarios[];
-// }
-// export class Horarios{
-//     hora:string;
-//     disponible:boolean;
+      
       if(i == 0){
         aux = this.sliderHoraComienzo;
         auxStr = aux.toString()
@@ -318,16 +287,25 @@ export class MiperfilComponent implements OnInit {
           auxArr.push(horarios);
         }
         
-        console.log(auxStr);
+        // console.log(auxStr);
         
       }
-      console.log(auxArr);
+      // console.log(auxArr);
       
     }
+    // auxArr contiene horarios y disponibilidad de cada uno
+    
     
     // console.log(auxStr[0]+':'+auxStr[1]);
 
+    this.turnoAux = {
+      especialidad: especialidad,
+      fecha: this.fechaSeleccionada,
+      horarios: auxArr
+    }
+    this.disp.push(JSON.parse(JSON.stringify(this.turnoAux)));
 
+    
     
   }
 
@@ -344,7 +322,17 @@ export class MiperfilComponent implements OnInit {
     };
     console.log(prueba);
     
-    this.calcularArrayHorarios()
+    this.calcularArrayHorarios(especialidad);
+    console.log(this.disp);
+    this.usuarioLogueado.disponibilidadEsp = this.disp;
+    this.fireSvc.updateUsuario(this.usuarioLogueado);
+  //   export class Turnoesp {
+  //     especialidad:string;
+  //     fecha: string;
+  //     horarios: Horarios[];
+  // }
+
+    
     // console.info(prueba);
     // this.disp.push(JSON.parse(JSON.stringify(prueba)));
     
