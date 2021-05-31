@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { EstadoTurno } from 'src/app/clases/estado-turno';
 import { Estados, Turnos } from 'src/app/clases/turnos';
 import { User } from 'src/app/clases/user';
@@ -14,10 +14,12 @@ export class MisturnosComponent implements OnInit {
 
   textoABuscar: string = '';
   descripcionBajaTurno: string = '';
+  @Input()turnos: Turnos[];
   misTurnos: Turnos[] = [];
   estados: EstadoTurno[] = [];
   usuarioLogueado: User = new User();
   estadoTurno: EstadoTurno = new EstadoTurno();
+  turnoSeleccionado: Turnos;
   constructor(
     private fireSvc: FirebaseService,
     private alertas: AlertasService
@@ -27,6 +29,7 @@ export class MisturnosComponent implements OnInit {
   ngOnInit(): void {
     this.usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
 
+    
     this.fireSvc.getAllEstados().subscribe(estados=>{
       this.estados = estados;
     });
@@ -49,7 +52,16 @@ export class MisturnosComponent implements OnInit {
         
         }
         else if(this.usuarioLogueado.especialista){
-
+          if(this.usuarioLogueado.uid == turno.especialista.uid){
+  
+            console.log("igual")
+            
+            this.misTurnos.push(turno);
+          }
+          else{
+            console.log("no es igual")
+  
+          }
         }
         
       });
@@ -57,6 +69,7 @@ export class MisturnosComponent implements OnInit {
     });
   }
   cancelarTurno(turno: Turnos){
+    this.turnoSeleccionado = turno;
     this.alertas.mostraAlertaInput('Ingrese motivo de la cancelación').then(comentario=>{
       this.estadoTurno.turno = turno;
       
@@ -65,9 +78,8 @@ export class MisturnosComponent implements OnInit {
       this.estadoTurno.fecha = this.estadoTurno.obtenerFecha();
       this.estadoTurno.hora = this.estadoTurno.obtenerHora();
       this.estadoTurno.especialista = turno.especialista;
-      this.estadoTurno.comentario = comentario;
+      this.estadoTurno.comentarioPaciente = comentario;
       this.estadoTurno.estado = Estados.CANCELADO;
-      turno.estado = Estados.CANCELADO;
       
     // especialista: User;
     // paciente: User;
@@ -78,42 +90,45 @@ export class MisturnosComponent implements OnInit {
     // comentario?:  string;
     // diagnostico?: string;
     
-      this.fireSvc.addEstado(this.estadoTurno,turno);
+    this.turnoSeleccionado.estado = Estados.CANCELADO;
+    this.fireSvc.updateTurno(this.turnoSeleccionado);
+    this.fireSvc.addEstado(this.estadoTurno,turno);
 
     });
   }
   verResenia(turno:Turnos){
-    this.alertas.mostraAlertaSimpleSuccess(turno.resenia,'Reseña del turno');
+    this.alertas.mostraAlertaSimpleSinIcono(turno.resenia,'Reseña del turno');
 
   }
   calificarAtencion(turno: Turnos){
     console.log(turno);
     this.alertas.mostraAlertaInput('Ingrese comentario sobre la atencion del especialista ' + turno.especialista.nombre +", " +turno.especialista.apellido).then(texto=>{
 
-      this.estados.forEach(element => {
-        console.log(element)
-        console.log(turno.id)
-        if(turno.id == element.turno.id){
-          this.estadoTurno.id = element.id;
-          this.estadoTurno.fecha = this.estadoTurno.obtenerFecha();
-          this.estadoTurno.hora = this.estadoTurno.obtenerHora();
-          this.estadoTurno.estado = element.estado;
+      if(texto != undefined){
 
-          this.estadoTurno.especialista = turno.especialista;
-          this.estadoTurno.especialidad = turno.especialidad;
-          
-          this.estadoTurno.resenia = texto;
-          turno.resenia = texto;
-          this.estadoTurno.turno = turno;
-          if(this.usuarioLogueado.paciente){
-            this.estadoTurno.paciente = this.usuarioLogueado;
-          }
-          this.fireSvc.addEstado(this.estadoTurno,turno);
-          
+        
+          console.log(turno.id)
+          // if(turno.id == element.turno.id){
+            this.estadoTurno.id = turno.id;
+            this.estadoTurno.fecha = this.estadoTurno.obtenerFecha();
+            this.estadoTurno.hora = this.estadoTurno.obtenerHora();
+            this.estadoTurno.estado = turno.estado;
   
-          
-        }
-      });
+            this.estadoTurno.especialista = turno.especialista;
+            this.estadoTurno.especialidad = turno.especialidad;
+            
+            this.estadoTurno.comentarioPaciente = texto;
+            turno.comentarioPaciente = texto;
+            this.estadoTurno.turno = turno;
+            if(this.usuarioLogueado.paciente){
+              this.estadoTurno.paciente = this.usuarioLogueado;
+            }
+            this.fireSvc.addEstado(this.estadoTurno,turno);
+            
+    
+            
+          // }
+      }
     });
   }
 

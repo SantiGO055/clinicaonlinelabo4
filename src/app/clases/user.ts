@@ -18,7 +18,7 @@ export class User {
     paciente?:boolean;
     password?:string;
     disponibilidad?:any;
-    disponibilidadEsp?:any[];
+    disponibilidadEsp?:Turnoesp[];
     turno?: Turnos;
     baja?:boolean;
     constructor(){
@@ -51,4 +51,13 @@ export class User {
         // console.log(fechaCompleta + "-" + fecha.getHours() + ":" + fecha.getMinutes()+ ":" +  segString);
         return fechaCompleta + "_" + fecha.getHours() + ":" + fecha.getMinutes()+ ":" +  segString;
       }
+}
+export class Turnoesp {
+    especialidad:string;
+    fecha: string;
+    horarios: Horarios[];
+}
+export class Horarios{
+    hora:string;
+    disponible:boolean;
 }

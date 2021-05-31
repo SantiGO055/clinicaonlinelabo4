@@ -93,3 +93,19 @@ button {
 button:hover, button:active, button:focus {
   background: #43A047;
 }
+@media only screen and (max-width:500px) {
+  .misturnos{
+    padding-top: 5%;
+  }
+  /* For mobile phones: */
+  small{
+    font-size: 1.2rem;
+  }
+}
+@media only screen and (max-width: 768px) {
+  /* For desktop: */
+  .misturnos{
+    padding-top: 5%;
+  }
+  
+}

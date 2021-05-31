@@ -11,7 +11,7 @@ export class EstadoTurno {
     hora:string;
     estado: string;
     turno: Turnos;
-    comentario?:  string;
+    comentarioPaciente?:  string;
     resenia?:  string;
     diagnostico?: string;
     

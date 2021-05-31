@@ -26,7 +26,7 @@
 
         </app-listarturnos>
     </div>
-    <div *ngIf="muestroMedicos">
+    <!-- <div *ngIf="muestroMedicos">
     
         <h4 *ngIf="medicosSeleccionados.length > 0">{{medicoString | appCortarLetra: medicosSeleccionados }}</h4>
         <div  class="btn-group" role="groupMedico" aria-label="groupMedico">
@@ -84,7 +84,6 @@
                         
                     </tbody>
                 </table>
-                <!-- Si admin esta logueado, selecciono el paciente -->
                 <div *ngIf="usuarioLogueado.admin">
                     <h5>Paciente</h5>
                     <table  class="table table-striped form-group">
@@ -105,10 +104,7 @@
                                 <td>{{paciente.nombre}}</td>
                                 <td>{{paciente.email}}</td>
                                 <td>{{paciente.dni}}<button class="btn btn-primary" (click)="seleccionPaciente(paciente)">Seleccionar paciente</button></td>
-                                <!-- <td >
-                                    <p *ngFor="let horarios of medicoSeleccionado.disponibilidadEsp"> {{horarios.fechayhora | date: "medium"}} <button>Tomar turno</button> </p>
-                                    
-                                </td> -->
+                                
                                 
                 
                                 
@@ -143,7 +139,7 @@
     
                 </div>
         </div>
-    </div>
+    </div> -->
     
       
     

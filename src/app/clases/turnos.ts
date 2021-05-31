@@ -18,6 +18,7 @@ export class Turnos {
     estado: string;
     descripcion:string;
     resenia:string = '';
+    comentarioPaciente:string = '';
     constructor(){
       this.estado = Estados.RECHAZADO;
     }

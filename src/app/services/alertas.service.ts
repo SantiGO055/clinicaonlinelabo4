@@ -43,7 +43,14 @@ export class AlertasService {
   mostraAlertaSimpleSuccess(mensaje:string,titulo:string){
     // console.log(mensaje)
     Swal.fire({
-      
+      icon: 'success',
+      title: titulo,
+      text: mensaje,
+    })
+  }
+  mostraAlertaSimpleSinIcono(mensaje:string,titulo:string){
+    // console.log(mensaje)
+    Swal.fire({
       title: titulo,
       text: mensaje,
     })
@@ -88,6 +95,7 @@ export class AlertasService {
       },
       showCancelButton: true
     })
+    console.log(text);
     
     return text;
   }

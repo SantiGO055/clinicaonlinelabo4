@@ -1,5 +1,5 @@
 .contenedorBotones{
-    height: 800px;
+    height: auto;
     display:flex;
     flex-direction: column;
   }

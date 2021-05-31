@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from 'src/app/clases/user';
+import { Horarios, Turnoesp, User } from 'src/app/clases/user';
 import { FirebaseService } from 'src/app/services/firebase.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class MiperfilComponent implements OnInit {
   disponibilidad: string;
   mostrarHorario: boolean;
   especialidad: string;
-  disp:string[] = [];
+  disp:Turnoesp[] = [];
   hoy: Date = new Date(Date.now());
   diaSeleccionado: Date = new Date();
   fechaSeleccionada = this.hoy.getFullYear()+'-'+(this.hoy.getMonth()+1)+'-'+this.hoy.getDate()+'T00:00:00';
@@ -35,13 +35,20 @@ export class MiperfilComponent implements OnInit {
    }
 
   calcularSlider(){
+    var date = new Date(this.hoy.getTime());
+    date.setDate(date.getDate() + (this.sliderDiaSemana +-1) - (date.getDay() + 6) % 7);
 
+    let fecha = date.getDate() + "/"+ (date.getMonth()+1) + "/" + date.getFullYear();
+    this.fechaSeleccionada = fecha;
+    // var currentDay = this.hoy.getDay();
+    // console.log(currentDay);
+    // var distance = (this.sliderDiaSemana +1) - currentDay;
+    // console.log(distance);
 
-    var currentDay = this.hoy.getDay();
-    var distance = this.sliderDiaSemana - currentDay;
-    this.diaSeleccionado.setDate(this.hoy.getDate() + distance);
-    console.log(this.diaSeleccionado);
+    // this.diaSeleccionado.setDate(this.hoy.getDate() + distance);
+    // console.log(this.diaSeleccionado);
 
+    
 
     if(this.sliderDiaSemana == 1){
       this.sliderDiaSemanaString = 'Lunes';
@@ -72,7 +79,7 @@ export class MiperfilComponent implements OnInit {
       this.sliderDiaSemanaString = 'Sabado';
       this.maxSliderHora = 14;
     }
-    console.log(this.sliderDiaSemanaString);
+    console.log(this.sliderHoraComienzo);
     switch(this.sliderHoraComienzo){
       case 19:
         this.maxSliderTurno = 0;
@@ -259,27 +266,95 @@ export class MiperfilComponent implements OnInit {
     console.log(this.maximo)
     console.log(this.fechaSeleccionada);
   }
+
+  calcularArrayHorarios(){
+    let aux: number;
+    let auxArr: Horarios[] = [];
+    let auxStr:any;
+    let horarios:any;
+    //TODO a la hora de inicio del turno le sumo 0 por el primer turno y 0.30 por cada turno de mas
+    //TODO si empiezo a las 10 hs y tengo 3 turnos le sumo 10 + 0 (1 turno) 10+0.30 (2 turnos) 10+0.30 (3 turnos)
+    if(this.sliderCantTurnos)
+    for (let i = 0; i < this.sliderCantTurnos; i++) {
+      
+//       horarios: Horarios[];
+// }
+// export class Horarios{
+//     hora:string;
+//     disponible:boolean;
+      if(i == 0){
+        aux = this.sliderHoraComienzo;
+        auxStr = aux.toString()
+          auxStr = auxStr + ':00';
+          horarios = {
+            hora: auxStr,
+            disponible: true
+          }
+          auxArr.push(horarios);
+      }
+      else{
+
+        aux += 0.50;
+        if(aux % 1 == 0){
+          auxStr = aux.toString()
+          auxStr = auxStr + ':00';
+          horarios = {
+            hora: auxStr,
+            disponible: true
+          }
+          auxArr.push(horarios);
+        }
+        else{
+          auxStr = aux.toString().split('.');
+          auxStr[1] = "30";
+    
+          auxStr = auxStr[0]+':'+auxStr[1];
+          // horarios.hora = auxStr;
+          // horarios.disponible = true;
+          horarios = {
+            hora: auxStr,
+            disponible: true
+          }
+          auxArr.push(horarios);
+        }
+        
+        console.log(auxStr);
+        
+      }
+      console.log(auxArr);
+      
+    }
+    
+    // console.log(auxStr[0]+':'+auxStr[1]);
+
+
+    
+  }
+
   seleccionDispo(especialidad: string){
 
     //TODO continuar esto
     // console.info(this.especialidad)
     console.log()
+
     const prueba = {
-      especialidad: this.especialidad,
+      especialidad: especialidad,
       fecha: this.fechaSeleccionada,
       horarios: this.arrayHorarios,
     };
+    console.log(prueba);
     
+    this.calcularArrayHorarios()
     // console.info(prueba);
-    this.disp.push(JSON.parse(JSON.stringify(prueba)));
+    // this.disp.push(JSON.parse(JSON.stringify(prueba)));
     
     
-    this.usuarioLogueado.disponibilidadEsp = this.disp;
+    // this.usuarioLogueado.disponibilidadEsp = this.disp;
     // this.usuarioLogueado.disponibilidadEsp.slice(0,1)
     // console.log(this.usuarioLogueado)
-    this.fireSvc.updateUsuario(this.usuarioLogueado);
+    // this.fireSvc.updateUsuario(this.usuarioLogueado);
     
-    console.log(this.usuarioLogueado.disponibilidadEsp);
+    // console.log(this.usuarioLogueado.disponibilidadEsp);
   }
   capturarSelectEspecialidad(value){
     console.log(value);

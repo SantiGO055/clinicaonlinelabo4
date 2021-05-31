@@ -4,13 +4,13 @@
     <div *ngFor="let turno of listadoTurnos; let i = index" class="botones">
 
         
-            
+        
             
             
         
             <label >Turno disponible para {{turno.especialidad}}:</label> 
             <div *ngFor="let hora of turno.horarios">
-                <div *ngIf="hora.disponible">
+                <div *ngIf="hora.disponible == true">
                 <button (click)="seleccionTurno(turno.fecha,hora.hora)" class="btn buttonHorarios button5 btn-redondo">
                     <div class="hora">
                         <strong>

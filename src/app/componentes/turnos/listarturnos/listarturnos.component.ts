@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Turnos } from 'src/app/clases/turnos';
-import { User } from 'src/app/clases/user';
+import { Turnoesp, User } from 'src/app/clases/user';
 
 @Component({
   selector: 'app-listarturnos',
@@ -10,7 +10,7 @@ import { User } from 'src/app/clases/user';
 export class ListarturnosComponent implements OnInit {
   
   @Input()especialidadSeleccionada: string;
-  @Input()listadoTurnos: any;
+  @Input()listadoTurnos: Turnoesp[];
   @Output()eventoSeleccionHorario: EventEmitter<any>  = new EventEmitter();
   @Input()medico: User;
 
@@ -18,7 +18,13 @@ export class ListarturnosComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.medico);
+    console.log(this.listadoTurnos);
+    this.listadoTurnos.forEach(turno => {
+      console.log(turno.especialidad);
+      turno.horarios.forEach(hora => {
+        console.log(hora);
+      });
+    });
   }
   seleccionTurno(fecha:string, hora: string){
 

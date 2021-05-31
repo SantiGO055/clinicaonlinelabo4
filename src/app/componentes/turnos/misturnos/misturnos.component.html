@@ -1,4 +1,4 @@
-<div >
+<div class="misturnos">
     
     <div class="busqueda" role="main">
         <div class="card">
@@ -9,66 +9,31 @@
               autofocus>
           </div>
     </div>
-</div>
+    </div>
 
-<table class="table table-striped form-group table-hover">
-    <thead>
-        <tr>
-            <th>Especialidad</th>
-            <th>Especialista</th>
-            <th>Estado</th>
-            <th>Fecha</th>
-            <th>Hora</th>
-            <th>Paciente</th>
-
-        </tr>
-    </thead>
-    <tbody>
-        <tr  *ngFor="let turno of misTurnos | appFilter: textoABuscar; let i = index">
-            <td>{{turno.especialidad}}</td>
-            <td>{{turno.especialista.nombre}}, {{turno.especialista.apellido}}</td>
-            <td><strong>{{turno.estado}}</strong></td>
-            <td>{{turno.fecha | date: "yyyy-MM-dd"}}</td>
-            <td>{{turno.hora}}</td>
-            <td>{{turno.paciente.nombre}}, {{turno.paciente.apellido}}</td>
-
-            <td *ngIf="turno.estado != 'REALIZADO'"><button class="btn btn-primary" (click)="cancelarTurno(turno)">Cancelar turno</button></td>
-            <td *ngIf="turno.resenia != undefined && turno.estado != 'CANCELADO'"><button class="btn btn-primary" (click)="verResenia(turno)">Ver reseña</button></td>
-            <td *ngIf="turno.estado == 'REALIZADO' "><button class="btn btn-primary" (click)="calificarAtencion(turno)">Calificar Atencion</button></td>
-
-            <!-- Completar encuesta.
-                Solamente debe estar visible si el especialista marcó el turno
-                como realizado y dejo la reseña. -->
-
-            <!-- <td><button type="button" *ngIf="usuario.aprobadoPorAdmin"(click)="habilitar(usuario,i)">{{mensajeHabilitado}}</button> </td>
-            <td><button type="button" *ngIf="!usuario.aprobadoPorAdmin"(click)="habilitar(usuario,i)">{{mensajeDeshabilitado}}</button> </td> -->
+    <div class="list-group">
+        <div *ngFor="let turno of misTurnos | appFilter: textoABuscar; let i = index">
+            <a class="list-group-item list-group-item-action" >
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{turno.especialidad}}</h5>
+                <small>{{turno.fecha | date: "yyyy-MM-dd"}} / {{turno.hora}}</small>
+            </div>
+            <p class="mb-1">Especialista: {{turno.especialista.nombre}}, {{turno.especialista.apellido}}</p>
             
-              
-            <!-- <form [formGroup]="formGroupCheck"> -->
-                <!-- <div class="form-check" > -->
-            <td *ngIf="turno.estado == 'ACEPTADO'">
-                <!-- <button class="btn btn-primary" (click)="cancelarTurno(turno,i)">Cancelar turno</button> -->
+            <p>
+                Estado: <strong>{{turno.estado}}</strong>
 
+            </p>
 
-            </td>
-                <!-- </div> -->
-                <!-- <div class="row" *ngIf="!spinner"> -->
-                <!-- </div> -->
+            <small>Paciente: {{turno.paciente.nombre}}, {{turno.paciente.apellido}}</small>
+            <td *ngIf="turno.estado != 'REALIZADO' && turno.estado != 'CANCELADO'"><button class="btn btn-primary" (click)="cancelarTurno(turno)">Cancelar turno</button></td>
+                <td *ngIf="turno.resenia != undefined && turno.estado != 'CANCELADO'"><button class="btn btn-primary" (click)="verResenia(turno)">Ver reseña</button></td>
+                <td *ngIf="turno.estado == 'REALIZADO' "><button class="btn btn-primary" (click)="calificarAtencion(turno)">Calificar Atencion</button></td>
+            </a>
 
-            <!-- </form> -->
-            
-            
-            <!-- <button *ngIf="habilitado" (click)="deshabilitar(usuario,i)">{{mensajeBoton}}</button> -->
-            <!-- <td><button *ngIf="usuario.aprobadoPorAdmin" (click)="deshabilitar(usuario,i)">{{mensajeBoton}}</button></td> -->
-
-            <!-- <td><button (click)="aprobarUsuario(usuario,i)">Aprobar</button></td> -->
-            <!-- <td><button type="button" class="btn btn-info  btn-circle" (click)="mostrarDetalles(alumno)"><i class="fa fa-check"></i> -->
-                <!-- </button></td> -->
-            </tr>
-
-            
-        </tbody>
+        </div>
         
-    </table>
+    </div>
+
 
 </div>
