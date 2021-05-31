@@ -1,0 +1,45 @@
+<div class="contenedorBotones" >
+    <div *ngFor="let medico of especialistas; let i = index" class="botones">
+        <!-- <div class="row"> -->
+
+        
+            <!-- <div class="span6"> -->
+            
+                <div *ngIf="medico.disponibilidadEsp != undefined">
+                    <label > <strong>
+                        Medico: {{medico.nombre}}, {{medico.apellido}} 
+
+                    </strong>
+                </label> 
+                <div *ngIf="medico.disponibilidadEsp.length > 0 && medico.disponibilidadEsp.length != 1">
+                            <button (click)="seleccionMedico(medico,medico.disponibilidadEsp[i])" style="background: url('{{medico.fotoPerfil}}');" class="btn buttonEspecialista button5 btn-redondo"></button>
+                            <label>
+                                <strong>
+                                    Especialidad:
+
+                                </strong>
+        
+                                </label> 
+                            <div *ngFor="let dispo of medico.disponibilidadEsp">
+                                <label>
+                                {{dispo.especialidad}}
+        
+                                </label> 
+                                
+                            </div>
+                
+                        </div>
+
+                
+                    <div *ngIf="medico.disponibilidadEsp.length == 1">
+                        <button (click)="seleccionMedico(medico,medico.disponibilidadEsp[0])" style="background: url('{{medico.fotoPerfil}}');" class="btn buttonEspecialista button5 btn-redondo"></button>
+                        <label>Especialidad: {{medico.disponibilidadEsp[0].especialidad}}</label> 
+            
+                    </div>
+
+                </div>
+        
+            <!-- </div>
+        </div> -->
+    </div>
+</div>

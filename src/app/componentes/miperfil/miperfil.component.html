@@ -1,10 +1,10 @@
 
 
 
-  <div class="card mb-3" style="max-width: 540px;">
+  <div class="card mb-3" >
     <div class="row g-0">
       <div class="col-md-4">
-        <img src={{usuarioLogueado.fotoPerfil}} style="height: 100px;" class="card-img" alt="...">
+        <img src={{usuarioLogueado.fotoPerfil}} style="height: 150px;" class="card-img" alt="...">
         <img *ngIf="usuarioLogueado.fotoPerfilDos" src={{usuarioLogueado.fotoPerfilDos}} class="card-img" alt="...">
       </div>
       <div class="col-md-8">
@@ -26,7 +26,35 @@
                     
                 </div>
                 <div>
+
                   <strong>Agregar disponibilidad: </strong>
+                  <label class="custom-control-label">Seleccione dia de la semana: </label>
+                  <label class="custom-control-label"> {{sliderDiaSemanaString}}</label>
+                  <br>
+                  <input type="range" min="1" max="6" type="range" (change)="calcularSlider()" [(ngModel)]="sliderDiaSemana">
+                  <br>
+                  <label class="custom-control-label">Seleccione horario de comienzo de atencion: </label>
+                  <label *ngIf="sliderHoraComienzo != undefined" class="custom-control-label"> {{sliderHoraComienzo}} hs</label>
+                  <br>
+                  <input type="range" min="8" max={{maxSliderHora}} type="range"  (change)="calcularSlider()"[(ngModel)]="sliderHoraComienzo">
+                  <br>
+
+                  <label class="custom-control-label">Seleccione cantidad de turnos a tomar: </label>
+                  <label *ngIf="sliderCantTurnos != undefined" class="custom-control-label">  {{sliderCantTurnos}} turnos</label>
+                  <br>
+                  <input *ngIf="sliderHoraComienzo != 19" type="range" min="1" max={{maxSliderTurno}} type="range" (change)="calcularSlider()" [(ngModel)]="sliderCantTurnos">
+                  
+                  
+
+                  
+                  <div *ngFor="let esp of usuarioLogueado.descripcion">
+                    
+                    <button class="btn btn-primary" (click)="seleccionDispo(esp)">Agregar turno para {{esp}}</button>
+                      
+                      <!-- <input type="datetime-local" [(ngModel)]="usuarioLogueado.disponibilidadEsp"> <input type="button" (click)="seleccionDispo(esp)" value="Agregar"> -->
+                      
+                  </div>
+
                     <ng-select [(ngModel)]="especialidad" (change)="capturarSelectEspecialidad(especialidad)" >
                       <ng-option *ngFor="let esp of usuarioLogueado.descripcion"> {{esp}} </ng-option>
                     </ng-select>
@@ -46,7 +74,7 @@
                      </div>
                      
                     </div>
-                    <input type="button" (click)="seleccionDispo()" value="Agregar">
+                    <!-- <input type="button" (click)="seleccionDispo()" value="Agregar"> -->
                   </form>
                   </div>
 

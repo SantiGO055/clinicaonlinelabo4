@@ -15,54 +15,197 @@ export class MiperfilComponent implements OnInit {
   especialidad: string;
   disp:string[] = [];
   hoy: Date = new Date(Date.now());
+  diaSeleccionado: Date = new Date();
   fechaSeleccionada = this.hoy.getFullYear()+'-'+(this.hoy.getMonth()+1)+'-'+this.hoy.getDate()+'T00:00:00';
   minimo = this.hoy.getFullYear()+'-0'+(this.hoy.getMonth()+1)+'-'+(this.hoy.getDate());
   horaSeleccionada: string = '';
   maximo = '2021-12-31';
   arrayHorarios:any[] = [];
   horariosAElegir: any[] = [];
+  sliderHoraComienzo: number;
+  sliderCantTurnos: number;
+  sliderDiaSemana: number = 1;
+  sliderDiaSemanaString: string = 'Lunes';
+  maxSliderTurno: number = 22;
+  maxSliderHora: number = 19;
   constructor(
     private fireSvc: FirebaseService
-  ) { }
+  ) {
+    console.log(this.sliderHoraComienzo);
+   }
 
-  botones = [
-    '8:00',
-    '8:30',
-    '9:00',
-    '9:30',
-    '10:00',
-    '10:30',
-    '11:00',
-    '11:30',
-    '12:00',
-    '12:30',
-    '13:00',
-    '13:30',
-    '14:00',
-    '14:30',
-    '15:00',
-    '15:30',
-    '16:00',
-    '16:30',
-    '17:00',
-    '17:30',
-    '18:00',
-    '18:30',
-    '19:00',
+  calcularSlider(){
 
-]
+
+    var currentDay = this.hoy.getDay();
+    var distance = this.sliderDiaSemana - currentDay;
+    this.diaSeleccionado.setDate(this.hoy.getDate() + distance);
+    console.log(this.diaSeleccionado);
+
+
+    if(this.sliderDiaSemana == 1){
+      this.sliderDiaSemanaString = 'Lunes';
+      this.maxSliderHora = 19;
+
+    }
+    if(this.sliderDiaSemana == 2){
+      this.sliderDiaSemanaString = 'Martes';
+      this.maxSliderHora = 19;
+
+
+    }
+    if(this.sliderDiaSemana == 3){
+      this.sliderDiaSemanaString = 'Miercoles';
+      this.maxSliderHora = 19;
+
+    }
+    if(this.sliderDiaSemana == 4){
+      this.sliderDiaSemanaString = 'Jueves';
+      this.maxSliderHora = 19;
+
+    }
+    if(this.sliderDiaSemana == 5){
+      this.sliderDiaSemanaString = 'Viernes';
+      this.maxSliderHora = 19;
+    }
+    if(this.sliderDiaSemana == 6){
+      this.sliderDiaSemanaString = 'Sabado';
+      this.maxSliderHora = 14;
+    }
+    console.log(this.sliderDiaSemanaString);
+    switch(this.sliderHoraComienzo){
+      case 19:
+        this.maxSliderTurno = 0;
+
+        break;
+      case 18:
+        this.maxSliderTurno = 2;
+
+        break;
+      case 17:
+        this.maxSliderTurno = 4;
+
+        break;
+      case 16:
+        this.maxSliderTurno = 6;
+
+        break;
+      case 15:
+        this.maxSliderTurno = 8;
+        break;
+      case 14:
+        if(this.sliderDiaSemana == 6){
+          this.maxSliderTurno = 0;
+
+        }
+        else{
+
+          this.maxSliderTurno = 10;
+        }
+        break;
+      case 13:
+        if(this.sliderDiaSemana == 6){
+          this.maxSliderTurno = 2;
+
+        }
+        else{
+
+          this.maxSliderTurno = 12;
+        }
+        break;
+      case 12:
+        if(this.sliderDiaSemana == 6){
+          this.maxSliderTurno = 4;
+
+        }
+        else{
+
+          this.maxSliderTurno = 14;
+        }
+        break;
+      case 11:
+        if(this.sliderDiaSemana == 6){
+          this.maxSliderTurno = 6;
+
+        }
+        else{
+
+          this.maxSliderTurno = 16;
+        }
+        break;
+      case 10:
+        if(this.sliderDiaSemana == 6){
+          this.maxSliderTurno = 8;
+
+        }
+        else{
+
+          this.maxSliderTurno = 18;
+        }
+        break;
+      case 9:
+        if(this.sliderDiaSemana == 6){
+          this.maxSliderTurno = 10;
+
+        }
+        else{
+
+          this.maxSliderTurno = 20;
+        }
+        break;
+      case 8:
+        if(this.sliderDiaSemana == 6){
+          this.maxSliderTurno = 12;
+
+        }
+        else{
+
+          this.maxSliderTurno = 22;
+        }
+        break;
+    }
+  }
+//   botones = [
+//     '8:00',
+//     '8:30',
+//     '9:00',
+//     '9:30',
+//     '10:00',
+//     '10:30',
+//     '11:00',
+//     '11:30',
+//     '12:00',
+//     '12:30',
+//     '13:00',
+//     '13:30',
+//     '14:00',
+//     '14:30',
+//     '15:00',
+//     '15:30',
+//     '16:00',
+//     '16:30',
+//     '17:00',
+//     '17:30',
+//     '18:00',
+//     '18:30',
+//     '19:00',
+
+// ]
   calculoHorarios(){
 
   }
   ngOnInit(): void {
-    this.botones.forEach(element => {
-      let horario = {
-        hora: element,
-        disponible: true
-      }
-      this.horariosAElegir.push(horario);
+
+    this.sliderDiaSemanaString = 'Lunes';
+
+    // this.botones.forEach(element => {
+    //   let horario = {
+    //     hora: element,
+    //     disponible: true
+    //   }
+    //   this.horariosAElegir.push(horario);
       
-    });
+    // });
     console.log(this.horariosAElegir);
     console.log(this.minimo)
     console.log(this.maximo)
@@ -116,7 +259,9 @@ export class MiperfilComponent implements OnInit {
     console.log(this.maximo)
     console.log(this.fechaSeleccionada);
   }
-  seleccionDispo(){
+  seleccionDispo(especialidad: string){
+
+    //TODO continuar esto
     // console.info(this.especialidad)
     console.log()
     const prueba = {

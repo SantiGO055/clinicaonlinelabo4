@@ -52,7 +52,7 @@
 .login-page {
   width: 360px;
   height: auto;
-  padding: 8% 0 0;
+  padding: 10% 0 0;
   margin: auto;
   animation-name: loginRegister;
   animation-duration: 0.2s;
@@ -161,4 +161,39 @@ body {
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;      
+}
+
+@media only screen and (min-width: 501px) {
+  /* For tablets: */
+  .login-page {width: 50%;}
+  .cardLogueo{
+    margin-top: -5%;
+    margin-left: 20%;
+  }
+  
+}
+@media only screen and (min-width: 768px) {
+  /* For desktop: */
+  .cardLogueo{
+    
+    margin-top: -30%;
+    margin-left: 1%;
+  }
+  
+}
+@media only screen and (max-width:500px) {
+  /* For mobile phones: */
+  .cardLogueo{
+    margin-top: -10%;
+    margin-left: 20%;
+    
+
+  }
+  .register-page {
+    height: 500px;
+    
+  }
+  .botones{
+    height: 800px;
+  }
 }

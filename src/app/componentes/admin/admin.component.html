@@ -15,7 +15,7 @@
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Email</th>
-                    <th>Habilitar usuario</th>
+                    <th *ngIf="!habilitado">Habilitar usuario</th>
                     <div *ngIf="mostrarBaja">
                         <th >Baja</th>
 

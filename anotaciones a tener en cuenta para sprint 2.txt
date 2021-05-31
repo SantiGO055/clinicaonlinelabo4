@@ -23,5 +23,29 @@ estadosTurnos = {
     diagnostico?: "diagnostico del medico en caso de que haya"
 }
 
+Modificar para que se vea responsive para celular
 
-COMENTARIO ES LO MISMO QUE RESEÑA?
+1 solo click para sacar turno: 10
+2 click para sacar turno: 8
+NO USAR TABLE: Chequear si funca ul li
+para sacar turno mostrar todos los medicos de una para elegir los horarios con 2 click
+
+Para sprint 3:
+modificar alta:
+mostrar TODOS los especialistas
+1) listado con 1 boton por cada profesional por c/u de sus especialidades, si el medico tiene varias especialidades muestro un listado de
+ese medico con las distintas especialidades, apellido, foto de perfil
+2) cuando selecciono uno permite listar en otro componente botones,
+cada boton muestra fecha y hora ordenado por fecha
+el texto del boton puede tener un pipe donde acorte el texto
+3) abajo se tiene un listado de fav button con todas las especialidades con imagenes distintas, solamente para especialidades predeterminadas, nuevas especialidades se agregan
+con foto por defecto, este mismo componente de listado de especialidades (ngfor y button) filtra el listado especialistas para sacar turno
+
+
+en seleccion de disponibilidad
+lunes a sabado
+rango de horario con slider
+inicio y candidad de horar
+que calcule la cantidad de turnos por dia y especialidad
+sin calendar, sin select ni datetime picker
+con slider selecciono candidad de turnos

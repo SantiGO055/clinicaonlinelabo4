@@ -1,5 +1,27 @@
 
 
+@media only screen and (min-width: 600px) {
+  /* For tablets: */
+  .register-page {width: 50%;}
+
+  
+}
+@media only screen and (min-width: 768px) {
+  /* For desktop: */
+  .register-page {width: 80%;}
+  
+}
+@media only screen and (max-width:500px) {
+  /* For mobile phones: */
+  .register-page {
+    height: 500px;
+    
+  }
+  .botones{
+    height: 800px;
+  }
+}
+/* btn buttonEspecialista button5 btn-redondo */
 .borderFade {
     padding-bottom: 1px;
     color: hsl(222, 25%, 14%);
@@ -51,7 +73,7 @@ small{
   /* flex-direction: row; */
 }
 .register-page {
-  width: 500px;
+  
   height: auto;
   padding: 5% 0 0;
   margin: auto;
@@ -236,7 +258,7 @@ img{
 .button4 {border-radius: 12px;}
 .button5 {border-radius: 50%;}
 
-.btn-redondoEsp {
+.btn-redondo {
   display:block;
   height: 200px;
   width: 200px;

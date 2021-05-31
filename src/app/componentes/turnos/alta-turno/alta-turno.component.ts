@@ -23,7 +23,7 @@ export class AltaTurnoComponent implements OnInit {
   medicosSeleccionados:User[]=[];
   medicoSeleccionado:User;
   usuarioLogueado:User;
-  especialidadSeleccionada:string;
+  especialidadSeleccionada:any;
   public isCollapsed: boolean[] = [];
   muestroEspecialidades:boolean = false;
   muestroMedicos:boolean = false;
@@ -33,6 +33,9 @@ export class AltaTurnoComponent implements OnInit {
   mostrarBotonConfirmar: boolean = false;
   seleccionePaciente: boolean = false;
   medicoString: string = 'Medico';
+  seleccioneMedico: boolean= false;
+  seleccioneEspecialidad: boolean= false;
+  listadoTurnos: any;
 
   constructor(
     private fireSvc: FirebaseService,
@@ -62,7 +65,6 @@ export class AltaTurnoComponent implements OnInit {
       usuarios.forEach(usr => {
         if(usr.especialista){
           // console.log(usr)
-          console.log(this.especialistas)
           
           this.especialistas.push(JSON.parse(JSON.stringify(usr)));
         }
@@ -82,24 +84,24 @@ export class AltaTurnoComponent implements OnInit {
     this.mostrarMensajeSeleccion = false;
     this.mostrarMensajePaciente = false;
     this.muestroMedicos = false;
-    console.log(this.medicoString);
+    // console.log(this.medicoString);
 
     this.especialidadSeleccionada = especialidad;
     // console.log(especialidad)
    this.mostrarTurnos = false;
    this.muestroMedicos = true;
     this.medicosSeleccionados.splice(0);
-   console.log(this.especialistas);
+  //  console.log(this.especialistas);
    this.especialistas.forEach((espEsp: User) => {
      //TODO chequear esto
-    console.log(espEsp)
+    // console.log(espEsp)
     if(espEsp.disponibilidadEsp){
 
     
      espEsp.disponibilidadEsp.forEach(esp => {
         //  console.log(esp)
         esp.horarios.forEach(hora => {
-          console.log(hora);
+          // console.log(hora);
           if(hora.disponible){
   
             if(esp.especialidad == especialidad){
@@ -141,32 +143,35 @@ export class AltaTurnoComponent implements OnInit {
     this.mostrarMensajePaciente = false; 
    this.medicoSeleccionado = medico;
    
-   console.log(this.medicoSeleccionado);
+  //  console.log(this.medicoSeleccionado);
    
   }
   tomarTurno(fecha:string, horario: string,medico: User){
     // console.log(fecha)
     // console.log(horario)
-    this.mostrarBotonConfirmar = true;
   
     
    this.mostrarMensajeSeleccion = true;
    //  console.log(this.especialidadSeleccionada)
     this.turno.especialidad = this.especialidadSeleccionada;
-    this.turno.especialista = medico;
+    this.turno.especialista = JSON.parse(JSON.stringify(medico));;
     this.turno.fecha = fecha;
     this.turno.hora = horario;
+    this.fireSvc.updateUsuario(this.medicoSeleccionado);
+    this.fireSvc.addTurno(this.turno);
+    this.alerta.mostraAlertaSimple('Turno confirmado correctamente para ' + this.turno.fecha + " a las "+ this.turno.hora,'Turno confirmado');
+    this.router.navigate(['/']);
     
-   //  console.log(this.turno);
+    console.log(this.turno);
   }
   seleccionPaciente(paciente:User){
    this.mostrarMensajePaciente = true;
    this.seleccionePaciente = true;
     this.pacienteSeleccionado = paciente;
-    console.log(this.pacienteSeleccionado);
+    // console.log(this.pacienteSeleccionado);
   }
   confirmarTurno(){
-    console.log(this.medicoSeleccionado);
+    // console.log(this.medicoSeleccionado);
     if(this.usuarioLogueado.admin){
       this.turno.paciente = this.pacienteSeleccionado;
     }
@@ -175,69 +180,68 @@ export class AltaTurnoComponent implements OnInit {
     }
     if(this.medicosSeleccionados != null){
 
-    
-     this.alerta.mostraAlertaTurno('Desea confirmar turno?','Confirmar turno').then(()=>{
-       if(this.alerta.confirmoTurno){
-         //TODO subir turno y modificar el usuario con el turno no disponible en esa fecha
-         console.log("confirme turno")
-         console.log(this.medicoSeleccionado);
+        //TODO subir turno y modificar el usuario con el turno no disponible en esa fecha
+        console.log("confirme turno")
+        console.log(this.medicoSeleccionado);
 
-         for (let i = 0; i < this.medicoSeleccionado.disponibilidadEsp.length; i++) {
-           const element = this.medicoSeleccionado.disponibilidadEsp[i];
-          //  console.log(element);
-          //  console.log(this.turno);
-          if(this.turno.fecha == this.medicoSeleccionado.disponibilidadEsp[i].fecha 
-            && this.turno.especialidad == this.turno.especialidad
-            
-            ){
-              for (let j = 0; j < this.medicoSeleccionado.disponibilidadEsp[i].horarios.length; j++) {
-                const element = this.medicoSeleccionado.disponibilidadEsp[i].horarios[j];
-                
-                if(this.turno.hora == this.medicoSeleccionado.disponibilidadEsp[i].horarios[j].hora)
-                {
-                  console.log("horario ok");
-                  console.log(this.medicoSeleccionado.disponibilidadEsp[i].horarios);
-                  this.medicoSeleccionado.disponibilidadEsp[i].horarios[j].disponible = false;
-                }
-              }
-             
-             
-             this.turno.especialista = JSON.parse(JSON.stringify(this.medicoSeleccionado));
-             this.turno.especialista.disponibilidadEsp = null;
-             this.turno.especialista.descripcion = null;
-             console.log(this.turno);
-             console.log(this.medicoSeleccionado);
-             this.fireSvc.updateUsuario(this.medicoSeleccionado);
-             this.fireSvc.addTurno(this.turno);
-             this.router.navigate(['/']);
+        // for (let i = 0; i < this.medicoSeleccionado.disponibilidadEsp.length; i++) {
+          // const element = this.medicoSeleccionado.disponibilidadEsp[i];
+        //  console.log(element);
+        //  console.log(this.turno);
+        // if(this.turno.fecha == this.medicoSeleccionado.disponibilidadEsp[i].fecha 
+        //   && this.turno.especialidad == this.turno.especialidad
+          
+        //   ){
+        //     for (let j = 0; j < this.medicoSeleccionado.disponibilidadEsp[i].horarios.length; j++) {
+        //       const element = this.medicoSeleccionado.disponibilidadEsp[i].horarios[j];
               
-          }
-           
-         }
-        //  this.medicoSeleccionado.disponibilidadEsp.forEach(element => {
-        //    console.log(element.especialidad)
-        //    console.log(this.especialidadSeleccionada)
-        //      console.log("hola");
-        //      let aux = {
-        //        disponibilidad: false,
-        //        especialidad: this.especialidadSeleccionada,
-        //        fechayhora: this.turno.fecha
-        //      }
-             
-        //      element = aux;
+        //       if(this.turno.hora == this.medicoSeleccionado.disponibilidadEsp[i].horarios[j].hora)
+        //       {
+        //         console.log("horario ok");
+        //         console.log(this.medicoSeleccionado.disponibilidadEsp[i].horarios);
+        //         this.medicoSeleccionado.disponibilidadEsp[i].horarios[j].disponible = false;
+        //       }
+        //     }
+            
+        this.medicoSeleccionado.disponibilidadEsp.forEach(turno => {
+          // if(turno.especialidad == )
+          turno.horarios.forEach(element => {
+            
+          });
+          // if(turno)
+        }); 
 
-        //     console.log(element);
-        //     // this.fireSvc.updateUsuario()
-        //     console.log(this.medicoSeleccionado)
-           
-           
-        //  });
+          // this.turno.especialista = 
+          this.turno.especialista.disponibilidadEsp = null;
+          this.turno.especialista.descripcion = null;
+          console.log(this.turno);
+          console.log(this.medicoSeleccionado);
+          // this.fireSvc.updateUsuario(this.medicoSeleccionado);
+          // this.fireSvc.addTurno(this.turno);
+          // this.router.navigate(['/']);
+            
+          // }
+          
+        // }
+      //  this.medicoSeleccionado.disponibilidadEsp.forEach(element => {
+      //    console.log(element.especialidad)
+      //    console.log(this.especialidadSeleccionada)
+      //      console.log("hola");
+      //      let aux = {
+      //        disponibilidad: false,
+      //        especialidad: this.especialidadSeleccionada,
+      //        fechayhora: this.turno.fecha
+      //      }
+            
+      //      element = aux;
+
+      //     console.log(element);
+      //     // this.fireSvc.updateUsuario()
+      //     console.log(this.medicoSeleccionado)
+          
+          
+      //  });
          
-       }
-       else{
-         console.log("no confirme turno")
-       }
-     });
     }
    //  if(this.alerta.mostraAlertaTurno('Desea confirmar turno?','Confirmar turno')){
    //    this.medicoSeleccionado.disponibilidadEsp.forEach((asd)=>{
@@ -278,5 +282,34 @@ export class AltaTurnoComponent implements OnInit {
     if ($event.panelId === 'preventchange-3' && $event.nextState === false) {
       $event.preventDefault();
     }
+  }
+  capturarMedicoSeleccion(e){
+    this.medicoSeleccionado = e;
+    // console.log(this.medicoSeleccionado);
+    
+    this.seleccioneMedico = true;
+    this.listadoTurnos = this.medicoSeleccionado.disponibilidadEsp;
+
+    console.log(this.listadoTurnos);
+  }
+  capturarEspSeleccionada(e){
+    this.especialidadSeleccionada = e;
+
+    this.seleccioneEspecialidad = true;
+    // if(this.medicoSeleccionado.disponibilidadEsp.length > 0 && this.medicoSeleccionado.disponibilidadEsp != null){
+
+    //   this.medicoSeleccionado.disponibilidadEsp.forEach(turnos => {
+    //     if(turnos.especialidad == this.especialidadSeleccionada){
+  
+    //       this.listadoTurnos = turnos;
+    //       console.log(this.listadoTurnos);
+    //     }
+    //   });
+    // }
+    
+  }
+  capturarEventoTomarTurno(e){
+    console.log(this.medicoSeleccionado)
+    this.tomarTurno(e.fecha,e.hora,this.medicoSeleccionado);
   }
 }

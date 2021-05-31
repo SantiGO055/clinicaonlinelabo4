@@ -3,11 +3,10 @@
     flex-direction: row !important;
 }
 img{
-   width:  10rem;
+   width:  11rem;
 }
 .logueo{
-    margin-top: -10%;
-    
+    margin-top: -10%;    
 }
 .card-body{
     margin-left: 15%;
@@ -31,3 +30,10 @@ img{
   .form button:hover,.form button:active,.form button:focus {
     background: #43A047;
   }
+
+@media only screen and (max-width:500px) {
+    /* For mobile phones: */
+    img{
+        width: 100%;
+    }
+}

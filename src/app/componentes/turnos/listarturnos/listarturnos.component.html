@@ -1,0 +1,45 @@
+<hr>
+<div class="contenedorBotones" >
+    
+    <div *ngFor="let turno of listadoTurnos; let i = index" class="botones">
+
+        
+            
+            
+            
+        
+            <label >Turno disponible para {{turno.especialidad}}:</label> 
+            <div *ngFor="let hora of turno.horarios">
+                <div *ngIf="hora.disponible">
+                <button (click)="seleccionTurno(turno.fecha,hora.hora)" class="btn buttonHorarios button5 btn-redondo">
+                    <div class="hora">
+                        <strong>
+                            {{turno.fecha}}
+                        </strong>
+                        <strong> {{hora.hora}}</strong>
+
+                    </div>
+                    </button>
+                </div>
+        </div>
+        
+    </div>
+        <!-- <div *ngIf="medico.descripcion.length > 1">
+            <div *ngFor="let especialidad of medico.descripcion; let i = index">
+                {{especialidad}}
+                <button (click)="seleccionMedico(medico,medico.descripcion[i])" class="btn buttonEspecialista button5 btn-redondo"></button>
+            </div>
+
+        </div> -->
+        <!-- <div *ngIf="medico.descripcion.length == 1"> -->
+        
+        
+
+        <!-- </div> -->
+        <div class="labelEsp">
+            
+
+            
+        </div>
+
+</div>

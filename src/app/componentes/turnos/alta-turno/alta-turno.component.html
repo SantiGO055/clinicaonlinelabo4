@@ -7,17 +7,24 @@
     <h4>Especialidades</h4>
     
     
-    <div >
-        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-            <div *ngFor="let especialidad of especialidades">
-                <input type="radio" class="btn-check" name="btnradio" id={{especialidad}} autocomplete="off" (change)="capturarEsp(especialidad)">
-                <label class="btn btn-outline-primary" for={{especialidad}}>{{especialidad}}</label>
     
-            </div>
-          
-          
-        </div>
     </div>
+    <div >
+        <app-listarmedicos [especialistas]="especialistas" 
+        (eventoSeleccionMedico)="capturarMedicoSeleccion($event)"
+         (eventoSeleccionEspecialidad)="capturarEspSeleccionada($event)">
+
+        </app-listarmedicos>
+
+    </div>
+    <div *ngIf="seleccioneMedico && seleccioneEspecialidad">
+        <app-listarturnos [listadoTurnos]="listadoTurnos"
+        [especialidadSeleccionada]="especialidadSeleccionada"
+        [medico]="medicoSeleccionado"
+        (eventoSeleccionHorario)="capturarEventoTomarTurno($event)"
+        >
+
+        </app-listarturnos>
     </div>
     <div *ngIf="muestroMedicos">
     
@@ -32,6 +39,7 @@
                 <small>No hay turnos disponibles</small>
             </div>
         </div>
+
         <div *ngIf="mostrarTurnos">
             <h5 >Medico</h5>
             <table class="table table-striped form-group">

@@ -1,0 +1,57 @@
+.contenedorBotones{
+    height: auto;
+    display:flex;
+    flex-direction: row;
+  }
+  .botones{
+    padding: 2%;
+  }
+  .labelEspl{
+      
+  }
+  .btn:hover{
+    box-shadow: 0px 8px 15px rgb(0, 0, 0);
+    opacity: 1;
+  
+  }
+  .buttonEspecialista {
+    
+    background-repeat:no-repeat;
+    background-position: center center;
+    /* min-height:20%; */
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-size: 95%;
+    
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    position: relative;
+  
+    
+  }
+  .button5 {border-radius: 50%;}
+  
+  .btn-redondo {
+    display:block;
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+  
+    border: 1px solid rgb(0, 0, 0);
+  
+    opacity: 0.8;
+    box-shadow: 0px 8px 15px rgb(70, 68, 68);
+    
+    
+  }
+  .medico {
+    border-right: 1px solid #333;
+  }
