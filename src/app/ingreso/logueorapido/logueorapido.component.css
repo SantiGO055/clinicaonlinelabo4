@@ -37,3 +37,10 @@ img{
         width: 100%;
     }
 }
+@media only screen and (min-width:1300px) {
+    /* For mobile phones: */
+    .logueo{
+        margin-top: 15%;    
+
+    }
+}

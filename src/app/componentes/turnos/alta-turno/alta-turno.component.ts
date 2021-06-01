@@ -147,25 +147,16 @@ export class AltaTurnoComponent implements OnInit {
    
   }
   tomarTurno(fecha:string, horario: string,medico: User){
-    // console.log(fecha)
-    // console.log(horario)
   
+    if(this.usuarioLogueado.admin){
+      this.turno.paciente = this.pacienteSeleccionado;
+    }
+    else{
+      this.turno.paciente = this.usuarioLogueado;
+    }
     
    this.mostrarMensajeSeleccion = true;
-   //  console.log(this.especialidadSeleccionada)
     this.turno.especialidad = this.especialidadSeleccionada.especialidad;
-    // for (let i = 0; i < medico.disponibilidadEsp.length; i++) {
-    //   const turnos = medico.disponibilidadEsp[i];
-    //   if(turnos.especialidad == this.especialidadSeleccionada){
-    //     for (let j = 0; j < turnos.horarios.length; j++) {
-    //      if(turnos.horarios[j].disponible && turnos.horarios[j].hora && turnos.fecha == fecha){
-    //       turnos.horarios[j].disponible = false;
-    //      }
-
-          
-    //     }
-    //   }
-    // }
     this.turno.fecha = fecha;
     this.turno.hora = horario;
     for (let i = 0; i < this.medicoSeleccionado.disponibilidadEsp.length; i++) {
@@ -190,7 +181,7 @@ export class AltaTurnoComponent implements OnInit {
     this.turno.especialista = JSON.parse(JSON.stringify(medico));;
     this.turno.especialista.disponibilidadEsp = null;
     
-    this.turno.paciente = this.usuarioLogueado;
+    
 
     this.fireSvc.updateUsuario(this.medicoSeleccionado);
     this.fireSvc.addTurno(this.turno);
@@ -319,6 +310,13 @@ export class AltaTurnoComponent implements OnInit {
     }
   }
   capturarMedicoSeleccion(e){
+
+    if(this.usuarioLogueado.admin){
+      this.seleccionePaciente = false
+    }
+    else{
+      this.seleccionePaciente = true;
+    }
     this.medicoSeleccionado = e;
     // console.log(this.medicoSeleccionado);
     
@@ -346,5 +344,9 @@ export class AltaTurnoComponent implements OnInit {
   capturarEventoTomarTurno(e){
     console.log(this.medicoSeleccionado)
     this.tomarTurno(e.fecha,e.hora,this.medicoSeleccionado);
+  }
+  capturarSeleccionPaciente(e){
+    this.seleccionePaciente = true;
+    this.pacienteSeleccionado = e;
   }
 }

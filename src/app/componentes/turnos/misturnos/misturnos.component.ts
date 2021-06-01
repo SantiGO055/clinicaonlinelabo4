@@ -16,6 +16,7 @@ export class MisturnosComponent implements OnInit {
   descripcionBajaTurno: string = '';
   @Input()turnos: Turnos[];
   misTurnos: Turnos[] = [];
+  allTurnos: Turnos[] = [];
   estados: EstadoTurno[] = [];
   usuarioLogueado: User = new User();
   estadoTurno: EstadoTurno = new EstadoTurno();
@@ -63,6 +64,9 @@ export class MisturnosComponent implements OnInit {
   
           }
         }
+        else{
+          this.allTurnos.push(turno);
+        }
         
       });
 
@@ -70,31 +74,127 @@ export class MisturnosComponent implements OnInit {
   }
   cancelarTurno(turno: Turnos){
     this.turnoSeleccionado = turno;
-    this.alertas.mostraAlertaInput('Ingrese motivo de la cancelación').then(comentario=>{
-      this.estadoTurno.turno = turno;
+    this.alertas.mostraAlertaInput('Ingrese motivo de la cancelación del turno').then(comentario=>{
+      if(comentario != undefined){
+
+        
+        this.estadoTurno.turno = turno;
+        
+        this.estadoTurno.paciente = turno.paciente;
+        this.estadoTurno.especialidad = turno.especialidad;
+        this.estadoTurno.fecha = this.estadoTurno.obtenerFecha();
+        this.estadoTurno.hora = this.estadoTurno.obtenerHora();
+        this.estadoTurno.especialista = turno.especialista;
+        this.estadoTurno.comentarioPaciente = comentario;
+        this.estadoTurno.estado = Estados.CANCELADO;
+        
+      // especialista: User;
+      // paciente: User;
+      // fecha: string;
+      // hora:string;
+      // estado: string;
+      // turno: Turnos;
+      // comentario?:  string;
+      // diagnostico?: string;
       
-      this.estadoTurno.paciente = turno.paciente;
-      this.estadoTurno.especialidad = turno.especialidad;
-      this.estadoTurno.fecha = this.estadoTurno.obtenerFecha();
-      this.estadoTurno.hora = this.estadoTurno.obtenerHora();
-      this.estadoTurno.especialista = turno.especialista;
-      this.estadoTurno.comentarioPaciente = comentario;
-      this.estadoTurno.estado = Estados.CANCELADO;
+      this.turnoSeleccionado.estado = Estados.CANCELADO;
+      this.fireSvc.updateTurno(this.turnoSeleccionado);
+      this.fireSvc.addEstado(this.estadoTurno,turno);
+    }
+    });
+  }
+  rechazarTurno(turno: Turnos){
+    this.turnoSeleccionado = turno;
+    this.alertas.mostraAlertaInput('Ingrese motivo del rechazo del turno').then(comentario=>{
+      if(comentario != undefined){
+        this.estadoTurno.turno = turno;
+        
+        this.estadoTurno.paciente = turno.paciente;
+        this.estadoTurno.especialidad = turno.especialidad;
+        this.estadoTurno.fecha = this.estadoTurno.obtenerFecha();
+        this.estadoTurno.hora = this.estadoTurno.obtenerHora();
+        this.estadoTurno.especialista = turno.especialista;
+        this.estadoTurno.comentarioMedico = comentario;
+        this.estadoTurno.estado = Estados.RECHAZADO;
+        
+      // especialista: User;
+      // paciente: User;
+      // fecha: string;
+      // hora:string;
+      // estado: string;
+      // turno: Turnos;
+      // comentario?:  string;
+      // diagnostico?: string;
       
-    // especialista: User;
-    // paciente: User;
-    // fecha: string;
-    // hora:string;
-    // estado: string;
-    // turno: Turnos;
-    // comentario?:  string;
-    // diagnostico?: string;
-    
-    this.turnoSeleccionado.estado = Estados.CANCELADO;
-    this.fireSvc.updateTurno(this.turnoSeleccionado);
-    this.fireSvc.addEstado(this.estadoTurno,turno);
+      this.turnoSeleccionado.estado = Estados.RECHAZADO;
+      this.fireSvc.updateTurno(this.turnoSeleccionado);
+      this.fireSvc.addEstado(this.estadoTurno,turno);
+
+      }
 
     });
+  }
+  aceptarTurno(turno: Turnos){
+    this.turnoSeleccionado = turno;
+        this.estadoTurno.turno = turno;
+        
+        this.estadoTurno.paciente = turno.paciente;
+        this.estadoTurno.especialidad = turno.especialidad;
+        this.estadoTurno.fecha = this.estadoTurno.obtenerFecha();
+        this.estadoTurno.hora = this.estadoTurno.obtenerHora();
+        this.estadoTurno.especialista = turno.especialista;
+        this.estadoTurno.estado = Estados.ACEPTADO;
+        
+      // especialista: User;
+      // paciente: User;
+      // fecha: string;
+      // hora:string;
+      // estado: string;
+      // turno: Turnos;
+      // comentario?:  string;
+      // diagnostico?: string;
+      
+      this.turnoSeleccionado.estado = Estados.ACEPTADO;
+      this.fireSvc.updateTurno(this.turnoSeleccionado);
+      this.fireSvc.addEstado(this.estadoTurno,turno).then(a=>{
+        this.alertas.mostraAlertaSimpleSuccess('Turno aceptado','Estado de turno');
+      });
+
+
+      
+
+  }
+  finalizarTurno(turno:Turnos){
+    this.turnoSeleccionado = turno;
+    this.alertas.mostraAlertaInput('Ingrese motivo de la cancelación').then(comentario=>{
+      if(comentario != undefined){
+        this.estadoTurno.turno = turno;
+        
+        this.estadoTurno.paciente = turno.paciente;
+        this.estadoTurno.especialidad = turno.especialidad;
+        this.estadoTurno.fecha = this.estadoTurno.obtenerFecha();
+        this.estadoTurno.hora = this.estadoTurno.obtenerHora();
+        this.estadoTurno.especialista = turno.especialista;
+        this.estadoTurno.comentarioMedico = comentario;
+        this.estadoTurno.estado = Estados.ACEPTADO;
+        
+      // especialista: User;
+      // paciente: User;
+      // fecha: string;
+      // hora:string;
+      // estado: string;
+      // turno: Turnos;
+      // comentario?:  string;
+      // diagnostico?: string;
+      
+      this.turnoSeleccionado.estado = Estados.ACEPTADO;
+      this.fireSvc.updateTurno(this.turnoSeleccionado);
+      this.fireSvc.addEstado(this.estadoTurno,turno);
+
+      }
+
+    });
+
   }
   verResenia(turno:Turnos){
     this.alertas.mostraAlertaSimpleSinIcono(turno.resenia,'Reseña del turno');

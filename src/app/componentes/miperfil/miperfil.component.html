@@ -54,10 +54,7 @@
                       <!-- <input type="datetime-local" [(ngModel)]="usuarioLogueado.disponibilidadEsp"> <input type="button" (click)="seleccionDispo(esp)" value="Agregar"> -->
                       
                   </div>
-
-                    <ng-select [(ngModel)]="especialidad" (change)="capturarSelectEspecialidad(especialidad)" >
-                      <ng-option *ngFor="let esp of usuarioLogueado.descripcion"> {{esp}} </ng-option>
-                    </ng-select>
+                  
 
                 </div>
                 <div *ngIf="especialidad">

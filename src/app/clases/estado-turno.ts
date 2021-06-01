@@ -12,6 +12,7 @@ export class EstadoTurno {
     estado: string;
     turno: Turnos;
     comentarioPaciente?:  string;
+    comentarioMedico?:  string;
     resenia?:  string;
     diagnostico?: string;
     

@@ -35,6 +35,8 @@ import { MisturnosComponent } from './componentes/turnos/misturnos/misturnos.com
 import { CortarLetraPipe } from './pipes/cortar-letra.pipe';
 import { ListarmedicosComponent } from './componentes/turnos/listarmedicos/listarmedicos.component';
 import { ListarturnosComponent } from './componentes/turnos/listarturnos/listarturnos.component';
+import { FilterPacientePipe } from './pipes/filter-paciente.pipe';
+import { ListarPacientesComponent } from './componentes/turnos/listar-pacientes/listar-pacientes.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { ListarturnosComponent } from './componentes/turnos/listarturnos/listart
     CortarLetraPipe,
     ListarmedicosComponent,
     ListarturnosComponent,
+    FilterPacientePipe,
+    ListarPacientesComponent,
     
     
     

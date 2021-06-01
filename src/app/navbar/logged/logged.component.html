@@ -27,7 +27,7 @@
         <div class="dropdown-content pull-right">
           <a [routerLink]="'/miperfil'">Mi Perfil</a>
           <a *ngIf="this.usuarioLogueado.paciente || this.usuarioLogueado.especialista" [routerLink]="'/misturnos'">Mis Turnos</a>
-          <a *ngIf="this.usuarioLogueado.admin" [routerLink]="'/mostrarturnos'">Listado de turnos</a>
+          <a *ngIf="this.usuarioLogueado.admin" [routerLink]="'/misturnos'">Listado de turnos</a>
           <a *ngIf="(this.usuarioLogueado != null && this.usuarioLogueado.paciente )|| (this.usuarioLogueado != null && this.usuarioLogueado.admin)" [routerLink]="'/solicitarTurno'">Solicitar Turno</a>
           <a type="button" (click)="desloguear()">Desloguear<img src="./assets/logout.svg"></a>
         

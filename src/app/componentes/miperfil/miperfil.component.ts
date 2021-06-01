@@ -193,15 +193,18 @@ export class MiperfilComponent implements OnInit {
     if(this.usuarioLogueado.especialista){
 
       console.log(this.usuarioLogueado);
-      this.usuarioLogueado.disponibilidadEsp.forEach(esp=>{
-        if(esp){
-
-        }
-        console.log(esp);
-        this.disp.push(JSON.parse(JSON.stringify(esp)));
-        console.log(this.disp);
+      if(this.usuarioLogueado.disponibilidadEsp != undefined){
+        this.usuarioLogueado.disponibilidadEsp.forEach(esp=>{
+          if(esp){
   
-      })
+          }
+          console.log(esp);
+          this.disp.push(JSON.parse(JSON.stringify(esp)));
+          console.log(this.disp);
+    
+        })
+
+      }
     }
   }
   capturarHora(e){

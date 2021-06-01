@@ -6,6 +6,7 @@ export enum Estados {
     REALIZADO = 'REALIZADO',
     RECHAZADO = 'RECHAZADO',
     CANCELADO = 'CANCELADO',
+    PENDIENTE = 'PENDIENTE',
   }
   
 export class Turnos {
@@ -20,7 +21,7 @@ export class Turnos {
     resenia:string = '';
     comentarioPaciente:string = '';
     constructor(){
-      this.estado = Estados.RECHAZADO;
+      this.estado = Estados.PENDIENTE;
     }
     
 }
