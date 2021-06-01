@@ -1,13 +1,24 @@
-# Clinicaonlinelabo4
+# Clinica Online
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.12.
+Proyecto para administrar una clinica con sus turnos, medicos, clientes y administradores
+###### 
+⚡ Accede al proyecto desde el siguiente [link](https://clinicaonlinelabo4.herokuapp.com/). ⚡
+## Requerimientos
 
-## Development server
+La clínica OnLine, especialista en salud, cuenta actualmente con consultorios (6 en la actualidad),
+dos laboratorios (físicos en la clínica), y una sala de espera general. Está abierta al público de lunes a
+viernes en el horario de 8:00 a 19:00, y los sábados en el horario de 8:00 a 14:00.
+Trabajan en ella profesionales de diversas especialidades, que ocupan los consultorios acorde a su
+disponibilidad, y reciben en ellos pacientes con turno para consulta o tratamiento. Dichos turnos son
+pedidos por la web seleccionando el profesional o la especialidad. La duración mínima de un turno es
+30 minutos
+Registrar
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Utilizacion de la app
+#### Acciones del paciente:
+##### Solicitar turno:
 
-## Code scaffolding
-
+![sacar turno gif](https://s1.gifyu.com/images/sacar-turno.gif)
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
 ## Build
