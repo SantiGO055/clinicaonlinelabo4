@@ -32,7 +32,7 @@
 
                 
                     <div *ngIf="medico.disponibilidadEsp.length == 1">
-                        <button (click)="seleccionMedico(medico,medico.disponibilidadEsp[0])" style="background: url('{{medico.fotoPerfil}}');" class="btn buttonEspecialista button5 btn-redondo"></button>
+                        <button (click)="seleccionMedico(medico,medico.disponibilidadEsp[0])" style="background: url('{{medico.fotoPerfil}}') no-repeat; background-size: 300px;" class="btn buttonEspecialista button5 btn-redondo"></button>
                         <label>Especialidad: {{medico.disponibilidadEsp[0].especialidad}}</label> 
             
                     </div>

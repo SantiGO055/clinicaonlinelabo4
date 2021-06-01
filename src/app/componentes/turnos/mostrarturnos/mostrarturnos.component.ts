@@ -33,7 +33,7 @@ export class MostrarturnosComponent implements OnInit {
     this.descripcionBajaTurno += 'Turno dado de baja por: ';
     
     
-    this.alertas.mostraAlertaInput('Cancelar turno').then(text=>{
+    this.alertas.mostraAlertaInput('Cancelar turno','Ingrese motivo de la cancelación del turno').then(text=>{
       this.descripcionBajaTurno +=  text;
       for (let i = 0; i < this.turnos.length; i++) {
         if(this.turnos[j] == turno){

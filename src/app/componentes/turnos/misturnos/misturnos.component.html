@@ -1,3 +1,9 @@
+<ngx-spinner
+    bdColor="rgba(51,51,51,0.8)"
+    size="medium"
+    color="#fff"
+    type="ball-clip-rotate"
+    ></ngx-spinner>
 <div class="misturnos">
     
     <div id="pacienteLogueado" *ngIf="usuarioLogueado.paciente">
@@ -30,6 +36,7 @@
                 <td *ngIf="turno.estado != 'REALIZADO' && turno.estado != 'CANCELADO'"><button class="btn btn-primary" (click)="cancelarTurno(turno)">Cancelar turno</button></td>
                 <td *ngIf="turno.resenia != undefined && turno.resenia != '' "><button class="btn btn-primary" (click)="verResenia(turno)">Ver reseña</button></td>
                     <td *ngIf="turno.estado == 'REALIZADO' "><button class="btn btn-primary" (click)="calificarAtencion(turno)">Calificar Atencion</button></td>
+                    <td *ngIf="turno.estado == 'REALIZADO' && turno.resenia != '' && turno.resenia != undefined"><button class="btn btn-primary" (click)="completarEncuesta(turno)">Completar encuesta</button></td>
                 </a>
     
             </div>
@@ -54,7 +61,7 @@
             </div>
         </div>
         <div class="list-group">
-            <div *ngFor="let turno of misTurnos | filterPaciente: textoABuscar; let i = index">
+            <div *ngFor="let turno of misTurnos | appFilter: textoABuscar; let i = index">
                 <a class="list-group-item list-group-item-action" >
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">{{turno.especialidad}}</h5>

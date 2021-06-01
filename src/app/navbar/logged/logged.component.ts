@@ -32,8 +32,8 @@ export class LoggedComponent implements OnInit {
     this.authSvc.afAuth.authState.subscribe(res=>{
 
       this.usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
-      console.log(res);
-      console.log(this.usuarioLogueado);
+      // console.log(res);
+      // console.log(this.usuarioLogueado);
       try {
         if(res && res.uid){
           // console.log(res);

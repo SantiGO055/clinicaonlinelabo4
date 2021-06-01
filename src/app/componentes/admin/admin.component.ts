@@ -135,7 +135,7 @@ export class AdminComponent implements OnInit {
     this.mostrarBaja = false;
     for (let i = 0; i < this.usuariosEspecialistas.length; i++) {
       if(this.usuariosEspecialistas[i] == usuario){
-        this.alertas.mostraAlertaInput('Ingrese motivo de la baja').then(texto=>{
+        this.alertas.mostraAlertaInput('Baja de usuario','Ingrese motivo de la baja').then(texto=>{
           console.log(texto);
           this.usuariosEspecialistas[i].aprobadoPorAdmin = false;
           this.usuariosEspecialistas[i].baja = true;

@@ -83,15 +83,15 @@ export class AlertasService {
     return result;
   }
 
-  public async mostraAlertaInput(titulo:string){
+  public async mostraAlertaInput(titulo:string,mensaje:string){
     // console.log(mensaje)
     
     const { value: text } = await Swal.fire({
       input: 'textarea',
       inputLabel: titulo,
-      inputPlaceholder: 'Ingrese motivo de la baja...',
+      inputPlaceholder: mensaje,
       inputAttributes: {
-        'aria-label': 'Ingrese motivo de la baja...'
+        'aria-label': mensaje
       },
       showCancelButton: true
     })

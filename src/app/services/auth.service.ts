@@ -217,7 +217,7 @@ export class AuthService {
     try {
       // console.log(user);
       // console.log(user);
-      var aux = this.afAuth.createUserWithEmailAndPassword(user.email,password).then((user)=>{
+      var aux = await this.afAuth.createUserWithEmailAndPassword(user.email,password).then((user)=>{
         
       this.router.navigate(['/']);
 
@@ -225,19 +225,13 @@ export class AuthService {
         this.sendEmailVerification();
         return user;
       });
-      // console.log(aux);
-      return aux;
+
       // (await aux).user?.updateProfile({
       //   displayName: user.username
       // })
       // return await aux;
     } catch (error) {
-      if(error.code == 'auth/invalid-email'){
-
-      }
-      else{
-        
-      }
+      
       this.alertas.mostraAlertaSimple(error,'Error');
       // this.alertas.mostraAlertaSimple('Error: '+error,'Error');
       this.router.navigate(['ingreso/registro']);

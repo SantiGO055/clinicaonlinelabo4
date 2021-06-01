@@ -18,7 +18,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { LogueorapidoComponent } from './logueorapido/logueorapido.component';
 // import { RecaptchaModule } from "ng-recaptcha";
 
-import { RecaptchaFormsModule, RecaptchaModule, ReCaptchaV3Service } from 'ng-recaptcha';
+import { RecaptchaFormsModule, RecaptchaModule, ReCaptchaV3Service, RecaptchaV3Module, RECAPTCHA_V3_SITE_KEY  } from 'ng-recaptcha';
 import { EnterDirective } from '../directivas/enter.directive';
 
 @NgModule({
@@ -42,7 +42,8 @@ import { EnterDirective } from '../directivas/enter.directive';
     NgxSpinnerModule,
     RecaptchaFormsModule,
     
-    RecaptchaModule
+    RecaptchaModule,
+    RecaptchaV3Module
     
     
     

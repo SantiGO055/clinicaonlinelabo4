@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { EstadoTurno } from 'src/app/clases/estado-turno';
 import { Estados, Turnos } from 'src/app/clases/turnos';
 import { User } from 'src/app/clases/user';
@@ -23,16 +24,20 @@ export class MisturnosComponent implements OnInit {
   turnoSeleccionado: Turnos;
   constructor(
     private fireSvc: FirebaseService,
-    private alertas: AlertasService
+    private alertas: AlertasService,
+    private spinner: NgxSpinnerService,
   ) { }
 
   
   ngOnInit(): void {
+    
+    this.spinner.show();
     this.usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
 
     
     this.fireSvc.getAllEstados().subscribe(estados=>{
       this.estados = estados;
+      
     });
     this.fireSvc.getAllTurnos().subscribe((turnos)=>{
 
@@ -67,14 +72,17 @@ export class MisturnosComponent implements OnInit {
         else{
           this.allTurnos.push(turno);
         }
+        this.spinner.hide();
         
       });
 
     });
   }
   cancelarTurno(turno: Turnos){
+    
     this.turnoSeleccionado = turno;
-    this.alertas.mostraAlertaInput('Ingrese motivo de la cancelación del turno').then(comentario=>{
+    this.alertas.mostraAlertaInput('Cancelar turno','Ingrese motivo de la cancelación del turno').then(comentario=>{
+      
       if(comentario != undefined){
 
         
@@ -105,7 +113,7 @@ export class MisturnosComponent implements OnInit {
   }
   rechazarTurno(turno: Turnos){
     this.turnoSeleccionado = turno;
-    this.alertas.mostraAlertaInput('Ingrese motivo del rechazo del turno').then(comentario=>{
+    this.alertas.mostraAlertaInput('Rechazar turno','Ingrese motivo del rechazo del turno').then(comentario=>{
       if(comentario != undefined){
         this.estadoTurno.turno = turno;
         
@@ -135,6 +143,8 @@ export class MisturnosComponent implements OnInit {
     });
   }
   aceptarTurno(turno: Turnos){
+    
+
     this.turnoSeleccionado = turno;
         this.estadoTurno.turno = turno;
         
@@ -157,6 +167,7 @@ export class MisturnosComponent implements OnInit {
       this.turnoSeleccionado.estado = Estados.ACEPTADO;
       this.fireSvc.updateTurno(this.turnoSeleccionado);
       this.fireSvc.addEstado(this.estadoTurno,turno).then(a=>{
+        
         this.alertas.mostraAlertaSimpleSuccess('Turno aceptado','Estado de turno');
       });
 
@@ -166,7 +177,7 @@ export class MisturnosComponent implements OnInit {
   }
   finalizarTurno(turno:Turnos){
     this.turnoSeleccionado = turno;
-    this.alertas.mostraAlertaInput('Ingrese motivo de la cancelación').then(comentario=>{
+    this.alertas.mostraAlertaInput('Finalizar turno','Ingrese un comentario o reseña sobre la atencion del paciente').then(comentario=>{
       if(comentario != undefined){
         this.estadoTurno.turno = turno;
         
@@ -202,7 +213,7 @@ export class MisturnosComponent implements OnInit {
   }
   calificarAtencion(turno: Turnos){
     console.log(turno);
-    this.alertas.mostraAlertaInput('Ingrese comentario sobre la atencion del especialista ' + turno.especialista.nombre +", " +turno.especialista.apellido).then(texto=>{
+    this.alertas.mostraAlertaInput('Calificar atención','Ingrese comentario sobre la atencion del especialista ' + turno.especialista.nombre +", " +turno.especialista.apellido).then(texto=>{
 
       if(texto != undefined){
 
@@ -230,6 +241,9 @@ export class MisturnosComponent implements OnInit {
           // }
       }
     });
+  }
+  completarEncuesta(turno:Turnos){
+    
   }
 
 }

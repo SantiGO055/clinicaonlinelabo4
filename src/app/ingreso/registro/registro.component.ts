@@ -10,6 +10,7 @@ import { AngularFireStorage, AngularFireStorageReference } from '@angular/fire/s
 import { finalize } from 'rxjs/operators';
 import Swal from'sweetalert2';
 import { ReCaptchaV3Service } from 'ng-recaptcha';
+import { AlertasService } from 'src/app/services/alertas.service';
 
 @Component({
   selector: 'app-registro',
@@ -60,6 +61,8 @@ export class RegistroComponent implements OnInit {
     private fireSvc: FirebaseService,
     private fb:FormBuilder,
     private storage: AngularFireStorage,
+    private alertas: AlertasService,
+    
     ) { }
 
     
@@ -332,6 +335,11 @@ export class RegistroComponent implements OnInit {
     await this.authSvc.register(this.user,this.password).then((result)=>{
       this.user.uid = result.user.uid;
       console.log(result);
+      
+
+      
+
+
       this.subirFoto().then(()=>{
         // console.log("prueba");
       });

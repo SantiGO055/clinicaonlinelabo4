@@ -22,7 +22,7 @@
         </div>
     </div> -->
 
-    <div class="dropdown">
+    <div class="dropdown" *ngIf="this.usuarioLogueado != null">
         <button class="dropbtn "><img src="./assets/arrow.svg"></button>
         <div class="dropdown-content pull-right">
           <a [routerLink]="'/miperfil'">Mi Perfil</a>
