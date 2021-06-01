@@ -18,7 +18,7 @@ Registrar
 #### Acciones del paciente:
 ##### Solicitar turno:
 
-![alt text](https://s1.gifyu.com/images/sacar-turno.gif)
+![sacar turno gif](https://s1.gifyu.com/images/sacar-turno.gif)
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
 ## Build
