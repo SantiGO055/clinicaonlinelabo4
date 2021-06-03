@@ -68,8 +68,61 @@
 
                 </tbody>
                 <button type="submit" [routerLink]="'/ingreso/registro'">Nuevo usuario</button>
+                <button type="submit" (click)="exportarExcel()">Exportar todos los usuarios a excel</button>
             </table>
 
+            
+                <div class="list-group">
+                    <h1>Historias clinicas de pacientes</h1>
+                    <app-spinner class="flag" [spinner]="flag"></app-spinner>
+                    <div *ngIf="!flag">
+
+                    
+                        <div *ngFor="let historia of historias">
+                            <a class="list-group-item list-group-item-action" >
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{historia.turno.paciente.nombre}}, {{historia.turno.paciente.apellido}}</h5>
+                                <small> <strong>Médico</strong> {{historia.turno.especialista.nombre}}, {{historia.turno.especialista.apellido}}</small>
+                            </div>
+                            <!-- <p class="mb-1">Especialista: {{turno.especialista.nombre}}, {{turno.especialista.apellido}}</p> -->
+                            
+                            <p>
+                                <strong>Altura: </strong>{{historia.altura}}
+                
+                            </p>
+                            <p>
+                                <strong>Peso: </strong>{{historia.peso}}
+                
+                            </p>
+                            <p>
+                                <strong>Temperatura: </strong>{{historia.temperatura}}
+                
+                            </p>
+                            <p>
+                                <strong>Presion: </strong>{{historia.presion}}
+                
+                            </p>
+                            <p>
+                                <strong>{{historia.clave}}: </strong>{{historia.valor}}
+                
+                            </p>
+                            <p>
+                                <strong>{{historia.clave2}}: </strong>{{historia.valor2}}
+                
+                            </p>
+                
+                            <!-- <small>Paciente: {{turno.paciente.nombre}}, {{turno.paciente.apellido}}</small>
+                            <td *ngIf="turno.estado != 'REALIZADO' && turno.estado != 'CANCELADO'"><button class="btn btn-primary" (click)="cancelarTurno(turno)">Cancelar turno</button></td>
+                            <td *ngIf="turno.resenia != undefined && turno.resenia != '' "><button class="btn btn-primary" (click)="verResenia(turno)">Ver reseña</button></td>
+                                <td *ngIf="turno.estado == 'REALIZADO' "><button class="btn btn-primary" (click)="calificarAtencion(turno)">Calificar Atencion</button></td> -->
+                                <!-- <td *ngIf="turno.estado == 'REALIZADO' && turno.resenia != '' && turno.resenia != undefined"><button class="btn btn-primary" (click)="completarEncuesta(turno)">Completar encuesta</button></td> -->
+                            </a>
+                
+                        </div>
+                    </div>
+                </div>
+        
+            
     </div>
 
     <!-- <app-spinner [spinner]="spinnerPrueba"></app-spinner> -->

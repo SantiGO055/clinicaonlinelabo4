@@ -13,7 +13,7 @@ export class NavbarComponent implements OnInit {
   ocultarRegistro: boolean = false;
   ocultarBotonesLogueo: boolean = false;
   adminLogueado:boolean = false;
-  usuarioLogueado: boolean = false;
+  usuarioLogueado: User = new User();
   usuario : User = new User();
   constructor(
     private authSvc: AuthService
@@ -22,7 +22,6 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     
     // console.log(this.authSvc.isLogged);
-    
       this.authSvc.afAuth.authState.subscribe(res=>{
         this.usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
         if(this.usuarioLogueado != null){

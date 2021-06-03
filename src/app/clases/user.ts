@@ -3,7 +3,7 @@ import { Turnos } from "./turnos";
 export class User {
     email: string;
     uid: string;
-    username: string;
+    username?: string;
     nombre: string;
     apellido: string;
     edad: string;
@@ -12,7 +12,7 @@ export class User {
     especialista?:boolean;
     fotoPerfil:string;
     fotoPerfilDos?:string;
-    descripcion:string[];
+    descripcion?:string[];
     aprobadoPorAdmin?:boolean;
     admin?:boolean;
     paciente?:boolean;
@@ -31,7 +31,7 @@ export class User {
         this.fotoPerfil = "";
         this.fotoPerfilDos = "";
     }
-    obtenerFechaHora(){
+    obtenerFechaHora?(){
         var fecha:Date = new Date();
         var segString: string = '';
         var minString : string = '';

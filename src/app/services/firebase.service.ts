@@ -220,12 +220,12 @@ export class FirebaseService {
   //#region Historia Clinica
   addHistoria(historia: Historia){
     try{
-      return this.historiaCollection.add(JSON.parse(JSON.stringify(historia)))
+      return this.historiaCollection.add(JSON.parse(JSON.stringify(historia)));
 
     }
     catch(e){
       this.alerta.mostraAlertaSimple(e,'Error');
-      
+
       return e;
     }
 

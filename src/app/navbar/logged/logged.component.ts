@@ -68,7 +68,7 @@ export class LoggedComponent implements OnInit {
  
 }
 async desloguear(){
-  // this.usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
+  
     this.ocultarMensaje = false;
     
     this.enviarEventoOcultarLogueo();
@@ -79,6 +79,7 @@ async desloguear(){
         this.authSvc.desloguear();
         
         sessionStorage.clear();
+        this.usuarioLogueado = null;
         localStorage.removeItem("usuarioLogueado");
         this.router.navigate(["/ingreso/login"]);
         this.logueado = false;

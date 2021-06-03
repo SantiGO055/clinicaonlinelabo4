@@ -91,8 +91,63 @@
   
                 </div>
               </div>
-              <div *ngIf="usuarioLogueado.paciente">
-                Implementar la historia clinica, quien atendio, los valores de la historia clinica y cuando se realizo el turno
+              <app-spinner class="flag" [spinner]="flag"></app-spinner>
+
+              <div *ngIf="usuarioLogueado.paciente && !flag">
+                <h1>
+                  Historia clínica
+                </h1>
+                <p>
+                  <strong>
+                    Nombre del medico:
+                  </strong>
+                  {{historia.turno.especialista.nombre}}, {{historia.turno.especialista.apellido}}
+                </p>
+                <p>
+                  <strong>
+                    Especialidad del medico:
+                  </strong>
+                  {{historia.turno.especialidad}}
+                </p>
+                <h3>
+                  Datos de paciente:
+                </h3>
+                <p>
+                  <strong>
+                    Altura:
+                  </strong>
+                  {{historia.altura}}
+                </p>
+                <p>
+                  <strong>
+                    Peso:
+                  </strong>
+                  {{historia.peso}}
+                </p>
+                <p>
+                  <strong>
+                    Temperatura:
+                  </strong>
+                  {{historia.temperatura}}
+                </p>
+                <p>
+                  <strong>
+                    Presion:
+                  </strong>
+                  {{historia.presion}}
+                </p>
+                <p>
+                  <strong>
+                    {{historia.clave}}:
+                  </strong>
+                  {{historia.valor}}
+                </p>
+                <p>
+                  <strong>
+                    {{historia.clave2}}:
+                  </strong>
+                  {{historia.valor2}}
+                </p>
 
               </div>
                 

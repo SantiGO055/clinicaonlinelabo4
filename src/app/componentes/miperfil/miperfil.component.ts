@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Historia } from 'src/app/clases/historia';
 import { Horarios, Turnoesp, User } from 'src/app/clases/user';
 import { FirebaseService } from 'src/app/services/firebase.service';
 
@@ -29,6 +30,9 @@ export class MiperfilComponent implements OnInit {
   maxSliderTurno: number = 22;
   maxSliderHora: number = 19;
   turnoAux: Turnoesp;
+  historia: Historia;
+  flag: boolean = false;
+
   constructor(
     private fireSvc: FirebaseService
   ) {
@@ -176,6 +180,19 @@ export class MiperfilComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.flag = true;
+    
+    this.fireSvc.getAllHistorias().subscribe(historia=>{
+      historia.forEach(histo => {
+        if(histo.turno.paciente.uid === this.usuarioLogueado.uid){
+          this.historia = histo;
+          this.flag = false;
+        }
+      });
+      
+      
+    });
+
     this.sliderDiaSemanaString = 'Lunes';
 
     // this.botones.forEach(element => {
@@ -206,6 +223,7 @@ export class MiperfilComponent implements OnInit {
 
       }
     }
+
   }
   capturarHora(e){
     // console.log(e)

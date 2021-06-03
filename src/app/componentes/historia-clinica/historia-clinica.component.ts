@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Historia } from 'src/app/clases/historia';
 import { Turnos } from 'src/app/clases/turnos';
 import { AlertasService } from 'src/app/services/alertas.service';
@@ -20,13 +21,16 @@ export class HistoriaClinicaComponent implements OnInit {
   valor1: number;
   clave2: string;
   valor2: number;
+  
+  
   @Input()turnoSeleccionado: Turnos;
   public formGroup!: FormGroup;
   
   constructor(
     private fb:FormBuilder,
     private fire: FirebaseService,
-    private alerta: AlertasService
+    private alerta: AlertasService,
+    private spinner: NgxSpinnerService,
     ) {
     console.log("hola")
    }
@@ -49,12 +53,15 @@ export class HistoriaClinicaComponent implements OnInit {
 
   }
   enviarHistoria(){
-
+    this.spinner.show();
     let historia:Historia = this.formGroup.getRawValue();
     historia.turno = this.turnoSeleccionado;
     console.log(historia);
     this.fire.addHistoria(historia).then(a=>{
       console.log(a);
+      
+      this.fire.updateHistorias(historia);
+      this.spinner.hide();
       this.alerta.mostraAlertaSimpleSuccess('Historia agregada correctamente','Confirmación')
     });
 

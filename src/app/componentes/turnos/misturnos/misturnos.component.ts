@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EstadoTurno } from 'src/app/clases/estado-turno';
+import { Historia } from 'src/app/clases/historia';
 import { Estados, Turnos } from 'src/app/clases/turnos';
 import { User } from 'src/app/clases/user';
 import { AlertasService } from 'src/app/services/alertas.service';
@@ -24,6 +25,7 @@ export class MisturnosComponent implements OnInit {
   estadoTurno: EstadoTurno = new EstadoTurno();
   turnoSeleccionado: Turnos;
   mostrarHistoria: boolean = false;
+  historias: Historia[] = [];
   constructor(
     private fireSvc: FirebaseService,
     private alertas: AlertasService,
@@ -40,22 +42,32 @@ export class MisturnosComponent implements OnInit {
     
     this.fireSvc.getAllEstados().subscribe(estados=>{
       this.estados = estados;
-      
     });
+    this.fireSvc.getAllHistorias().subscribe(historias=>{
+      historias.forEach(historia => {
+      console.log(historia);
+      console.log(this.usuarioLogueado.uid);
+
+        if(historia.turno.especialista.uid == this.usuarioLogueado.uid){
+          this.historias.push(historia);
+        }
+      });
+    });
+
     this.fireSvc.getAllTurnos().subscribe((turnos)=>{
 
       
-      console.log(turnos)
-      console.log(this.usuarioLogueado)
+      // console.log(turnos)
+      // console.log(this.usuarioLogueado)
       turnos.forEach(turno => {
         if(this.usuarioLogueado.paciente){
           if(this.usuarioLogueado.uid == turno.paciente.uid){
   
-            console.log("igual")
+            // console.log("igual")
             this.misTurnos = turnos;
           }
           else{
-            console.log("no es igual")
+            // console.log("no es igual")
   
           }
         
@@ -63,12 +75,12 @@ export class MisturnosComponent implements OnInit {
         else if(this.usuarioLogueado.especialista){
           if(this.usuarioLogueado.uid == turno.especialista.uid){
   
-            console.log("igual")
+            // console.log("igual")
             
             this.misTurnos.push(turno);
           }
           else{
-            console.log("no es igual")
+            // console.log("no es igual")
   
           }
         }
@@ -147,7 +159,7 @@ export class MisturnosComponent implements OnInit {
   }
   aceptarTurno(turno: Turnos){
     
-
+    this.spinner.show();
     this.turnoSeleccionado = turno;
         this.estadoTurno.turno = turno;
         
@@ -170,7 +182,7 @@ export class MisturnosComponent implements OnInit {
       this.turnoSeleccionado.estado = Estados.ACEPTADO;
       this.fireSvc.updateTurno(this.turnoSeleccionado);
       this.fireSvc.addEstado(this.estadoTurno,turno).then(a=>{
-        
+        this.spinner.hide();
         this.alertas.mostraAlertaSimpleSuccess('Turno aceptado','Estado de turno');
       });
 
@@ -216,13 +228,13 @@ export class MisturnosComponent implements OnInit {
 
   }
   calificarAtencion(turno: Turnos){
-    console.log(turno);
+    // console.log(turno);
     this.alertas.mostraAlertaInput('Calificar atención','Ingrese comentario sobre la atencion del especialista ' + turno.especialista.nombre +", " +turno.especialista.apellido).then(texto=>{
 
       if(texto != undefined){
 
         
-          console.log(turno.id)
+          // console.log(turno.id)
           // if(turno.id == element.turno.id){
             this.estadoTurno.id = turno.id;
             this.estadoTurno.fecha = this.estadoTurno.obtenerFecha();
@@ -247,7 +259,7 @@ export class MisturnosComponent implements OnInit {
     });
   }
   cargarHistoriaClinica(turno: Turnos){
-    console.log("hola")
+    // console.log("hola")
     this.mostrarHistoria = true;
     this.turnoSeleccionado = turno;
   }

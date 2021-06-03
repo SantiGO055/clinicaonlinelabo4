@@ -22,9 +22,12 @@
             <a [routerLink]="'ingreso/registro'" routerLinkActive="active" class="nav-link borderFade" >Registrarse</a>
           </li>
   
-          <li class="nav-item" *ngIf="adminLogueado">
-            <a [routerLink]="'/admin'" routerLinkActive="active" class="nav-link borderFade">Administrar usuarios</a>
-          </li>
+          <div *ngIf="usuarioLogueado != null">
+            <li class="nav-item" *ngIf="usuarioLogueado.admin">
+              <a [routerLink]="'/admin'" routerLinkActive="active" class="nav-link borderFade">Administrar usuarios</a>
+            </li>
+
+          </div>
           
          
   

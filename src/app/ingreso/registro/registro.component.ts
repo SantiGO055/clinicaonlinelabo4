@@ -55,6 +55,7 @@ export class RegistroComponent implements OnInit {
   seleccionePac: boolean = false;
   seleccioneAdm: boolean = false;
 
+  usuarioLogueado:User = new User();
   public formGroup!: FormGroup;
   constructor(private authSvc : AuthService, 
     private router: Router,
@@ -90,6 +91,12 @@ export class RegistroComponent implements OnInit {
       this.seleccioneEsp = false 
     }
   ngOnInit(): void {
+    this.usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
+    console.log(this.usuarioLogueado);
+    if(this.usuarioLogueado.admin){
+      this.seleccioneAdm = true;
+      this.tipo = "administrador";
+    }
     this.fireSvc.getEspecialidades().subscribe((especialidad:Especialidad[])=>{
       this.spinner = false;
       this.especialidades = especialidad;
@@ -98,25 +105,26 @@ export class RegistroComponent implements OnInit {
     
 
     
-    this.authSvc.afAuth.authState.subscribe(res=>{
-      // console.log(this.authSvc.isLogged);
-      if(this.authSvc.isLogged != null){
-        if(this.authSvc.isLogged.admin){
-          this.adminLogueado = this.authSvc.isLogged;
-          this.seLogueoAdmin = true;
+    // this.authSvc.afAuth.authState.subscribe(res=>{
+    //   // console.log(this.authSvc.isLogged);
+    //   if(this.authSvc.isLogged != null){
+    //     if(this.authSvc.isLogged.admin){
+    //       this.adminLogueado = this.authSvc.isLogged;
+    //       this.tipo = 'administrador'
+    //       this.seLogueoAdmin = true;
           
-        }
-        else{
-          // console.log("admin sin loguear");
-          this.seLogueoAdmin = false;
+    //     }
+    //     else{
+    //       // console.log("admin sin loguear");
+    //       this.seLogueoAdmin = false;
   
-        }
-      }
-      else{
-        // console.log("sin loguear");
+    //     }
+    //   }
+    //   else{
+    //     // console.log("sin loguear");
         
-      }
-    });
+    //   }
+    // });
     
     
     this.formGroup = this.fb.group({

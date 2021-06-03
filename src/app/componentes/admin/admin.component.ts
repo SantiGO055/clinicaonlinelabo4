@@ -7,6 +7,8 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { AlertasService } from 'src/app/services/alertas.service';
 import { BajaUsuario } from 'src/app/clases/bajaUsuario';
+import { Historia } from 'src/app/clases/historia';
+import { ExportExcelService } from 'src/app/services/export-excel.service';
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -24,12 +26,16 @@ export class AdminComponent implements OnInit {
   checked:boolean = false;
   mostrarBaja:boolean = false;
   bajaUser:BajaUsuario = new BajaUsuario();
+  historias: Historia[] = [];
+  flag:boolean = false;
+  arrayExcelUsuario =  [];
   constructor(
     private authSvc: AuthService,
     private fireSvc: FirebaseService,
     private fb:FormBuilder,
     private spinner: NgxSpinnerService,
-    private alertas: AlertasService
+    private alertas: AlertasService,
+    private excel: ExportExcelService
   ) { 
     this.usuariosAAprobar = [];
     this.usuariosEspecialistas = [];
@@ -39,8 +45,20 @@ export class AdminComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+
+    this.fireSvc.getAllHistorias().subscribe(historias=>{
+
+      this.historias = historias;
+      this.flag = false;
+      console.log(this.historias);
+    })
+
+
     this.fireSvc.getAllUsers().subscribe((usuarios)=>{
-      
+
+      this.arrayExcelUsuario = <any>usuarios;
+
       this.usuariosEspecialistas = [];
       usuarios.forEach(usuario => {
         // console.log(usuario);
@@ -148,6 +166,27 @@ export class AdminComponent implements OnInit {
       }
       
     }
+  }
+  exportarExcel(){
+    let reportData = {
+      title: 'Listado de usuarios de clinica online',
+      data: this.arrayExcelUsuario,
+      headers: [
+        'nombre',
+        'apellido',
+        'baja',
+        'dni',
+        'edad',
+        'email',
+        'fecha',
+        'fotoPerfil',
+        'fotoPerfilDos',
+        'especialista',
+        'uid'
+      ]
+    }
+
+    this.excel.exportExcel(reportData);
   }
 
 }
