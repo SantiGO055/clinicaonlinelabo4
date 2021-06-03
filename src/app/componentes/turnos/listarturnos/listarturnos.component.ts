@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Turnos } from 'src/app/clases/turnos';
 import { Turnoesp, User } from 'src/app/clases/user';
 
@@ -15,9 +16,12 @@ export class ListarturnosComponent implements OnInit {
   @Input()medico: User;
 
 
-  constructor() { }
+  constructor(
+    
+  ) { }
 
   ngOnInit(): void {
+
     console.log(this.listadoTurnos);
     this.listadoTurnos.forEach(turno => {
       console.log(turno.especialidad);

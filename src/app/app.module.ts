@@ -36,6 +36,7 @@ import { CortarLetraPipe } from './pipes/cortar-letra.pipe';
 import { ListarmedicosComponent } from './componentes/turnos/listarmedicos/listarmedicos.component';
 import { ListarturnosComponent } from './componentes/turnos/listarturnos/listarturnos.component';
 import { ListarPacientesComponent } from './componentes/turnos/listar-pacientes/listar-pacientes.component';
+import { HistoriaClinicaComponent } from './componentes/historia-clinica/historia-clinica.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { ListarPacientesComponent } from './componentes/turnos/listar-pacientes/
     ListarmedicosComponent,
     ListarturnosComponent,
     ListarPacientesComponent,
+    HistoriaClinicaComponent,
     
     
     

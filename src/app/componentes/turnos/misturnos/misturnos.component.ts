@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EstadoTurno } from 'src/app/clases/estado-turno';
 import { Estados, Turnos } from 'src/app/clases/turnos';
@@ -22,10 +23,12 @@ export class MisturnosComponent implements OnInit {
   usuarioLogueado: User = new User();
   estadoTurno: EstadoTurno = new EstadoTurno();
   turnoSeleccionado: Turnos;
+  mostrarHistoria: boolean = false;
   constructor(
     private fireSvc: FirebaseService,
     private alertas: AlertasService,
     private spinner: NgxSpinnerService,
+    private router: Router
   ) { }
 
   
@@ -175,9 +178,10 @@ export class MisturnosComponent implements OnInit {
       
 
   }
+
   finalizarTurno(turno:Turnos){
     this.turnoSeleccionado = turno;
-    this.alertas.mostraAlertaInput('Finalizar turno','Ingrese un comentario o reseña sobre la atencion del paciente').then(comentario=>{
+    this.alertas.mostraAlertaInput('Finalizar turno','Ingrese un comentario o reseña sobre la atencion que se le realizo al paciente').then(comentario=>{
       if(comentario != undefined){
         this.estadoTurno.turno = turno;
         
@@ -187,7 +191,7 @@ export class MisturnosComponent implements OnInit {
         this.estadoTurno.hora = this.estadoTurno.obtenerHora();
         this.estadoTurno.especialista = turno.especialista;
         this.estadoTurno.comentarioMedico = comentario;
-        this.estadoTurno.estado = Estados.ACEPTADO;
+        this.estadoTurno.estado = Estados.REALIZADO;
         
       // especialista: User;
       // paciente: User;
@@ -198,7 +202,7 @@ export class MisturnosComponent implements OnInit {
       // comentario?:  string;
       // diagnostico?: string;
       
-      this.turnoSeleccionado.estado = Estados.ACEPTADO;
+      this.turnoSeleccionado.estado = Estados.REALIZADO;
       this.fireSvc.updateTurno(this.turnoSeleccionado);
       this.fireSvc.addEstado(this.estadoTurno,turno);
 
@@ -242,8 +246,10 @@ export class MisturnosComponent implements OnInit {
       }
     });
   }
-  completarEncuesta(turno:Turnos){
-    
+  cargarHistoriaClinica(turno: Turnos){
+    console.log("hola")
+    this.mostrarHistoria = true;
+    this.turnoSeleccionado = turno;
   }
 
 }

@@ -4,9 +4,13 @@
     color="#fff"
     type="ball-clip-rotate"
     ></ngx-spinner>
-<div class="misturnos">
+    <div *ngIf="mostrarHistoria">
+        <app-historia-clinica [turnoSeleccionado]="turnoSeleccionado"></app-historia-clinica>
+
+    </div>
+<div class="misturnos" *ngIf="!mostrarHistoria">
     
-    <div id="pacienteLogueado" *ngIf="usuarioLogueado.paciente">
+    <div id="pacienteLogueado" *ngIf="usuarioLogueado.paciente" >
         <div class="busqueda" role="main">
             <div class="card">
               <div class="form-group" *ngIf="usuarioLogueado.paciente">
@@ -36,7 +40,7 @@
                 <td *ngIf="turno.estado != 'REALIZADO' && turno.estado != 'CANCELADO'"><button class="btn btn-primary" (click)="cancelarTurno(turno)">Cancelar turno</button></td>
                 <td *ngIf="turno.resenia != undefined && turno.resenia != '' "><button class="btn btn-primary" (click)="verResenia(turno)">Ver reseña</button></td>
                     <td *ngIf="turno.estado == 'REALIZADO' "><button class="btn btn-primary" (click)="calificarAtencion(turno)">Calificar Atencion</button></td>
-                    <td *ngIf="turno.estado == 'REALIZADO' && turno.resenia != '' && turno.resenia != undefined"><button class="btn btn-primary" (click)="completarEncuesta(turno)">Completar encuesta</button></td>
+                    <!-- <td *ngIf="turno.estado == 'REALIZADO' && turno.resenia != '' && turno.resenia != undefined"><button class="btn btn-primary" (click)="completarEncuesta(turno)">Completar encuesta</button></td> -->
                 </a>
     
             </div>
@@ -80,6 +84,7 @@
                         <td *ngIf="turno.estado != 'REALIZADO' && turno.estado != 'RECHAZADO' && turno.estado != 'CANCELADO' && turno.estado != 'ACEPTADO'"><button class="btn btn-primary" (click)="aceptarTurno(turno)">Aceptar turno</button></td>
                         <td *ngIf="turno.estado == 'ACEPTADO'"><button class="btn btn-primary" (click)="finalizarTurno(turno)">Finalizar turno</button></td>
                         <td *ngIf="turno.resenia != undefined && turno.resenia != '' "><button class="btn btn-primary" (click)="verResenia(turno)">Ver reseña</button></td>
+                        <td *ngIf="turno.estado == 'REALIZADO'"><button class="btn btn-primary" (click)="cargarHistoriaClinica(turno)">Cargar historia clinica</button></td>
                         
                 </a>
     

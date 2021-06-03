@@ -8,6 +8,8 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { Turnos } from '../clases/turnos';
 import { BajaUsuario } from '../clases/bajaUsuario';
 import { EstadoTurno } from '../clases/estado-turno';
+import { Historia } from '../clases/historia';
+import { AlertasService } from './alertas.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +21,7 @@ export class FirebaseService {
   private dbpathTurno = '/turnos';
   private dbPathBajas = '/bajas';
   private dbPathEstadoTurnos = '/estadoTurnos';
+  private dbPathHistoria = '/historiaClinica';
   // private dbPathPuzzle = '/juegos-puzzle';
   // private dbPathTateti = '/juegos-tateti';
   // private dbPathPpt = '/juegos-ppt';
@@ -29,6 +32,7 @@ export class FirebaseService {
   turnosCollection: AngularFirestoreCollection<Turnos>;
   bajasCollection: AngularFirestoreCollection<BajaUsuario>;
   estadosCollection: AngularFirestoreCollection<EstadoTurno>;
+  historiaCollection: AngularFirestoreCollection<Historia>;
   // puzzleColecction: AngularFirestoreCollection<Estadisticapuzzle>;
   // tatetiCollection: AngularFirestoreCollection<Estadisticatateti>;
   // pptCollection: AngularFirestoreCollection<Estadisticappt>;
@@ -40,18 +44,21 @@ export class FirebaseService {
   usuariosDoc: AngularFirestoreDocument<User> | undefined;
   turnosDoc: AngularFirestoreDocument<Turnos> | undefined;
   estadosDoc: AngularFirestoreDocument<EstadoTurno> | undefined;
+  historiaDoc: AngularFirestoreDocument<Historia> | undefined;
   public usuarios: Observable<User[]>;
   public especialidades: Observable<Especialidad[]>;
   public turnos: Observable<Turnos[]>;
   public bajas: Observable<BajaUsuario[]>;
   public estados: Observable<EstadoTurno[]>;
+  public historias: Observable<Historia[]>;
   // public encuesta: Observable<Encuesta[]>;
   // public puzzleEstadistica: Observable<Estadisticapuzzle[]>;
   // public memoEstadistica: Observable<Estadisticamemotest[]>;
   // public tatetiEstadistica: Observable<Estadisticatateti[]>;
   // public pptEstadistica: Observable<Estadisticappt[]>;
   constructor(public db: AngularFirestore,
-    private storage : AngularFireStorage) {
+    private storage : AngularFireStorage,
+    private alerta: AlertasService) {
     
     // this.mensajes = db.collection<Mensaje>('mensajes').valueChanges();
 
@@ -101,6 +108,15 @@ export class FirebaseService {
     this.estados = this.estadosCollection.snapshotChanges().pipe(map(actions=>{
       return actions.map(a=>{
         const data = a.payload.doc.data() as EstadoTurno;
+        data.id = a.payload.doc.id;
+        return data;
+      });
+    }));
+    /** historia clinica */
+    this.historiaCollection = db.collection(this.dbPathHistoria);
+    this.historias = this.historiaCollection.snapshotChanges().pipe(map(actions=>{
+      return actions.map(a=>{
+        const data = a.payload.doc.data() as Historia;
         data.id = a.payload.doc.id;
         return data;
       });
@@ -198,5 +214,28 @@ export class FirebaseService {
     return this.estadosDoc.update(estado);
   }
 
+  //#endregion
+
+
+  //#region Historia Clinica
+  addHistoria(historia: Historia){
+    try{
+      return this.historiaCollection.add(JSON.parse(JSON.stringify(historia)))
+
+    }
+    catch(e){
+      this.alerta.mostraAlertaSimple(e,'Error');
+      
+      return e;
+    }
+
+  }
+  getAllHistorias(){
+    return this.historias;
+  }
+  updateHistorias(historia: Historia){
+    this.historiaDoc = this.db.doc(`estadoTurnos/${historia.id}`);
+    return this.historiaDoc.update(historia);
+  }
   //#endregion
 }
