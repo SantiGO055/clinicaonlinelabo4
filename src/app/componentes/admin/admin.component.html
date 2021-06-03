@@ -67,8 +67,11 @@
 
 
                 </tbody>
-                <button type="submit" [routerLink]="'/ingreso/registro'">Nuevo usuario</button>
-                <button type="submit" (click)="exportarExcel()">Exportar todos los usuarios a excel</button>
+                <div class="botonesAdmin">
+                    <button type="submit" [routerLink]="'/ingreso/registro'">Nuevo usuario</button>
+                    <button type="submit" (click)="exportarExcel()">Exportar todos los usuarios a excel</button>
+
+                </div>
             </table>
 
             

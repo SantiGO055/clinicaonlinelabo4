@@ -93,7 +93,7 @@
               </div>
               <app-spinner class="flag" [spinner]="flag"></app-spinner>
 
-              <div *ngIf="usuarioLogueado.paciente && !flag">
+              <div *ngIf="usuarioLogueado.paciente && !flag && !usuarioLogueado.admin ">
                 <h1>
                   Historia clínica
                 </h1>

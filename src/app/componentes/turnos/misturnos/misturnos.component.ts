@@ -45,8 +45,8 @@ export class MisturnosComponent implements OnInit {
     });
     this.fireSvc.getAllHistorias().subscribe(historias=>{
       historias.forEach(historia => {
-      console.log(historia);
-      console.log(this.usuarioLogueado.uid);
+      // console.log(historia);
+      // console.log(this.usuarioLogueado.uid);
 
         if(historia.turno.especialista.uid == this.usuarioLogueado.uid){
           this.historias.push(historia);

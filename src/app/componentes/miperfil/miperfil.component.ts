@@ -36,7 +36,7 @@ export class MiperfilComponent implements OnInit {
   constructor(
     private fireSvc: FirebaseService
   ) {
-    console.log(this.sliderHoraComienzo);
+    // console.log(this.sliderHoraComienzo);
    }
 
   calcularSlider(){
@@ -180,7 +180,6 @@ export class MiperfilComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.flag = true;
     
     this.fireSvc.getAllHistorias().subscribe(historia=>{
       historia.forEach(histo => {
@@ -203,10 +202,15 @@ export class MiperfilComponent implements OnInit {
     //   this.horariosAElegir.push(horario);
       
     // });
-    console.log(this.horariosAElegir);
-    console.log(this.minimo)
-    console.log(this.maximo)
+    // console.log(this.horariosAElegir);
+    // console.log(this.minimo)
+    // console.log(this.maximo)
     this.usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
+    
+    if(this.usuarioLogueado.paciente){
+      this.flag = true;
+
+    }
     if(this.usuarioLogueado.especialista){
 
       console.log(this.usuarioLogueado);
