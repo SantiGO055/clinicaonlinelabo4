@@ -36,6 +36,7 @@ export class AltaTurnoComponent implements OnInit {
   seleccioneMedico: boolean= false;
   seleccioneEspecialidad: boolean= false;
   listadoTurnos: any;
+  filtroEspecialidad:string = 'todos';
 
   constructor(
     private fireSvc: FirebaseService,
@@ -55,7 +56,7 @@ export class AltaTurnoComponent implements OnInit {
       // console.log(especialidades);
       especialidades.forEach(element => {
         
-        this.especialidades.push(element.nombre);
+        this.especialidades.push(element);
         this.muestroEspecialidades = true;
       });
       
@@ -65,8 +66,11 @@ export class AltaTurnoComponent implements OnInit {
       usuarios.forEach(usr => {
         if(usr.especialista){
           // console.log(usr)
-          
-          this.especialistas.push(JSON.parse(JSON.stringify(usr)));
+          if(usr.disponibilidadEsp.length != 0){
+            this.espAux.push(JSON.parse(JSON.stringify(usr)));
+            this.especialistas.push(JSON.parse(JSON.stringify(usr)));
+
+          }
         }
         if(usr.paciente == true){
           this.pacientes.push(JSON.parse(JSON.stringify(usr)));
@@ -283,7 +287,7 @@ export class AltaTurnoComponent implements OnInit {
     this.especialistas.forEach((esp:User) => {
       esp.descripcion.forEach(especialidadEspecialista => {
         this.especialidades.forEach(especialidadesCargadas => {
-            if(especialidadEspecialista == especialidadesCargadas){
+            if(especialidadEspecialista == especialidadesCargadas.nombre){
                 // console.log(especialidadEspecialista)
             }
           });
@@ -310,7 +314,7 @@ export class AltaTurnoComponent implements OnInit {
     }
   }
   capturarMedicoSeleccion(e){
-
+    
     if(this.usuarioLogueado.admin){
       this.seleccionePaciente = false
     }
@@ -349,4 +353,44 @@ export class AltaTurnoComponent implements OnInit {
     this.seleccionePaciente = true;
     this.pacienteSeleccionado = e;
   }
+  filtrarEspecialidad(especialidad: string){
+    this.filtroEspecialidad = especialidad;
+    console.log(this.filtroEspecialidad);
+    this.filtrarMedico();
+  }
+  filtrarMedico(){
+    this.seleccioneMedico = false;
+    let arr = [];
+    if(this.espAux.length != 0){
+      
+      if(this.filtroEspecialidad == 'todos'){
+          this.espAux = this.especialistas;
+          console.log(this.espAux)
+      }
+      else{
+        
+        this.especialistas.forEach(esp => {
+          console.log(esp)
+
+          esp.descripcion.forEach(descr => {
+            console.log(descr)
+            if(descr == this.filtroEspecialidad){
+              arr.push(esp);
+            }
+          });
+        });
+        if(arr.length == 0){
+          this.alerta.mostraAlertaSimple('No hay medicos disponibles para esta especialidad','Aviso');
+        }
+        else{
+
+          this.espAux = arr;
+        }
+      }
+    }
+    else{
+      this.espAux = [];
+    }
+  }
 }
+

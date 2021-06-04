@@ -9,6 +9,7 @@ import { User } from 'src/app/clases/user';
 export class ListarPacientesComponent implements OnInit {
 
   @Input()listadoPacientes:User[];
+  
   @Output()eventoSeleccionPaciente: EventEmitter<any>  = new EventEmitter();
   pacienteSeleccionado: User;
   constructor() { }

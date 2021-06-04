@@ -16,7 +16,7 @@
   <div class="album py-5 bg-light">
     <div class="container">
 
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" >
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         <div class="col" *ngFor="let medico of especialistas; let i = index">
           <div class="card shadow-sm">
             <button appTooltip="Buena calidad de atención" placement="top" delay="500" (click)="seleccionMedico(medico,medico.disponibilidadEsp[0])" style="background: url('{{medico.fotoPerfil}}') no-repeat; background-size: 300px;" class="btn buttonEspecialista button5 btn-redondo appTooltip"></button>
@@ -39,5 +39,7 @@
         </div>
         
       </div>
+      
+
     </div>
   </div>

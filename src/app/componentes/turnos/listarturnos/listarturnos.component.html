@@ -1,6 +1,6 @@
 
 <hr>
-<div class="contenedorBotones" >
+<!-- <div class="contenedorBotones" >
     
     <div *ngFor="let turno of listadoTurnos; let i = index" class="botones">
 
@@ -30,22 +30,55 @@
         
     </div>
     
-        <!-- <div *ngIf="medico.descripcion.length > 1">
+        <div *ngIf="medico.descripcion.length > 1">
             <div *ngFor="let especialidad of medico.descripcion; let i = index">
                 {{especialidad}}
                 <button (click)="seleccionMedico(medico,medico.descripcion[i])" class="btn buttonEspecialista button5 btn-redondo"></button>
             </div>
 
-        </div> -->
-        <!-- <div *ngIf="medico.descripcion.length == 1"> -->
+        </div> 
+         <div *ngIf="medico.descripcion.length == 1">
         
         
 
-        <!-- </div> -->
+       </div>
         <div class="labelEsp">
             
 
             
         </div>
+
+</div> -->
+
+<div class="container marketing" *ngIf="seleccioneMedico">
+
+  <!-- Three columns of text below the carousel -->
+  <div class="row">
+        <div class="col-lg-2" *ngFor="let turno of listadoTurnos; let i = index" class="botones">
+    
+        
+
+            <label >Turno disponible para {{turno.especialidad}}:</label> 
+            <div *ngFor="let hora of turno.horarios">
+                <div *ngIf="hora.disponible == true">
+                    <div>
+                        
+                            
+                        <button (click)="seleccionTurno(turno.fecha,hora.hora)" class="btn buttonHorarios button5">
+
+                            <div class="hora">
+                                <strong>
+                                    {{turno.fecha}}
+                                </strong>
+                                <strong> {{hora.hora}}</strong>
+            
+                            </div>
+                            </button>
+                    </div>
+                </div>
+            </div>
+      
+        </div><!-- /.col-lg-4 -->
+    </div>
 
 </div>

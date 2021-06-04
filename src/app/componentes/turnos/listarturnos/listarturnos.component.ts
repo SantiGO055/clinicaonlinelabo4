@@ -10,6 +10,7 @@ import { Turnoesp, User } from 'src/app/clases/user';
 })
 export class ListarturnosComponent implements OnInit {
   
+  @Input()seleccioneMedico:boolean;
   @Input()especialidadSeleccionada: string;
   @Input()listadoTurnos: Turnoesp[];
   @Output()eventoSeleccionHorario: EventEmitter<any>  = new EventEmitter();

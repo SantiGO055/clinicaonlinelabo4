@@ -9,10 +9,12 @@
     
     </div>
     <div >
-        <app-listarmedicos [especialistas]="especialistas" 
+        <app-listarmedicos [especialistas]="espAux" 
         (eventoSeleccionMedico)="capturarMedicoSeleccion($event)"
-         (eventoSeleccionEspecialidad)="capturarEspSeleccionada($event)">
-
+        (eventoSeleccionEspecialidad)="capturarEspSeleccionada($event)"
+        
+        >
+        
         </app-listarmedicos>
 
     </div>
@@ -29,12 +31,13 @@
         [especialidadSeleccionada]="especialidadSeleccionada"
         [medico]="medicoSeleccionado"
         (eventoSeleccionHorario)="capturarEventoTomarTurno($event)"
+        [seleccioneMedico]="seleccioneMedico"
         >
 
         </app-listarturnos>
     </div>
 
-    <app-listar-especialidades></app-listar-especialidades>
+    <app-listar-especialidades [especialidades]="especialidades" (eventoFiltroEspecialidad)="filtrarEspecialidad($event)"></app-listar-especialidades>
 
     
 </div>

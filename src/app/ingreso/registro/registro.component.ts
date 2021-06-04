@@ -387,6 +387,7 @@ export class RegistroComponent implements OnInit {
   agregarEspecialidad(){
     let espAux = new Especialidad();
     espAux.nombre = this.formGroup.get('especialidadInput').value
+    espAux.img = "https://st3.depositphotos.com/5520014/17847/v/600/depositphotos_178477642-stock-illustration-specialist-of-medical-sciences-doctor.jpg";
     this.fireSvc.AddEspecialidades(espAux);
     
   }
