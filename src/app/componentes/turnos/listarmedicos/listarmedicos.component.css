@@ -2,6 +2,10 @@
     height: auto;
     display:flex;
     flex-direction: row;
+    
+  }
+  .label{
+    padding-top: -30%;
   }
   .botones{
     padding: 2%;
@@ -48,10 +52,13 @@
   
     border: 1px solid rgb(0, 0, 0);
   
-    opacity: 0.8;
+    
     box-shadow: 0px 8px 15px rgb(70, 68, 68);
     
     
+  }
+  .label{
+    flex-direction: column;
   }
   .medico {
     border-right: 1px solid #333;
@@ -118,3 +125,80 @@
   .ng-tooltip-show {
     opacity: 1;
   }
+  .register-page {
+  
+    height: auto;
+    padding: 5% 0 0;
+    margin: auto;
+    animation-name: loginRegister;
+    animation-duration: 0.2s;
+    
+  }
+  @keyframes loginRegister {
+    0% {
+      width: 0px;
+      opacity: 0;
+    }
+    100% {
+      width: 500px;
+      opacity: 1;
+    }
+  }
+  .form {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    width: 90%;
+    margin: 0 auto 100px;
+    padding: 30px;
+    
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    align-items: center;
+    flex-wrap: wrap;
+
+  }
+  .labelMedico{
+    
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+
+  

@@ -84,7 +84,7 @@ export class MiperfilComponent implements OnInit {
       this.sliderDiaSemanaString = 'Sabado';
       this.maxSliderHora = 14;
     }
-    console.log(this.sliderHoraComienzo);
+    // console.log(this.sliderHoraComienzo);
     switch(this.sliderHoraComienzo){
       case 19:
         this.maxSliderTurno = 0;

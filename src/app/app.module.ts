@@ -38,6 +38,7 @@ import { ListarturnosComponent } from './componentes/turnos/listarturnos/listart
 import { ListarPacientesComponent } from './componentes/turnos/listar-pacientes/listar-pacientes.component';
 import { HistoriaClinicaComponent } from './componentes/historia-clinica/historia-clinica.component';
 import { TooltipDirective } from './directivas/tooltip.directive';
+import { ListarEspecialidadesComponent } from './componentes/turnos/listar-especialidades/listar-especialidades.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { TooltipDirective } from './directivas/tooltip.directive';
     ListarPacientesComponent,
     HistoriaClinicaComponent,
     TooltipDirective,
+    ListarEspecialidadesComponent,
     
     
     

@@ -93,15 +93,20 @@ export class RegistroComponent implements OnInit {
   ngOnInit(): void {
     this.usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
     console.log(this.usuarioLogueado);
-    if(this.usuarioLogueado.admin){
-      this.seleccioneAdm = true;
-      this.tipo = "administrador";
+    
+    if(this.usuarioLogueado != null){
+
+      if(this.usuarioLogueado.admin){
+        this.seleccioneAdm = true;
+        this.tipo = "administrador";
+      }
     }
-    this.fireSvc.getEspecialidades().subscribe((especialidad:Especialidad[])=>{
-      this.spinner = false;
-      this.especialidades = especialidad;
-      
-    });
+
+      this.fireSvc.getEspecialidades().subscribe((especialidad:Especialidad[])=>{
+        this.spinner = false;
+        this.especialidades = especialidad;
+        
+      });
     
 
     
@@ -132,7 +137,7 @@ export class RegistroComponent implements OnInit {
       'apellido': ['',Validators.required],
       // 'tipo': ['',Validators.required],
       'edad': ['',[Validators.required,Validators.min(18),Validators.max(99)]],
-      'dni': ['',[Validators.required,Validators.min(11111111),Validators.max(99999999)]],
+      'dni': ['',[Validators.required,Validators.min(11111111),Validators.max(99999999),Validators.minLength(8),Validators.minLength(8)]],
       'obraSocial': ['',[Validators.required]],
       'descripcion': [false],
       'descrArr': this.fb.array([]),
@@ -151,6 +156,9 @@ export class RegistroComponent implements OnInit {
     { 
       validator: this.chequearClave('password', 'confirmarPassword')
     });
+  }
+  prueba3(){
+    console.log(this.formGroup.get('value'))
   }
   private chequearArchivos(control: AbstractControl):null | object {
     // console.log(control);
@@ -341,6 +349,7 @@ export class RegistroComponent implements OnInit {
 
     }
     await this.authSvc.register(this.user,this.password).then((result)=>{
+      console.log(result);
       this.user.uid = result.user.uid;
       console.log(result);
       

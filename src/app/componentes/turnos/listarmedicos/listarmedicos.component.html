@@ -1,56 +1,43 @@
-<div class="contenedorBotones" >
-    <div *ngFor="let medico of especialistas; let i = index" class="botones">
-        <!-- <div class="row"> -->
 
-        
-            <!-- <div class="span6"> -->
+
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">Solicitar turno</h1>
+        <p class="lead text-muted">Seleccione un medico y un horario deseado para dar de alta un turno</p>
+        <p>
             
-                <div *ngIf="medico.disponibilidadEsp != undefined">
-                    <label > <strong>
-                        Medico: {{medico.nombre}}, {{medico.apellido}} 
-
-                    </strong>
-                </label> 
-                <div *ngIf="medico.disponibilidadEsp.length > 0 && medico.disponibilidadEsp.length != 1">
-                    
-                            <button appTooltip="Uno de los mejores en su especialidad" placement="top" delay="500" (click)="seleccionMedico(medico,medico.disponibilidadEsp[i])" style="background: url('{{medico.fotoPerfil}}');" class="btn buttonEspecialista button5 btn-redondo appTooltip"></button>
-                            <label>
-                                <strong>
-                                    Especialidad:
-
-                                </strong>
-        
-                                </label> 
-                            <div *ngFor="let dispo of medico.disponibilidadEsp">
-                                <label>
-                                {{dispo.especialidad}}
-        
-                                </label> 
-                                
-                            </div>
-                
-                        </div>
-
-                
-                    <div *ngIf="medico.disponibilidadEsp.length == 1">
-                        <button appTooltip="Buena calidad de atención" placement="top" delay="500" (click)="seleccionMedico(medico,medico.disponibilidadEsp[0])" style="background: url('{{medico.fotoPerfil}}') no-repeat; background-size: 300px;" class="btn buttonEspecialista button5 btn-redondo appTooltip"></button>
-                        
-                        <label>
-                            <strong>
-                                Especialidad:
-
-                            </strong>
-                        </label> 
-                        <label>
-                            {{medico.disponibilidadEsp[0].especialidad}}
-
-                        </label>
-            
-                    </div>
-
-                </div>
-        
-            <!-- </div>
-        </div> -->
+          <a href="#" class="btn btn-secondary my-2" [routerLink]="''">Volver</a>
+        </p>
+      </div>
     </div>
-</div>
+  </section>
+
+  <div class="album py-5 bg-light">
+    <div class="container">
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" >
+        <div class="col" *ngFor="let medico of especialistas; let i = index">
+          <div class="card shadow-sm">
+            <button appTooltip="Buena calidad de atención" placement="top" delay="500" (click)="seleccionMedico(medico,medico.disponibilidadEsp[0])" style="background: url('{{medico.fotoPerfil}}') no-repeat; background-size: 300px;" class="btn buttonEspecialista button5 btn-redondo appTooltip"></button>
+
+            <div class="card-body">
+              <p class="card-text"><strong>Medico: </strong>{{medico.nombre}}, {{medico.apellido}} </p>
+              <div *ngFor="let esp of medico.descripcion">
+                  <p class="card-text"><strong>Especialidad: </strong>{{esp}}</p>
+
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <!-- <button type="button" class="btn btn-sm btn-outline-secondary">عرض</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">تعديل</button> -->
+                </div>
+                <!-- <small class="text-muted">9 دقائق</small> -->
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>

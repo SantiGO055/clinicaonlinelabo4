@@ -49,3 +49,28 @@ inicio y candidad de horar
 que calcule la cantidad de turnos por dia y especialidad
 sin calendar, sin select ni datetime picker
 con slider selecciono candidad de turnos
+//HECHO
+
+Corregir de sprint 2
+La reseña es una descripcion del turno que se debe mostrar en historia clinica
+agregar 3 valores dinamicos para la historia clinica
+para el alta
+distinta fotos del profesional y por cada una, detalle de especialidad
+
+Para otro pipe:
+Pasarle un profesional a un pipe y mostrar solo nombre y apellido
+para responsive se puede usar el template de pricing o jumbotron
+
+Para sprint 3:
+cuando el especialista ingresa, en la parte de sus pacientes:
+mostrar los pacientes con card de bootstrap con detalle de las ultimas 3 atenciones
+y un boton que acceda a la historia clinica
+
+Mi perfil administrador:
+Descargar excel con los datos de los turnos que tomo y con quien los tomo.
+
+y para el perfil de usuario MI PERFIL los pacientes pueden descargar un PDF
+de todas las atenciones hechas por ESPECIALIDAD (historial de turno por especialidad)
+
+Animaciones:
+desde abajo pero de la pagina no de algun componente

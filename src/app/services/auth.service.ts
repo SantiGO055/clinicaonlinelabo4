@@ -225,6 +225,7 @@ export class AuthService {
         this.sendEmailVerification();
         return user;
       });
+      return aux;
 
       // (await aux).user?.updateProfile({
       //   displayName: user.username
