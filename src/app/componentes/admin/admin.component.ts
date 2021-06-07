@@ -28,7 +28,7 @@ export class AdminComponent implements OnInit {
   bajaUser:BajaUsuario = new BajaUsuario();
   historias: Historia[] = [];
   flag:boolean = false;
-  arrayExcelUsuario =  [];
+  // arrayExcelUsuario =  [];
   constructor(
     private authSvc: AuthService,
     private fireSvc: FirebaseService,
@@ -57,7 +57,7 @@ export class AdminComponent implements OnInit {
 
     this.fireSvc.getAllUsers().subscribe((usuarios)=>{
 
-      this.arrayExcelUsuario = <any>usuarios;
+      // this.arrayExcelUsuario = <any>usuarios;
 
       this.usuariosEspecialistas = [];
       usuarios.forEach(usuario => {
@@ -167,26 +167,26 @@ export class AdminComponent implements OnInit {
       
     }
   }
-  exportarExcel(){
-    let reportData = {
-      title: 'Listado de usuarios de clinica online',
-      data: this.arrayExcelUsuario,
-      headers: [
-        'nombre',
-        'apellido',
-        'baja',
-        'dni',
-        'edad',
-        'email',
-        'fecha',
-        'fotoPerfil',
-        'fotoPerfilDos',
-        'especialista',
-        'uid'
-      ]
-    }
+  // exportarExcel(){
+  //   let reportData = {
+  //     title: 'Listado de usuarios de clinica online',
+  //     data: this.arrayExcelUsuario,
+  //     headers: [
+  //       'nombre',
+  //       'apellido',
+  //       'baja',
+  //       'dni',
+  //       'edad',
+  //       'email',
+  //       'fecha',
+  //       'fotoPerfil',
+  //       'fotoPerfilDos',
+  //       'especialista',
+  //       'uid'
+  //     ]
+  //   }
 
-    this.excel.exportExcel(reportData);
-  }
+  //   this.excel.exportExcel(reportData);
+  // }
 
 }

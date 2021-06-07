@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import Swal from'sweetalert2';
+import { Historia } from '../clases/historia';
 @Injectable({
   providedIn: 'root'
 })
@@ -98,6 +99,22 @@ export class AlertasService {
     console.log(text);
     
     return text;
+  }
+  mostrarAlertaHistoria(hist: Historia){
+  
+    let historiaHtml= "<ul class='list-unstyled mt-3 mb-4'><p><strong>Altura:</strong> " + hist.altura+"</p><p><strong>Peso:</strong> " + hist.peso+"</p><p><strong>Temperatura:</strong> "+ hist.altura+"</p><p><strong>Presion:</strong> " + hist.presion+"</p><p><strong> " + hist.clave+":</strong> " + hist.valor+"</p><p><p><strong> " + hist.clave2+":</strong> " + hist.valor2+"</p></ul>";
+
+    Swal.fire({
+      title: '<strong>Historia clinica</strong>',
+      icon: 'info',
+      html: historiaHtml,
+      showCloseButton: true,
+      focusConfirm: false,
+      confirmButtonText:
+        '<i class="fa fa-thumbs-up"></i> Ok',
+      confirmButtonAriaLabel: 'Thumbs up, great!',
+      cancelButtonAriaLabel: 'Thumbs down'
+    })
   }
   
 }

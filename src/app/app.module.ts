@@ -39,6 +39,9 @@ import { ListarPacientesComponent } from './componentes/turnos/listar-pacientes/
 import { HistoriaClinicaComponent } from './componentes/historia-clinica/historia-clinica.component';
 import { TooltipDirective } from './directivas/tooltip.directive';
 import { ListarEspecialidadesComponent } from './componentes/turnos/listar-especialidades/listar-especialidades.component';
+import { MostrarHistoriaComponent } from './componentes/mostrar-historia/mostrar-historia.component';
+import { MostrarHistoriaMedicoComponent } from './componentes/mostrar-historia-medico/mostrar-historia-medico.component';
+import { DetalleHistoriaComponent } from './componentes/detalle-historia/detalle-historia.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +60,9 @@ import { ListarEspecialidadesComponent } from './componentes/turnos/listar-espec
     HistoriaClinicaComponent,
     TooltipDirective,
     ListarEspecialidadesComponent,
+    MostrarHistoriaComponent,
+    MostrarHistoriaMedicoComponent,
+    DetalleHistoriaComponent,
     
     
     

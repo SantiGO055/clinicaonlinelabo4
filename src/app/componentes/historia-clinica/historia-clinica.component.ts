@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Historia } from 'src/app/clases/historia';
 import { Turnos } from 'src/app/clases/turnos';
@@ -31,6 +32,7 @@ export class HistoriaClinicaComponent implements OnInit {
     private fire: FirebaseService,
     private alerta: AlertasService,
     private spinner: NgxSpinnerService,
+    private router:Router
     ) {
     console.log("hola")
    }
@@ -62,7 +64,9 @@ export class HistoriaClinicaComponent implements OnInit {
       
       this.fire.updateHistorias(historia);
       this.spinner.hide();
+      this.router.navigate(['']);
       this.alerta.mostraAlertaSimpleSuccess('Historia agregada correctamente','Confirmación')
+
     });
 
   }

@@ -57,15 +57,15 @@ agregar 3 valores dinamicos para la historia clinica
 para el alta
 distinta fotos del profesional y por cada una, detalle de especialidad
 
-Para otro pipe:
-Pasarle un profesional a un pipe y mostrar solo nombre y apellido
-para responsive se puede usar el template de pricing o jumbotron
+
 
 Para sprint 3:
 cuando el especialista ingresa, en la parte de sus pacientes:
 mostrar los pacientes con card de bootstrap con detalle de las ultimas 3 atenciones
 y un boton que acceda a la historia clinica
+//HECHO
 
+//Continuar esto
 Mi perfil administrador:
 Descargar excel con los datos de los turnos que tomo y con quien los tomo.
 
@@ -74,3 +74,7 @@ de todas las atenciones hechas por ESPECIALIDAD (historial de turno por especial
 
 Animaciones:
 desde abajo pero de la pagina no de algun componente
+
+Para otro pipe:
+Pasarle un profesional a un pipe y mostrar solo nombre y apellido
+para responsive se puede usar el template de pricing o jumbotron

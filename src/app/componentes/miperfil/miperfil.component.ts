@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbCarousel, NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { EstadoTurno } from 'src/app/clases/estado-turno';
 import { Historia } from 'src/app/clases/historia';
+import { Estados } from 'src/app/clases/turnos';
 import { Horarios, Turnoesp, User } from 'src/app/clases/user';
+import { ExportExcelService } from 'src/app/services/export-excel.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 
 @Component({
@@ -28,14 +33,27 @@ export class MiperfilComponent implements OnInit {
   sliderDiaSemana: number = 1;
   sliderDiaSemanaString: string = 'Lunes';
   maxSliderTurno: number = 22;
-  maxSliderHora: number = 19;
+  maxSliderHora: number = 18;
   turnoAux: Turnoesp;
-  historia: Historia;
+  historia: Historia[]=[];
   flag: boolean = false;
+  seleccioneDia: boolean = false;
+  seleccioneHora: boolean = false;
+  arrayExcelTurno =  [];
+
+  estados:EstadoTurno[] = []
 
   constructor(
-    private fireSvc: FirebaseService
+    private fireSvc: FirebaseService,
+    private spinner: NgxSpinnerService,
+    private config: NgbCarouselConfig,
+    private excel: ExportExcelService
+
   ) {
+    config.interval = 2500;
+    config.keyboard = true;
+    config.pauseOnHover = true;
+    config.showNavigationArrows = false;
     // console.log(this.sliderHoraComienzo);
    }
 
@@ -53,32 +71,30 @@ export class MiperfilComponent implements OnInit {
     // this.diaSeleccionado.setDate(this.hoy.getDate() + distance);
     // console.log(this.diaSeleccionado);
 
-    
-
     if(this.sliderDiaSemana == 1){
       this.sliderDiaSemanaString = 'Lunes';
-      this.maxSliderHora = 19;
+      this.maxSliderHora = 18;
 
     }
     if(this.sliderDiaSemana == 2){
       this.sliderDiaSemanaString = 'Martes';
-      this.maxSliderHora = 19;
+      this.maxSliderHora = 18;
 
 
     }
     if(this.sliderDiaSemana == 3){
       this.sliderDiaSemanaString = 'Miercoles';
-      this.maxSliderHora = 19;
+      this.maxSliderHora = 18;
 
     }
     if(this.sliderDiaSemana == 4){
       this.sliderDiaSemanaString = 'Jueves';
-      this.maxSliderHora = 19;
+      this.maxSliderHora = 18;
 
     }
     if(this.sliderDiaSemana == 5){
       this.sliderDiaSemanaString = 'Viernes';
-      this.maxSliderHora = 19;
+      this.maxSliderHora = 18;
     }
     if(this.sliderDiaSemana == 6){
       this.sliderDiaSemanaString = 'Sabado';
@@ -176,21 +192,38 @@ export class MiperfilComponent implements OnInit {
         }
         break;
     }
+    console.log(this.fechaSeleccionada);
   }
 
   ngOnInit(): void {
 
-    
+    this.spinner.show();
     this.fireSvc.getAllHistorias().subscribe(historia=>{
       historia.forEach(histo => {
         if(histo.turno.paciente.uid === this.usuarioLogueado.uid){
-          this.historia = histo;
+          this.historia.push(histo);
           this.flag = false;
+          this.spinner.hide();
+        }
+        else{
+          this.spinner.hide();
         }
       });
       
       
     });
+    this.fireSvc.getAllTurnos().subscribe(turnos=>{
+      this.arrayExcelTurno = <any>turnos;
+    });
+    this.fireSvc.getAllEstados().subscribe(estados=>{
+      estados.forEach(estado => {
+        if(estado.estado == Estados.REALIZADO){
+          this.estados.push(JSON.parse(JSON.stringify(estado)));
+
+        }
+      });
+    });
+
 
     this.sliderDiaSemanaString = 'Lunes';
 
@@ -374,6 +407,33 @@ export class MiperfilComponent implements OnInit {
     
     this.especialidad = value.$ngOptionLabel.trim();
     console.info()
+  }
+
+  
+
+  exportarExcel(){
+    let reportData = {
+      title: 'Listado de usuarios de clinica online',
+      data: this.estados,
+      headers: [
+        'Especialidad',
+        'Reseña',
+        'Nombre medico',
+        'Apellido medico',
+        'Email de medico',
+        'Dni de medico',
+        'Edad de medico',
+        'Fecha de atencion',
+        'Hora de atencion',
+        'Estado de atencion',
+        'Nombre Paciente',
+        'Apellido Paciente',
+        'Dni paciente',
+        'Edad paciente',
+      ]
+    }
+
+    this.excel.exportExcel(reportData);
   }
 
 }

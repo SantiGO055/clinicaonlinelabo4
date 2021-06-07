@@ -1,157 +1,145 @@
+<div class="miPerfil">
 
 
+<div class="container">
 
-  <div class="card mb-3" >
-    <div class="row g-0">
-      <div class="col-md-4">
-        <img src={{usuarioLogueado.fotoPerfil}} style="height: 150px;" class="card-img" alt="...">
-        <img *ngIf="usuarioLogueado.fotoPerfilDos" src={{usuarioLogueado.fotoPerfilDos}} class="card-img" alt="...">
-      </div>
-      <div class="col-md-8">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    <div class="col">
+      <div class="card shadow-sm">
+
+
+        <div *ngIf="usuarioLogueado.paciente">
+          <ngb-carousel>
+            <ng-template ngbSlide>
+              <div class="picsum-img-wrapper">
+                <img [src]="usuarioLogueado.fotoPerfil" width="80%" alt="Foto de perfil numero 1">
+              </div>
+              <div class="carousel-caption">
+              </div>
+            </ng-template>
+            <ng-template ngbSlide >
+              <div class="picsum-img-wrapper">
+                <img [src]="usuarioLogueado.fotoPerfilDos" width="80%" alt="Foto de perfil numero 2">
+              </div>
+              <div class="carousel-caption">
+              </div>
+            </ng-template>
+          </ngb-carousel>
+
+        </div>
+        <div *ngIf="!usuarioLogueado.paciente" class="picsum-img-wrapper">
+          <img src={{usuarioLogueado.fotoPerfil}} width="100%">
+        </div>
+
+
         <div class="card-body">
-            <h5 *ngIf="usuarioLogueado.especialista" class="card-title">Especialista</h5>
-            <h5 *ngIf="usuarioLogueado.admin" class="card-title">Administrador</h5>
-            <h5 *ngIf="usuarioLogueado.paciente" class="card-title">Paciente</h5>
-            <p class="card-text"><strong>Nombre: </strong> {{usuarioLogueado.nombre}}</p>
-            <p class="card-text"><strong>Apellido: </strong> {{usuarioLogueado.apellido}}</p>
-            <p class="card-text"><strong>Email: </strong> {{usuarioLogueado.email}}</p>
-            <p class="card-text"><strong>Fecha de creacion de cuenta: </strong> {{usuarioLogueado.fecha }}</p>
-            <p><strong>Dni: </strong>{{usuarioLogueado.dni}}</p>
-            <div *ngIf="usuarioLogueado.especialista">
-                <strong>Especialidades: </strong>
+          
+          <h5 *ngIf="usuarioLogueado.especialista" class="card-title">Especialista</h5>
+        <h5 *ngIf="usuarioLogueado.admin" class="card-title">Administrador</h5>
+        <h5 *ngIf="usuarioLogueado.paciente" class="card-title">Paciente</h5>
+          <p class="card-text"><strong>Nombre: </strong> {{usuarioLogueado.nombre}}</p>
+        <p class="card-text"><strong>Apellido: </strong> {{usuarioLogueado.apellido}}</p>
+        <p class="card-text"><strong>Email: </strong> {{usuarioLogueado.email}}</p>
+        <p class="card-text"><strong>Fecha de creacion de cuenta: </strong> {{usuarioLogueado.fecha }}</p>
+        <p><strong>Dni: </strong>{{usuarioLogueado.dni}}</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+              <div *ngIf="usuarioLogueado.admin" class="form">
+                <button type="submit" (click)="exportarExcel()">Exportar todos los usuarios a excel</button>
+            
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div *ngIf="usuarioLogueado.paciente && !flag && !usuarioLogueado.admin ">
+    <app-mostrar-historia
+    [historia]="historia"
+    >
+
+    </app-mostrar-historia>
+    
+  </div>
+  
+  
+
+
+
+  <div *ngIf="usuarioLogueado.especialista">
+
+
+    
+      <div class="row row-cols-1 row-cols-sm-1 mb-3 text-center cardHistoria">
+        <div class="col">
+          <div class="card mb-4 rounded-3 shadow-sm" >
+            <div class="card-header py-3">
+              <h4 class="my-0 fw-normal"><strong>Especialidades </strong></h4>
+            </div>
+            <div class="card-body">
+              <h1 class="card-title ">
                 <div *ngFor="let esp of usuarioLogueado.descripcion">
                   {{esp}}
                     
-                    <!-- <input type="datetime-local" [(ngModel)]="usuarioLogueado.disponibilidadEsp"> <input type="button" (click)="seleccionDispo(esp)" value="Agregar"> -->
                     
                 </div>
                 <div>
 
                   <strong>Agregar disponibilidad: </strong>
                   <label class="custom-control-label">Seleccione dia de la semana: </label>
-                  <label class="custom-control-label"> {{sliderDiaSemanaString}}</label>
-                  <br>
-                  <input type="range" min="1" max="6" type="range" (change)="calcularSlider()" [(ngModel)]="sliderDiaSemana">
-                  <br>
-                  <label class="custom-control-label">Seleccione horario de comienzo de atencion: </label>
-                  <label *ngIf="sliderHoraComienzo != undefined" class="custom-control-label"> {{sliderHoraComienzo}} hs</label>
-                  <br>
-                  <input type="range" min="8" max={{maxSliderHora}} type="range"  (change)="calcularSlider()"[(ngModel)]="sliderHoraComienzo">
-                  <br>
+                  <div *ngIf="seleccioneDia">
+                    <label class="custom-control-label"> {{sliderDiaSemanaString}}</label>
 
-                  <label class="custom-control-label">Seleccione cantidad de turnos a tomar: </label>
-                  <label *ngIf="sliderCantTurnos != undefined" class="custom-control-label">  {{sliderCantTurnos}} turnos</label>
+                  </div>
                   <br>
-                  <input *ngIf="sliderHoraComienzo != 19" type="range" min="1" max={{maxSliderTurno}} type="range" (change)="calcularSlider()" [(ngModel)]="sliderCantTurnos">
+                  <input type="range" min="1" max="6" type="range" (change)="calcularSlider() ; seleccioneDia = true" [(ngModel)]="sliderDiaSemana">
+                  <br>
+                  <div *ngIf="seleccioneDia">
+                    <label class="custom-control-label">Seleccione horario de comienzo de atencion: </label>
+                    <label *ngIf="sliderHoraComienzo != undefined" class="custom-control-label"> {{sliderHoraComienzo}} hs</label>
+
+                    <br>
+                    <input type="range" min="8" max={{maxSliderHora}} type="range"  (change)="calcularSlider(); seleccioneHora = true"[(ngModel)]="sliderHoraComienzo">
+                  </div>
+                  <div *ngIf="seleccioneHora">
+                    <label class="custom-control-label">Seleccione cantidad de turnos a tomar: </label>
+                    <label *ngIf="sliderCantTurnos != undefined" class="custom-control-label">  {{sliderCantTurnos}} turnos</label>
+                    <br>
+                    <input type="range" min="1" max={{maxSliderTurno}} type="range" (change)="calcularSlider()" [(ngModel)]="sliderCantTurnos">
+
+                  </div>
                   
                   
 
                   
-                  <div *ngFor="let esp of usuarioLogueado.descripcion">
+                  
+                  
+
+                </div>
+              
+              <small class="text-muted fw-light"></small></h1>
+              <ul class="list-unstyled mt-3 mb-4">
                     
-                    <button class="btn btn-primary" (click)="seleccionDispo(esp)">Agregar turno para {{esp}}</button>
-                      
-                      <!-- <input type="datetime-local" [(ngModel)]="usuarioLogueado.disponibilidadEsp"> <input type="button" (click)="seleccionDispo(esp)" value="Agregar"> -->
-                      
-                  </div>
-                  
-
-                </div>
-                <div *ngIf="especialidad">
-                  
-                  
-                  <input type="date" [min]="minimo | date:'yyyy-MM-dd'" [max]="maximo" [(ngModel)]="fechaSeleccionada" (change)="mostrarHorarios()"> 
-                  <div *ngIf="mostrarHorario">
-                    <form>
+              </ul>
+              <div *ngFor="let esp of usuarioLogueado.descripcion">
                     
-                    <div *ngFor="let hora of horariosAElegir">
-                      <div class="custom-control custom-radio">
-                        <input id="male" type="checkbox" class="custom-control-input" [value]="hora.hora" name="horario" ngModel (change)="capturarHora($event)">
-                        <label class="custom-control-label" for={{hora.hora}}>{{hora.hora}}</label>
-                     </div>
-                     
-                    </div>
-                    <!-- <input type="button" (click)="seleccionDispo()" value="Agregar"> -->
-                  </form>
-                  </div>
-
-                </div>
-                <div *ngIf="disp != null">
-                  <hr>
-                  <strong>Fechas disponibles: </strong>
+                <button class="w-100 btn btn-lg btn-outline-primary" (click)="seleccionDispo(esp)">Agregar turno para {{esp}}</button>
                   
-                  <div *ngFor="let fecha of usuarioLogueado.disponibilidadEsp">
-                    <p>{{fecha.especialidad}}</p> <p> {{fecha.fecha |date:"yyyy-MM-dd"}} </p>
-                    <div *ngFor="let hora of fecha.horarios">
-                      <p> {{hora.hora}} </p>
-
-                    </div>
-                    <hr>
-                  </div>
-  
-                </div>
+                  
               </div>
-              <app-spinner class="flag" [spinner]="flag"></app-spinner>
-
-              <div *ngIf="usuarioLogueado.paciente && !flag && !usuarioLogueado.admin ">
-                <h1>
-                  Historia clínica
-                </h1>
-                <p>
-                  <strong>
-                    Nombre del medico:
-                  </strong>
-                  {{historia.turno.especialista.nombre}}, {{historia.turno.especialista.apellido}}
-                </p>
-                <p>
-                  <strong>
-                    Especialidad del medico:
-                  </strong>
-                  {{historia.turno.especialidad}}
-                </p>
-                <h3>
-                  Datos de paciente:
-                </h3>
-                <p>
-                  <strong>
-                    Altura:
-                  </strong>
-                  {{historia.altura}}
-                </p>
-                <p>
-                  <strong>
-                    Peso:
-                  </strong>
-                  {{historia.peso}}
-                </p>
-                <p>
-                  <strong>
-                    Temperatura:
-                  </strong>
-                  {{historia.temperatura}}
-                </p>
-                <p>
-                  <strong>
-                    Presion:
-                  </strong>
-                  {{historia.presion}}
-                </p>
-                <p>
-                  <strong>
-                    {{historia.clave}}:
-                  </strong>
-                  {{historia.valor}}
-                </p>
-                <p>
-                  <strong>
-                    {{historia.clave2}}:
-                  </strong>
-                  {{historia.valor2}}
-                </p>
-
-              </div>
-                
+            </div>
+          </div>
         </div>
-      </div>
     </div>
   </div>
+
+
+
+    
+</div>
+
+    

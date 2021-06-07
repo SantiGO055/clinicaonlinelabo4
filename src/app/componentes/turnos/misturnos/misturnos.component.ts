@@ -36,7 +36,7 @@ export class MisturnosComponent implements OnInit {
   
   ngOnInit(): void {
     
-    this.spinner.show();
+    
     this.usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
 
     
@@ -56,43 +56,55 @@ export class MisturnosComponent implements OnInit {
 
     this.fireSvc.getAllTurnos().subscribe((turnos)=>{
 
-      
+      let turnoAux: Turnos[] = [];
+
+
       // console.log(turnos)
       // console.log(this.usuarioLogueado)
+      
       turnos.forEach(turno => {
-        if(this.usuarioLogueado.paciente){
-          if(this.usuarioLogueado.uid == turno.paciente.uid){
+
+          if(this.usuarioLogueado.paciente){
+            if(this.usuarioLogueado.uid == turno.paciente.uid){
+    
+              turnoAux.push(turno) 
+              this.misTurnos.push(turno)
   
-            // console.log("igual")
-            this.misTurnos = turnos;
+  
+              // this.misTurnos.push(turno);
+              
+            }
+            else{
+              // console.log("no es igual")
+    
+            }
+          
+          }
+          else if(this.usuarioLogueado.especialista){
+            if(this.usuarioLogueado.uid == turno.especialista.uid){
+    
+              // console.log("igual")
+              turnoAux.push(turno) 
+              
+            }
+            else{
+              // console.log("no es igual")
+    
+            }
           }
           else{
-            // console.log("no es igual")
-  
+            this.allTurnos.push(turno);
           }
         
-        }
-        else if(this.usuarioLogueado.especialista){
-          if(this.usuarioLogueado.uid == turno.especialista.uid){
-  
-            // console.log("igual")
-            
-            this.misTurnos.push(turno);
-          }
-          else{
-            // console.log("no es igual")
-  
-          }
-        }
-        else{
-          this.allTurnos.push(turno);
-        }
-        this.spinner.hide();
         
+         
       });
+      this.misTurnos = turnoAux; 
+      this.spinner.hide();
 
     });
   }
+  
   cancelarTurno(turno: Turnos){
     
     this.turnoSeleccionado = turno;

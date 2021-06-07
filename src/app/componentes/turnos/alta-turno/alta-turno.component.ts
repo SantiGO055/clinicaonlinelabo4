@@ -66,9 +66,12 @@ export class AltaTurnoComponent implements OnInit {
       usuarios.forEach(usr => {
         if(usr.especialista){
           // console.log(usr)
-          if(usr.disponibilidadEsp.length != 0){
-            this.espAux.push(JSON.parse(JSON.stringify(usr)));
-            this.especialistas.push(JSON.parse(JSON.stringify(usr)));
+          if(usr.disponibilidadEsp != null){
+            if(usr.disponibilidadEsp.length != 0){
+              this.espAux.push(JSON.parse(JSON.stringify(usr)));
+              this.especialistas.push(JSON.parse(JSON.stringify(usr)));
+  
+            }
 
           }
         }

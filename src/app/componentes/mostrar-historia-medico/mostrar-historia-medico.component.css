@@ -1,16 +1,4 @@
-.card{
-    margin: 1% 0 0 0;
-    /* max-width: 600px; */
-    
-}
-.container{
-    padding: 5% 0 0 0;
-}
-.miPerfil{
-    display: flex;
-    flex-direction: column;
-}
-.form button {
+button {
     font-family: "Roboto", sans-serif;
     text-transform: uppercase;
     outline: 0;
@@ -25,6 +13,6 @@
     cursor: pointer;
     border-radius: 5px;
   }
-  .form button:hover,.form button:active,.form button:focus {
+  button:hover, button:active, button:focus {
     background: #43A047;
   }
