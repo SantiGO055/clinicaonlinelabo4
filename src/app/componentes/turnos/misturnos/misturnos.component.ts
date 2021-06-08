@@ -248,7 +248,7 @@ export class MisturnosComponent implements OnInit {
         
           // console.log(turno.id)
           // if(turno.id == element.turno.id){
-            this.estadoTurno.id = turno.id;
+            
             this.estadoTurno.fecha = this.estadoTurno.obtenerFecha();
             this.estadoTurno.hora = this.estadoTurno.obtenerHora();
             this.estadoTurno.estado = turno.estado;
@@ -262,7 +262,9 @@ export class MisturnosComponent implements OnInit {
             if(this.usuarioLogueado.paciente){
               this.estadoTurno.paciente = this.usuarioLogueado;
             }
-            this.fireSvc.addEstado(this.estadoTurno,turno);
+            this.fireSvc.addEstado(this.estadoTurno,turno).then(()=>{
+              this.router.navigate(['']);
+            });
             
     
             

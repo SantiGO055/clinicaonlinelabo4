@@ -42,6 +42,8 @@ import { ListarEspecialidadesComponent } from './componentes/turnos/listar-espec
 import { MostrarHistoriaComponent } from './componentes/mostrar-historia/mostrar-historia.component';
 import { MostrarHistoriaMedicoComponent } from './componentes/mostrar-historia-medico/mostrar-historia-medico.component';
 import { DetalleHistoriaComponent } from './componentes/detalle-historia/detalle-historia.component';
+import { RoundDivDirective } from './directivas/round-div.directive';
+import { MedicoPipe } from './pipes/medico.pipe';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,8 @@ import { DetalleHistoriaComponent } from './componentes/detalle-historia/detalle
     MostrarHistoriaComponent,
     MostrarHistoriaMedicoComponent,
     DetalleHistoriaComponent,
+    RoundDivDirective,
+    MedicoPipe,
     
     
     

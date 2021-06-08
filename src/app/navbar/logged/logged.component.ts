@@ -33,7 +33,8 @@ export class LoggedComponent implements OnInit {
 
       this.usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
       // console.log(res);
-      // console.log(this.usuarioLogueado);
+
+      console.log(this.usuarioLogueado);
       try {
         if(res && res.uid){
           // console.log(res);

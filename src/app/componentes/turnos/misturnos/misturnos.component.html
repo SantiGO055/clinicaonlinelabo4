@@ -22,10 +22,9 @@
                 <a class="list-group-item list-group-item-action" >
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{turno.especialidad}}</h5>
-                    {{turno.fecha}}
                     <small>{{turno.fecha | date: "dd/MM/yyyy"}} / {{turno.hora}}</small>
                 </div>
-                <p class="mb-1">Especialista: {{turno.especialista.nombre}}, {{turno.especialista.apellido}}</p>
+                <p class="mb-1">Especialista: {{turno.especialista | medico: turno.especialista}}</p>
                 
                 <p>
                     Estado: <strong>{{turno.estado}}</strong>
@@ -35,7 +34,8 @@
                 <small>Paciente: {{turno.paciente.nombre}}, {{turno.paciente.apellido}}</small>
                 <td *ngIf="turno.estado != 'REALIZADO' && turno.estado != 'CANCELADO'"><button class="btn btn-primary" (click)="cancelarTurno(turno)">Cancelar turno</button></td>
                 <td *ngIf="turno.resenia != undefined && turno.resenia != '' "><button class="btn btn-primary" (click)="verResenia(turno)">Ver reseña</button></td>
-                    <td *ngIf="turno.estado == 'REALIZADO' "><button class="btn btn-primary" (click)="calificarAtencion(turno)">Calificar Atencion</button></td>
+               
+                <td *ngIf="turno.estado == 'REALIZADO' && turno.comentarioPaciente != ''"><button class="btn btn-primary" (click)="calificarAtencion(turno)">Calificar Atencion</button></td>
                     <!-- <td *ngIf="turno.estado == 'REALIZADO' && turno.resenia != '' && turno.resenia != undefined"><button class="btn btn-primary" (click)="completarEncuesta(turno)">Completar encuesta</button></td> -->
                 </a>
     
@@ -67,7 +67,7 @@
                         <h5 class="mb-1">{{turno.especialidad}}</h5>
                         <small>{{turno.fecha | date: "dd/MM/yyyy"}} / {{turno.hora}}</small>
                     </div>
-                    <p class="mb-1">Especialista: {{turno.especialista.nombre}}, {{turno.especialista.apellido}}</p>
+                    <p class="mb-1">Especialista: {{turno.especialista | medico: turno.especialista}}</p>
                     
                     <p>
                         Estado: <strong>{{turno.estado}}</strong>
@@ -122,7 +122,7 @@
                         <h5 class="mb-1">{{turno.especialidad}}</h5>
                         <small>{{turno.fecha | date: "yyyy-MM-dd"}} / {{turno.hora}}</small>
                     </div>
-                    <p class="mb-1">Especialista: {{turno.especialista.nombre}}, {{turno.especialista.apellido}}</p>
+                    <p class="mb-1">Especialista: {{turno.especialista | medico: turno.especialista}}</p>
                     
                     <p>
                         Estado: <strong>{{turno.estado}}</strong>

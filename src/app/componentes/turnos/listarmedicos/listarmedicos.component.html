@@ -19,10 +19,10 @@
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         <div class="col" *ngFor="let medico of especialistas; let i = index">
           <div class="card shadow-sm">
-            <button appTooltip="Buena calidad de atención" placement="top" delay="500" (click)="seleccionMedico(medico,medico.disponibilidadEsp[0])" style="background: url('{{medico.fotoPerfil}}') no-repeat; background-size: 300px;" class="btn buttonEspecialista button5 btn-redondo appTooltip"></button>
+            <button [appRoundDiv]='"50%"' appTooltip="Buena calidad de atención" placement="top" delay="500" (click)="seleccionMedico(medico,medico.disponibilidadEsp[0])" style="background: url('{{medico.fotoPerfil}}') no-repeat; background-size: 300px;" class="btn buttonEspecialista btn-redondo appTooltip" ></button>
 
             <div class="card-body">
-              <p class="card-text"><strong>Medico: </strong>{{medico.nombre}}, {{medico.apellido}} </p>
+              <p class="card-text"><strong>Medico: </strong>{{medico | medico:medico}} </p>
               <div *ngFor="let esp of medico.descripcion">
                   <p class="card-text"><strong>Especialidad: </strong>{{esp}}</p>
 
