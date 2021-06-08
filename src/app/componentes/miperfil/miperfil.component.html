@@ -48,6 +48,10 @@
                 <button type="submit" (click)="exportarExcel()">Exportar todos los usuarios a excel</button>
             
               </div>
+              <div *ngIf="usuarioLogueado.paciente" class="form">
+                <button type="submit" (click)="exportarPdf()">Exportar todos los turnos a excel</button>
+            
+              </div>
             </div>
             
           </div>
