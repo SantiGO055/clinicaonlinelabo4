@@ -441,8 +441,14 @@ export class MiperfilComponent implements OnInit {
     this.excel.exportExcel(reportData);
   }
   exportarPdf(){
+    let aux  = [];
+    this.arrayExcelTurno.forEach(turno => {
+        if(this.usuarioLogueado.uid === turno.paciente.uid){
+          aux.push(turno);
+        }
+    });
     
-    this.pdf.exportarPdf(this.estados);
+    this.pdf.exportarPdf(aux);
   }
 
 }

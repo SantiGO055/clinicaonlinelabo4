@@ -177,7 +177,13 @@ export class RegistroComponent implements OnInit {
     const filelist = event.target.files;
     
     if(multiple){
-      if(filelist.length > 2){
+      
+      if(filelist.length == 1){
+        this.subirArchivos = false;
+        this.mensajeSubida = "Seleccione 2 archivos";
+        console.log("1 archivo");
+      }
+      if(filelist.length != 2){
         // console.log("seleccionar solo 2 archivos");
         this.subirArchivos = false;
         this.mensajeSubida = "Seleccionar solo 2 archivos";

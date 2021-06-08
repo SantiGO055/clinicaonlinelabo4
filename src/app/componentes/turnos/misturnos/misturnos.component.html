@@ -35,7 +35,7 @@
                 <td *ngIf="turno.estado != 'REALIZADO' && turno.estado != 'CANCELADO'"><button class="btn btn-primary" (click)="cancelarTurno(turno)">Cancelar turno</button></td>
                 <td *ngIf="turno.resenia != undefined && turno.resenia != '' "><button class="btn btn-primary" (click)="verResenia(turno)">Ver reseña</button></td>
                
-                <td *ngIf="turno.estado == 'REALIZADO' && turno.comentarioPaciente != ''"><button class="btn btn-primary" (click)="calificarAtencion(turno)">Calificar Atencion</button></td>
+                <td *ngIf="turno.estado == 'REALIZADO' && turno.comentarioPaciente.length === 0"><button class="btn btn-primary" (click)="calificarAtencion(turno)">Calificar Atencion</button></td>
                     <!-- <td *ngIf="turno.estado == 'REALIZADO' && turno.resenia != '' && turno.resenia != undefined"><button class="btn btn-primary" (click)="completarEncuesta(turno)">Completar encuesta</button></td> -->
                 </a>
     

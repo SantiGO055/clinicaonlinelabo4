@@ -38,7 +38,7 @@ export class ExportarPdfService {
       
       let objAux:any = {
         especialidad: d.especialidad,
-        resenia: d.comentarioMedico,
+        resenia: d.resenia,
         nombreMedico: d.especialista.nombre,
         apellidoMedico: d.especialista.apellido,
         fechaAtencion: d.fecha,

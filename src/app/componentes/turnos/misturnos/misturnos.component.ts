@@ -227,6 +227,7 @@ export class MisturnosComponent implements OnInit {
       // diagnostico?: string;
       
       this.turnoSeleccionado.estado = Estados.REALIZADO;
+      this.turnoSeleccionado.resenia = comentario;
       this.fireSvc.updateTurno(this.turnoSeleccionado);
       this.fireSvc.addEstado(this.estadoTurno,turno);
 
