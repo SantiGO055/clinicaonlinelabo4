@@ -17,22 +17,21 @@ Registrar
 ## Utilizacion de la app
 #### Acciones del paciente:
 ##### Solicitar turno:
+Se accede a la seccion Solicitar Turno donde se elije el medico, fecha y horario en la que se desea dar de alta el turno
+![sacar turno gif](https://firebasestorage.googleapis.com/v0/b/clinicaonline-72cfa.appspot.com/o/gifReadme%2Fezgif.com-gif-maker.gif?alt=media&token=9f96d915-d21b-40d8-afa5-7a1e7320c50f)
 
-![sacar turno gif](https://s1.gifyu.com/images/sacar-turno.gif)
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Filtro de medicos:
 
-## Build
+![sacar turno gif](https://firebasestorage.googleapis.com/v0/b/clinicaonline-72cfa.appspot.com/o/gifReadme%2Ffiltromedico.gif?alt=media&token=148e65ab-8a68-417e-845d-2efbd3422025)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+##### Cancelar turno:
+##
 
-## Running unit tests
+![sacar turno gif](https://firebasestorage.googleapis.com/v0/b/clinicaonline-72cfa.appspot.com/o/gifReadme%2FcancelarTurnoPaciente.gif?alt=media&token=618949cc-930a-492e-a8fe-81b130cae271)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+##### Calificar atencion:
 
-## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+##### Filtrar busqueda:
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+#### Acciones del Medico:
