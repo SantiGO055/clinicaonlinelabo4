@@ -238,7 +238,7 @@ export class MiperfilComponent implements OnInit {
 
         }
       });
-      console.log(this.estados)
+      // console.log(this.estados)
     });
 
 
@@ -264,15 +264,15 @@ export class MiperfilComponent implements OnInit {
     }
     if(this.usuarioLogueado.especialista){
 
-      console.log(this.usuarioLogueado);
+      // console.log(this.usuarioLogueado);
       if(this.usuarioLogueado.disponibilidadEsp != undefined){
         this.usuarioLogueado.disponibilidadEsp.forEach(esp=>{
           if(esp){
 
           }
-          console.log(esp);
+          // console.log(esp);
           this.disp.push(JSON.parse(JSON.stringify(esp)));
-          console.log(this.disp);
+          // console.log(this.disp);
 
         })
 
@@ -315,6 +315,9 @@ export class MiperfilComponent implements OnInit {
 
   }
   obtenerCantidadEspecialidades():any{
+    if(this.usuarioLogueado.admin){
+
+    
     let cantidadTurnoPorDia = [];
     let cantidadTurnoEsp = [];
     let count: number = 0;
@@ -397,7 +400,7 @@ export class MiperfilComponent implements OnInit {
 
             cantidadTurnoEsp.push({y: count,label: especialidad.nombre, x: x})
             x = x+1;
-            console.log(x);
+            // console.log(x);
           });
 
           chart.options.data[0].dataPoints = cantidadTurnoEsp;
@@ -408,14 +411,14 @@ export class MiperfilComponent implements OnInit {
 
         chart2.options.data[0].dataPoints = cantidadTurnoPorDia;
         chart2.render();
-        console.log(chart.options.data[0].dataPoints)
-        console.log(chart);
+        // console.log(chart.options.data[0].dataPoints)
+        // console.log(chart);
 
     });
     
       // chartContainerTurnosDia
       
-
+    }
   }
   descargarPdf(){
     let asd = new Image()
@@ -458,7 +461,7 @@ export class MiperfilComponent implements OnInit {
           }
         }
       });
-      console.log(this.arrayHorarios);
+      // console.log(this.arrayHorarios);
 
 
 
@@ -467,9 +470,9 @@ export class MiperfilComponent implements OnInit {
 
   mostrarHorarios(){
     this.mostrarHorario = true;
-    console.log(this.minimo)
-    console.log(this.maximo)
-    console.log(this.fechaSeleccionada);
+    // console.log(this.minimo)
+    // console.log(this.maximo)
+    // console.log(this.fechaSeleccionada);
   }
 
   calcularArrayHorarios(especialidad:string){
@@ -545,17 +548,17 @@ export class MiperfilComponent implements OnInit {
 
     //TODO continuar esto
     // console.info(this.especialidad)
-    console.log()
+    // console.log()
 
     const prueba = {
       especialidad: especialidad,
       fecha: this.fechaSeleccionada,
       horarios: this.arrayHorarios,
     };
-    console.log(prueba);
+    // console.log(prueba);
 
     this.calcularArrayHorarios(especialidad);
-    console.log(this.disp);
+    // console.log(this.disp);
     this.usuarioLogueado.disponibilidadEsp = this.disp;
     this.fireSvc.updateUsuario(this.usuarioLogueado);
   //   export class Turnoesp {
@@ -577,7 +580,7 @@ export class MiperfilComponent implements OnInit {
     // console.log(this.usuarioLogueado.disponibilidadEsp);
   }
   capturarSelectEspecialidad(value){
-    console.log(value);
+    // console.log(value);
 
     this.especialidad = value.$ngOptionLabel.trim();
     console.info()

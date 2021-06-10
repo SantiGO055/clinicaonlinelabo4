@@ -162,9 +162,12 @@ export class FirebaseService {
   //   return this.mensajesColecction;
   // }
   addUser(usuario: User){
-
+    
     return this.usuariosCollection.add(JSON.parse( JSON.stringify(usuario)));
     // return this.mensajesColecction.add({...mensaje});
+  }
+  consultarFirebase(){
+    this.usuariosCollection.ref.where('asd','==','d');
   }
   AddEspecialidades(especialidad: Especialidad){
     return this.especialidadCollection.add(JSON.parse( JSON.stringify(especialidad)));
