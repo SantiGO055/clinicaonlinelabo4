@@ -10,9 +10,9 @@ import { PacienteAdminGuardGuard } from './guards/paciente-admin-guard.guard';
 import { MisturnosComponent } from './componentes/turnos/misturnos/misturnos.component';
 
 const routes: Routes = [
-  { path: '', component: BienvenidoComponent},
-  { path: 'admin', component: AdminComponent, canActivate:[AdminGuard]},
-  { path: 'miperfil', component: MiperfilComponent},
+  { path: '', component: BienvenidoComponent, data: { animation: 'Bienvenido' }},
+  { path: 'admin', component: AdminComponent, canActivate:[AdminGuard], data: { animation: 'Admin' }},
+  { path: 'miperfil', component: MiperfilComponent, data: { animation: 'MiPerfil' }},
   { path: 'mostrarturnos', component: MostrarturnosComponent, canActivate:[AdminGuard]},
   { path: 'misturnos', component: MisturnosComponent},
   

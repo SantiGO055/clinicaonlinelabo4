@@ -17,6 +17,7 @@ export class ExportarPdfService {
 
   }
   exportarPdf(estados: EstadoTurno[]){
+    
     const doc = new jsPDF();
     var width = 10;
     var height = 10;

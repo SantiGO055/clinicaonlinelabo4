@@ -1,13 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { toTypeScript } from '@angular/compiler';
+import { constructorParametersDownlevelTransform } from '@angular/compiler-cli';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgbCarousel, NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Especialidad } from 'src/app/clases/especialidad';
 import { EstadoTurno } from 'src/app/clases/estado-turno';
 import { Historia } from 'src/app/clases/historia';
-import { Estados } from 'src/app/clases/turnos';
+import { Estados, Turnos } from 'src/app/clases/turnos';
 import { Horarios, Turnoesp, User } from 'src/app/clases/user';
 import { ExportExcelService } from 'src/app/services/export-excel.service';
 import { ExportarPdfService } from 'src/app/services/exportar-pdf.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import * as CanvasJS from './../../canvasjs.min';
+import * as html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import * as $ from "jquery";
 
 @Component({
   selector: 'app-miperfil',
@@ -16,6 +23,9 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 })
 export class MiperfilComponent implements OnInit {
 
+  @ViewChild('chartContainer') chartContainer: ElementRef;
+  @ViewChild('chartContainerTurnosDia') chartContainerTurnosDia: ElementRef;
+  
   usuarioLogueado: User;
   disponibilidad: string;
   mostrarHorario: boolean;
@@ -43,6 +53,8 @@ export class MiperfilComponent implements OnInit {
   arrayExcelTurno =  [];
 
   estados:EstadoTurno[] = []
+  turnos: Turnos[] = [];
+  especialidades: Especialidad[] = [];
 
   constructor(
     private fireSvc: FirebaseService,
@@ -211,8 +223,8 @@ export class MiperfilComponent implements OnInit {
           this.spinner.hide();
         }
       });
-      
-      
+
+
     });
     this.fireSvc.getAllTurnos().subscribe(turnos=>{
       this.arrayExcelTurno = <any>turnos;
@@ -223,11 +235,12 @@ export class MiperfilComponent implements OnInit {
           if(estado.estado == Estados.REALIZADO){
             this.estados.push(JSON.parse(JSON.stringify(estado)));
           }
-          
+
         }
       });
       console.log(this.estados)
     });
+
 
 
     this.sliderDiaSemanaString = 'Lunes';
@@ -238,13 +251,13 @@ export class MiperfilComponent implements OnInit {
     //     disponible: true
     //   }
     //   this.horariosAElegir.push(horario);
-      
+
     // });
     // console.log(this.horariosAElegir);
     // console.log(this.minimo)
     // console.log(this.maximo)
     this.usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
-    
+
     if(this.usuarioLogueado.paciente){
       this.flag = true;
 
@@ -255,28 +268,184 @@ export class MiperfilComponent implements OnInit {
       if(this.usuarioLogueado.disponibilidadEsp != undefined){
         this.usuarioLogueado.disponibilidadEsp.forEach(esp=>{
           if(esp){
-  
+
           }
           console.log(esp);
           this.disp.push(JSON.parse(JSON.stringify(esp)));
           console.log(this.disp);
-    
+
         })
 
       }
     }
 
+    // this.fireSvc.getAllLogs().subscribe(logs=>{
+    //   logs.forEach(log=>{
+    //     auxDia.push(log.dia);
+
+    //     data.push({x: log.hora, y: log.dia});
+    //   })
+    // })
+
+    let turnosPorEsp = this.obtenerCantidadEspecialidades();
+
+      // if(this.usuarioLogueado.admin){
+      //   let chart = new CanvasJS.Chart("chartContainer", {
+      //     theme: "light2",
+      //     animationEnabled: true,
+      //     exportEnabled: true,
+      //     title:{
+      //       text: "Cantidad de especialidad por turnos"
+      //     },
+      //     data: [{
+      //       type: "pie",
+      //       showInLegend: true,
+      //       toolTipContent: "<b>{name}</b>: ${y} (#percent%)",
+      //       indexLabel: "{name} - #percent%"
+      //     }]
+      //   });
+      //   for(var i = 0; i < turnosPorEsp.length; i++) {
+      //     chart.options.data[0].dataPoints.push(turnosPorEsp[i]);
+      //   }
+      //   // chart.data[4].set("dataPoints", turnosPorEsp);
+
+      //   chart.render();
+      // }
+
+
   }
+  obtenerCantidadEspecialidades():any{
+    let cantidadTurnoPorDia = [];
+    let cantidadTurnoEsp = [];
+    let count: number = 0;
+    let countTurnoPorDia: number = 0;
+      let chart = new CanvasJS.Chart("chartContainer", {
+        axisY:{
+          title: "cantidad",
+        },
+        axisX:{
+          title: "Especialidades"
+        },
+        theme: "light2",
+        animationEnabled: false,
+        exportEnabled: true,
+        title:{
+          text: "Cantidad de especialidad por turnos"
+        },
+        data: [{
+          type: "column",
+        }]
+      });
+
+
+      let chart2 = new CanvasJS.Chart("chartContainerTurnosDia", {
+        axisY:{
+          title: "turnos",
+        },
+        axisX:{
+          title: "Dia"
+        },
+        theme: "light2",
+        animationEnabled: false,
+        exportEnabled: true,
+        title:{
+          text: "Cantidad de turnos por dia"
+        },
+        data: [{
+          type: "column",
+        }]
+      });
+
+
+      let x = 0
+      this.fireSvc.getAllTurnos().subscribe(turnos=>{
+        this.turnos = turnos;
+        let fechaAux= [];
+        for (let i = 0; i < this.turnos.length; i++) {
+          if(i===0){
+            fechaAux.push(this.turnos[i].fecha)
+            countTurnoPorDia = countTurnoPorDia+1;
+            cantidadTurnoPorDia.push({y: countTurnoPorDia, label: this.turnos[i].fecha})
+          }
+          else{
+            fechaAux.forEach(fechaA => {
+              if(fechaA === this.turnos[i].fecha){
+                countTurnoPorDia = countTurnoPorDia+1;
+              }
+              else{
+                cantidadTurnoPorDia.push({y: countTurnoPorDia, label: this.turnos[i].fecha})
+                
+              }
+            });
+          }
+          
+        }
+          
+
+          
+
+        this.fireSvc.getEspecialidades().subscribe(esp=>{
+          this.especialidades = esp;
+          this.especialidades.forEach(especialidad => {
+            count = 0;
+            for (let i = 0; i < this.turnos.length; i++) {
+              if(this.turnos[i].especialidad == especialidad.nombre){
+                count++;
+              }
+
+            }
+
+            cantidadTurnoEsp.push({y: count,label: especialidad.nombre, x: x})
+            x = x+1;
+            console.log(x);
+          });
+
+          chart.options.data[0].dataPoints = cantidadTurnoEsp;
+          chart.render();
+
+        });
+        
+
+        chart2.options.data[0].dataPoints = cantidadTurnoPorDia;
+        chart2.render();
+        console.log(chart.options.data[0].dataPoints)
+        console.log(chart);
+
+    });
+    
+      // chartContainerTurnosDia
+      
+
+  }
+  descargarPdf(){
+    let asd = new Image()
+    var dataURL;
+    var pdf = new jsPDF();
+    // var canvas = $("#chartContainer .canvasjs-chart-canvas").get(0);
+    
+    // html2canvas.default(document.querySelector("#chartContainer")).then(canvas=>{
+    //    dataURL = canvas.toDataURL("image/png");
+    //   console.log(dataURL);
+      
+      
+    // }).then(()=>{
+    //   pdf.addImage(dataURL, 'png', 20, 20, 170, 80);
+      
+    //   // pdf.save("CanvasJS Charts.pdf");
+    // })
+  }
+
+  
   capturarHora(e){
     // console.log(e)
-    
-    
+
+
 
       this.horariosAElegir.forEach(element => {
         if(e.target.checked){
             if(element.hora == e.target.value){
-      
-              
+
+
               this.arrayHorarios.push(element);
             }
         }
@@ -285,17 +454,17 @@ export class MiperfilComponent implements OnInit {
             let i = this.arrayHorarios.indexOf( element)
             this.arrayHorarios.splice(i,1);
             console.log(this.arrayHorarios);
-            
+
           }
         }
       });
       console.log(this.arrayHorarios);
 
-    
-      
+
+
 
   }
-  
+
   mostrarHorarios(){
     this.mostrarHorario = true;
     console.log(this.minimo)
@@ -312,8 +481,8 @@ export class MiperfilComponent implements OnInit {
     //TODO si empiezo a las 10 hs y tengo 3 turnos le sumo 10 + 0 (1 turno) 10+0.30 (2 turnos) 10+0.30 (3 turnos)
     if(this.sliderCantTurnos)
     for (let i = 0; i < this.sliderCantTurnos; i++) {
-      
-      
+
+
       if(i == 0){
         aux = this.sliderHoraComienzo;
         auxStr = aux.toString()
@@ -339,7 +508,7 @@ export class MiperfilComponent implements OnInit {
         else{
           auxStr = aux.toString().split('.');
           auxStr[1] = "30";
-    
+
           auxStr = auxStr[0]+':'+auxStr[1];
           // horarios.hora = auxStr;
           // horarios.disponible = true;
@@ -349,16 +518,16 @@ export class MiperfilComponent implements OnInit {
           }
           auxArr.push(horarios);
         }
-        
+
         // console.log(auxStr);
-        
+
       }
       // console.log(auxArr);
-      
+
     }
     // auxArr contiene horarios y disponibilidad de cada uno
-    
-    
+
+
     // console.log(auxStr[0]+':'+auxStr[1]);
 
     this.turnoAux = {
@@ -368,8 +537,8 @@ export class MiperfilComponent implements OnInit {
     }
     this.disp.push(JSON.parse(JSON.stringify(this.turnoAux)));
 
-    
-    
+
+
   }
 
   seleccionDispo(especialidad: string){
@@ -384,7 +553,7 @@ export class MiperfilComponent implements OnInit {
       horarios: this.arrayHorarios,
     };
     console.log(prueba);
-    
+
     this.calcularArrayHorarios(especialidad);
     console.log(this.disp);
     this.usuarioLogueado.disponibilidadEsp = this.disp;
@@ -395,26 +564,26 @@ export class MiperfilComponent implements OnInit {
   //     horarios: Horarios[];
   // }
 
-    
+
     // console.info(prueba);
     // this.disp.push(JSON.parse(JSON.stringify(prueba)));
-    
-    
+
+
     // this.usuarioLogueado.disponibilidadEsp = this.disp;
     // this.usuarioLogueado.disponibilidadEsp.slice(0,1)
     // console.log(this.usuarioLogueado)
     // this.fireSvc.updateUsuario(this.usuarioLogueado);
-    
+
     // console.log(this.usuarioLogueado.disponibilidadEsp);
   }
   capturarSelectEspecialidad(value){
     console.log(value);
-    
+
     this.especialidad = value.$ngOptionLabel.trim();
     console.info()
   }
 
-  
+
 
   exportarExcel(){
     let reportData = {
@@ -447,8 +616,11 @@ export class MiperfilComponent implements OnInit {
           aux.push(turno);
         }
     });
-    
+
     this.pdf.exportarPdf(aux);
+  }
+  graficoTorta(){
+
   }
 
 }

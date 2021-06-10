@@ -44,7 +44,9 @@ import { MostrarHistoriaMedicoComponent } from './componentes/mostrar-historia-m
 import { DetalleHistoriaComponent } from './componentes/detalle-historia/detalle-historia.component';
 import { RoundDivDirective } from './directivas/round-div.directive';
 import { MedicoPipe } from './pipes/medico.pipe';
-
+import { RouterModule } from '@angular/router';
+import { AdminGuard } from './guards/admin.guard';
+import { PacienteAdminGuardGuard } from './guards/paciente-admin-guard.guard';
 @NgModule({
   declarations: [
     AppComponent,
@@ -70,6 +72,7 @@ import { MedicoPipe } from './pipes/medico.pipe';
     
     
     
+    
   ],
   imports: [
     BrowserModule,
@@ -87,7 +90,8 @@ import { MedicoPipe } from './pipes/medico.pipe';
     NgxSpinnerModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    NgSelectModule
+    NgSelectModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -13,22 +13,57 @@
       <div class="container-fluid">
       <div class="collapse navbar-collapse" id="navbarToggler" [ngbCollapse]="toggleNavbar">
         <a class="navbar-brand" [routerLink]="'/'"><img src="assets/healthcare.png"></a>
+        
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
           
-          <li class="nav-item" *ngIf="!ocultarBotonesLogueo">
+          <li class="nav-item" *ngIf="!usuarioLogueado">
             <a [routerLink]="'ingreso/login'" routerLinkActive="active" class="nav-link borderFade">Login</a>
           </li>
-          <li class="nav-item" *ngIf="!ocultarBotonesLogueo">
+          <li class="nav-item" *ngIf="!usuarioLogueado">
             <a [routerLink]="'ingreso/registro'" routerLinkActive="active" class="nav-link borderFade" >Registrarse</a>
           </li>
-  
-          <div *ngIf="usuarioLogueado != null">
+          
+          <div *ngIf="usuarioLogueado != null" class="contenedorLi">
             <li class="nav-item" *ngIf="usuarioLogueado.admin">
               <a [routerLink]="'/admin'" routerLinkActive="active" class="nav-link borderFade">Administrar usuarios</a>
             </li>
 
+            <li class="nav-item">
+              <a class="nav-link borderFade" *ngIf="this.usuarioLogueado.paciente || this.usuarioLogueado.especialista" [routerLink]="'/misturnos'">Mis Turnos</a>
+  
+            </li>
+            <li class="nav-item">
+              <a class="nav-link borderFade" *ngIf="this.usuarioLogueado.admin" [routerLink]="'/misturnos'">Listado de turnos</a>
+              
+            </li>
+            <li class="nav-item">
+              <a class="nav-link borderFade" *ngIf="(this.usuarioLogueado != null && this.usuarioLogueado.paciente )|| (this.usuarioLogueado != null && this.usuarioLogueado.admin)" [routerLink]="'/solicitarTurno'">Solicitar Turno</a>
+  
+            </li>
+            <li class="nav-item">
+              <a class="nav-link borderFade" [routerLink]="'/miperfil'">Mi Perfil</a>
+  
+            </li>
+            <li class="nav-item">
+              <a class="nav-link borderFade" (click)="desloguear()" >Desloguear</a>
+  
+            </li>
+            <div class="d-flex flex-row-reverse bd-highlight">
+              <div class="p-2 bd-highlight bienvenido">
+                <li>
+                  <a>
+                    Bienvenido: {{usuarioLogueado.nombre}}, {{usuarioLogueado.apellido}}
+    
+                  </a>
+                </li>
+
+              </div>
+
+            </div>
           </div>
-          
+            
+            
          
   
           <!-- <li class="nav-item">
@@ -53,14 +88,13 @@
   
         
 
-        <div class="loggedDiv">
+        <!-- <div class="loggedDiv">
 
           <app-logged name="usuario" [usuario]="usuario" (eventoOcultarBotonesLogueo)="obtenerEventoBotonLogueo($event)"></app-logged>
 
-        </div>
+        </div> -->
   
       </div>
     </div>
     </nav>
   </div>
-    

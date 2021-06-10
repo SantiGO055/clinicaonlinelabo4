@@ -10,6 +10,7 @@ import { BajaUsuario } from '../clases/bajaUsuario';
 import { EstadoTurno } from '../clases/estado-turno';
 import { Historia } from '../clases/historia';
 import { AlertasService } from './alertas.service';
+import { Logs } from '../clases/logs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,7 @@ export class FirebaseService {
   private dbPathBajas = '/bajas';
   private dbPathEstadoTurnos = '/estadoTurnos';
   private dbPathHistoria = '/historiaClinica';
+  private dbPathLogs = '/logs';
   // private dbPathPuzzle = '/juegos-puzzle';
   // private dbPathTateti = '/juegos-tateti';
   // private dbPathPpt = '/juegos-ppt';
@@ -33,11 +35,13 @@ export class FirebaseService {
   bajasCollection: AngularFirestoreCollection<BajaUsuario>;
   estadosCollection: AngularFirestoreCollection<EstadoTurno>;
   historiaCollection: AngularFirestoreCollection<Historia>;
+  logsCollection: AngularFirestoreCollection<Logs>;
   // puzzleColecction: AngularFirestoreCollection<Estadisticapuzzle>;
   // tatetiCollection: AngularFirestoreCollection<Estadisticatateti>;
   // pptCollection: AngularFirestoreCollection<Estadisticappt>;
   // memoCollection: AngularFirestoreCollection<Estadisticamemotest>;
   // encuestaCollection: AngularFirestoreCollection<Encuesta>;
+
 
 
 
@@ -51,6 +55,7 @@ export class FirebaseService {
   public bajas: Observable<BajaUsuario[]>;
   public estados: Observable<EstadoTurno[]>;
   public historias: Observable<Historia[]>;
+  public logs: Observable<Logs[]>;
   // public encuesta: Observable<Encuesta[]>;
   // public puzzleEstadistica: Observable<Estadisticapuzzle[]>;
   // public memoEstadistica: Observable<Estadisticamemotest[]>;
@@ -117,6 +122,15 @@ export class FirebaseService {
     this.historias = this.historiaCollection.snapshotChanges().pipe(map(actions=>{
       return actions.map(a=>{
         const data = a.payload.doc.data() as Historia;
+        data.id = a.payload.doc.id;
+        return data;
+      });
+    }));
+    /** logs */
+    this.logsCollection = db.collection(this.dbPathLogs);
+    this.logs = this.logsCollection.snapshotChanges().pipe(map(actions=>{
+      return actions.map(a=>{
+        const data = a.payload.doc.data() as Logs;
         data.id = a.payload.doc.id;
         return data;
       });
@@ -238,4 +252,28 @@ export class FirebaseService {
     return this.historiaDoc.update(historia);
   }
   //#endregion
+
+  //#region
+  
+  addLog(usuario: User){
+    let log: Logs = new Logs();
+    log.usuario = usuario;
+    log.dia = log.obtenerFecha();
+    log.hora = log.obtenerHora();
+    
+    try{
+      return this.logsCollection.add(JSON.parse(JSON.stringify(log)));
+
+    }
+    catch(e){
+      console.log(e);
+
+      return e;
+    }
+
+  }
+  getAllLogs(){
+    return this.logs;
+  }
+  ////#endregion
 }

@@ -67,14 +67,15 @@ y un boton que acceda a la historia clinica
 
 
 Mi perfil administrador:
-Descargar excel con los datos de los turnos que tomo y con quien los tomo.
+* [X] ~~*Descargar excel con los datos de los turnos que tomo y con quien los tomo.*~~ [2021-06-09]
 
 y para el perfil de usuario MI PERFIL los pacientes pueden descargar un PDF
-de todas las atenciones hechas por ESPECIALIDAD (historial de turno por especialidad)
+* [X] ~~*de todas las atenciones hechas por ESPECIALIDAD (historial de turno por especialidad)*~~ [2021-06-09]
 //HECHO
-Animaciones:
-desde abajo pero de la pagina no de algun componente
 
-Para otro pipe:
-Pasarle un profesional a un pipe y mostrar solo nombre y apellido
-para responsive se puede usar el template de pricing o jumbotron
+
+* [X] ~~*Pasarle un profesional a un pipe y mostrar solo nombre y apellido para responsive se puede usar el template de pricing o jumbotron*~~ [2021-06-09]
+
+* [X] ~~*botones en el navbar y no en el toggle logged*~~ [2021-06-09]
+
+* [ ] Animaciones de pagina desde abajo

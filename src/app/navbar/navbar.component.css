@@ -100,3 +100,17 @@ a:hover{
   .custom-toggler.navbar-toggler {
     border-color: rgb(168, 28, 28);
   } 
+
+.botonesAcceso{
+    display: flex;
+    flex-direction: row;
+
+}
+.bienvenido{
+    color: hsl(243, 80%, 62%);
+}
+.contenedorLi{
+    display: flex;
+    flex-direction: row;
+
+}

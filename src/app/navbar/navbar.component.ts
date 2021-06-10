@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from '../clases/user';
 import { AuthService } from '../services/auth.service';
 
@@ -15,8 +16,12 @@ export class NavbarComponent implements OnInit {
   adminLogueado:boolean = false;
   usuarioLogueado: User = new User();
   usuario : User = new User();
+  logueado: boolean = false;
+  ocultarMensaje : boolean = true;
+
   constructor(
-    private authSvc: AuthService
+    private authSvc: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -55,6 +60,28 @@ export class NavbarComponent implements OnInit {
   obtenerEventoBotonLogueo(ocultarBoton: boolean){
     // console.log("recibi boton deslogueo "+ ocultarBoton);
     this.ocultarBotonesLogueo = ocultarBoton;
+  }
+  async desloguear(){
+  
+    this.ocultarMensaje = false;
+    
+    if(this.usuario != null && this.usuarioLogueado != null){
+
+
+      if(this.usuario.email = this.usuarioLogueado.email){
+        this.authSvc.desloguear();
+        
+        sessionStorage.clear();
+        this.usuarioLogueado = null;
+        localStorage.removeItem("usuarioLogueado");
+        this.router.navigate(["/ingreso/login"]);
+        this.logueado = false;
+      }
+      else{
+        this.logueado = true;
+      }
+    }
+
   }
 
 }

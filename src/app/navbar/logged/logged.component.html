@@ -1,4 +1,4 @@
-<div class="divLogged" *ngIf="ocultarMensaje">
+<div class="divLogged" *ngIf="usuarioLogueado">
     <p >
         Bienvenido {{usuario.email}}
     </p>
@@ -21,8 +21,8 @@
             </ul>
         </div>
     </div> -->
-
-    <div class="dropdown" *ngIf="this.usuarioLogueado != null">
+    
+    <!-- <div class="dropdown" *ngIf="this.usuarioLogueado != null">
         <button class="dropbtn "><img src="./assets/arrow.svg"></button>
         <div class="dropdown-content pull-right">
           <a [routerLink]="'/miperfil'">Mi Perfil</a>
@@ -32,5 +32,5 @@
           <a type="button" (click)="desloguear()">Desloguear<img src="./assets/logout.svg"></a>
         
         </div>
-    </div>
+    </div> -->
 </div>

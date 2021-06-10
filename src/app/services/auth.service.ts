@@ -177,7 +177,9 @@ export class AuthService {
         return await this.afAuth.signInWithEmailAndPassword(user.email, password).then((result)=>{
           // user = this.obtenerUsuarioLogueado(user.email);
           // this.isLogged = user;
+          console.log(result.user)
 
+          
           // this.isLogged = user;
           // console.log(result);
           
@@ -185,6 +187,8 @@ export class AuthService {
           // console.log(user);
           if(this.verificarAprobacion(result,user)){
             localStorage.setItem('usuarioLogueado',JSON.stringify(this.isLogged));
+            
+            this.fireSvc.addLog(JSON.parse(localStorage.getItem('usuarioLogueado')));
             this.logueadoObs = new Observable( observer => {
               observer.next(true);
             })
