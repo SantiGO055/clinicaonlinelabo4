@@ -30,8 +30,14 @@ Filtro de medicos:
 ![sacar turno gif](https://firebasestorage.googleapis.com/v0/b/clinicaonline-72cfa.appspot.com/o/gifReadme%2FcancelarTurnoPaciente.gif?alt=media&token=618949cc-930a-492e-a8fe-81b130cae271)
 
 ##### Calificar atencion:
+El paciente deja un comentario de como fue la atención del Especialista.
 
 
 ##### Filtrar busqueda:
+Filtro de busqueda donde se realiza la busqueda por cualquier campo del turno
 
 #### Acciones del Medico:
+
+Cancelar, rechazar, aceptar y finalizar turnos.
+
+##### Solicitar turno:

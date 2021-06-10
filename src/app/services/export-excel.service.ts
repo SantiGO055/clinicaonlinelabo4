@@ -123,6 +123,7 @@ export class ExportExcelService {
 
           
         }
+        console.log(objAux);
 
         let row = worksheet.addRow(Object.values(objAux));
         console.log(row.values);

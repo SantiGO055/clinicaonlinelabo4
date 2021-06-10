@@ -191,7 +191,10 @@ export class AltaTurnoComponent implements OnInit {
     
 
     this.fireSvc.updateUsuario(this.medicoSeleccionado);
-    this.fireSvc.addTurno(this.turno);
+    let asd = this.fireSvc.addTurno(this.turno);
+    asd.then(asd=>{
+      console.log(asd);
+    });
     this.alerta.mostraAlertaSimpleSuccess('Turno confirmado correctamente para ' + this.turno.fecha + " a las "+ this.turno.hora,'Turno confirmado');
     this.router.navigate(['/']);
     

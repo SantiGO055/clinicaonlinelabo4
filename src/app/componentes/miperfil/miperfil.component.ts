@@ -53,6 +53,7 @@ export class MiperfilComponent implements OnInit {
   arrayExcelTurno =  [];
 
   estados:EstadoTurno[] = []
+  estadosAdmin:EstadoTurno[] = []
   turnos: Turnos[] = [];
   especialidades: Especialidad[] = [];
 
@@ -230,10 +231,12 @@ export class MiperfilComponent implements OnInit {
       this.arrayExcelTurno = <any>turnos;
     });
     this.fireSvc.getAllEstados().subscribe(estados=>{
+      this.estadosAdmin = estados;
       estados.forEach(estado => {
         if(this.usuarioLogueado.uid === estado.paciente.uid){
           if(estado.estado == Estados.REALIZADO){
             this.estados.push(JSON.parse(JSON.stringify(estado)));
+            // console.log(this.estados)
           }
 
         }
@@ -591,7 +594,7 @@ export class MiperfilComponent implements OnInit {
   exportarExcel(){
     let reportData = {
       title: 'Listado de usuarios de clinica online',
-      data: this.estados,
+      data: this.estadosAdmin,
       headers: [
         'Especialidad',
         'Reseña',
@@ -620,6 +623,7 @@ export class MiperfilComponent implements OnInit {
         }
     });
 
+    console.log(aux);
     this.pdf.exportarPdf(aux);
   }
   graficoTorta(){

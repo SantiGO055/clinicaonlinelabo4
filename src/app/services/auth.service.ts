@@ -53,10 +53,10 @@ export class AuthService {
     let retorno = false;
     this.usuarios.forEach(user => {
 
-      console.log(usuario);
+      // console.log(usuario);
       if( usuario.email == user.email){
         if(usuario.aprobadoPorAdmin == false){
-          console.log("No esta aprobado");
+          // console.log("No esta aprobado");
           retorno = false;
         }
         else{
@@ -72,7 +72,7 @@ export class AuthService {
   }
 
   verificarUsuarioALoguearEspecialista(email:string){
-    console.log(email);
+    // console.log(email);
     let retorno = false;
     this.usuarios.forEach(usuario => {
         if(usuario.email === email && usuario.especialista){
@@ -177,7 +177,7 @@ export class AuthService {
         return await this.afAuth.signInWithEmailAndPassword(user.email, password).then((result)=>{
           // user = this.obtenerUsuarioLogueado(user.email);
           // this.isLogged = user;
-          console.log(result.user)
+          // console.log(result.user)
 
           
           // this.isLogged = user;

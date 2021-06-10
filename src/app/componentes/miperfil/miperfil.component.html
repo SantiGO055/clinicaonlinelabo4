@@ -49,7 +49,7 @@
             
               </div>
               <div *ngIf="usuarioLogueado.paciente" class="form">
-                <button type="submit" (click)="exportarPdf()">Exportar todos los turnos a excel</button>
+                <button type="submit" (click)="exportarPdf()">Exportar todos los turnos a PDF</button>
             
               </div>
             </div>
@@ -70,20 +70,15 @@
     </app-mostrar-historia>
     
   </div>
-  <div *ngIf="usuarioLogueado.admin">
-    <!-- <div class="container" ng-controller="ChartController">
-      <div class="row">
-          <div class="col-xs-12">
-              <div id="chartContainer"></div>
-          </div>
-      </div> -->
-    </div>
-    <div id="chartContainer" style="height: 370px; width: 100%; margin-left:auto;margin-right:auto;"></div>
-    <div id="chartContainerTurnosDia" style="height: 370px; width: 100%; margin-left:auto;margin-right:auto;"></div>
+  <div id="chartContainer" style="height: 370px; width: 100%; margin-left:auto;margin-right:auto;"></div>
+  <div id="chartContainerTurnosDia" style="height: 370px; width: 100%; margin-left:auto;margin-right:auto;"></div>
   
+  <div *ngIf="usuarioLogueado.admin">
     <button (click)="descargarPdf()">
       Descargar pdf
     </button>
+
+    </div>
 
 
   <div *ngIf="usuarioLogueado.especialista">
