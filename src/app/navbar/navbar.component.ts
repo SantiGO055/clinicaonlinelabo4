@@ -6,7 +6,8 @@ import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
+  
 })
 export class NavbarComponent implements OnInit {
   public toggleNavbar = true;
@@ -80,6 +81,15 @@ export class NavbarComponent implements OnInit {
       else{
         this.logueado = true;
       }
+    }
+    if(this.usuario.uid== ''){
+      this.logueado = false;
+
+      this.authSvc.desloguear();
+      sessionStorage.clear();
+      localStorage.removeItem("usuarioLogueado");
+      this.router.navigate(["/ingreso/login"]);
+      
     }
 
   }

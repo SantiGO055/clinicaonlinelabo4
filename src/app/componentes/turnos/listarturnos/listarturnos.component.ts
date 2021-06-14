@@ -23,18 +23,18 @@ export class ListarturnosComponent implements OnInit {
 
   ngOnInit(): void {
 
-    console.log(this.listadoTurnos);
+    // console.log(this.listadoTurnos);
     this.listadoTurnos.forEach(turno => {
-      console.log(turno.especialidad);
+      // console.log(turno.especialidad);
       turno.horarios.forEach(hora => {
-        console.log(hora);
+        // console.log(hora);
       });
     });
   }
   seleccionTurno(fecha:string, hora: string){
 
-    console.log(fecha)
-    console.log(hora)
+    // console.log(fecha)
+    // console.log(hora)
     let objAux = {
       fecha: fecha,
       hora: hora,

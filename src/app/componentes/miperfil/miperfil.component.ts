@@ -15,6 +15,13 @@ import * as CanvasJS from './../../canvasjs.min';
 import * as html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import * as $ from "jquery";
+import { Chart } from 'angular-highcharts';
+import { ChartsService } from 'src/app/services/charts.service';
+import { Axis, ChartOptions, PointOptionsType, SeriesOptionsType } from 'highcharts';
+import { Point } from 'angular-highcharts/lib/chart';
+import { Logs } from 'src/app/clases/logs';
+import { first } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-miperfil',
@@ -25,6 +32,12 @@ export class MiperfilComponent implements OnInit {
 
   @ViewChild('chartContainer') chartContainer: ElementRef;
   @ViewChild('chartContainerTurnosDia') chartContainerTurnosDia: ElementRef;
+  @ViewChild('chart0') chart0: ElementRef;
+  @ViewChild('chart1') chart1: ElementRef;
+  @ViewChild('chart1Aux') chart1Aux: ElementRef;
+  @ViewChild('chart2') chart2: ElementRef;
+  @ViewChild('chart3') chart3: ElementRef;
+  @ViewChild('chart4') chart4: ElementRef;
   
   usuarioLogueado: User;
   disponibilidad: string;
@@ -33,6 +46,8 @@ export class MiperfilComponent implements OnInit {
   disp:Turnoesp[] = [];
   hoy: Date = new Date(Date.now());
   diaSeleccionado: Date = new Date();
+  fechaSeleccionadaPicker = 'xx/xx/xxxx';
+  fechaSeleccionadaPickerRealizado = 'xx/xx/xxxx';
   fechaSeleccionada = this.hoy.getFullYear()+'-'+(this.hoy.getMonth()+1)+'-'+this.hoy.getDate()+'T00:00:00';
   minimo = this.hoy.getFullYear()+'-0'+(this.hoy.getMonth()+1)+'-'+(this.hoy.getDate());
   horaSeleccionada: string = '';
@@ -56,19 +71,29 @@ export class MiperfilComponent implements OnInit {
   estadosAdmin:EstadoTurno[] = []
   turnos: Turnos[] = [];
   especialidades: Especialidad[] = [];
+  chartCantPorDia: Chart;
+  chartEspPorTurno: Chart;
+  chartTurnoPorMedicoFecha: Chart;
+  chartTurnoPorMedicoFechaFinalizado: Chart;
+  seleccioneFechaSolicitado:boolean = false;
+  seleccioneFechaFinalizado:boolean = false;
+  usuarios: User[] = [];
+
+  logs:Logs[] = [];
 
   constructor(
     private fireSvc: FirebaseService,
     private spinner: NgxSpinnerService,
     private config: NgbCarouselConfig,
     private excel: ExportExcelService,
-    private pdf: ExportarPdfService
+    private pdf: ExportarPdfService,
 
   ) {
     config.interval = 2500;
     config.keyboard = true;
     config.pauseOnHover = true;
     config.showNavigationArrows = false;
+    
     // console.log(this.sliderHoraComienzo);
    }
 
@@ -212,8 +237,16 @@ export class MiperfilComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
+    // console.log(this.usuarioLogueado)
+    this.agregarChartTurnosPorDia();
+    this.agregarChartEspPorTurnos();
+    
+
     this.spinner.show();
-    this.fireSvc.getAllHistorias().subscribe(historia=>{
+    this.fireSvc.getAllHistorias().pipe(first())
+    .toPromise()
+    .then(historia=>{
       historia.forEach(histo => {
         if(histo.turno.paciente.uid === this.usuarioLogueado.uid){
           this.historia.push(histo);
@@ -227,10 +260,14 @@ export class MiperfilComponent implements OnInit {
 
 
     });
-    this.fireSvc.getAllTurnos().subscribe(turnos=>{
+    this.fireSvc.getAllTurnos().pipe(first())
+    .toPromise()
+    .then(turnos=>{
       this.arrayExcelTurno = <any>turnos;
     });
-    this.fireSvc.getAllEstados().subscribe(estados=>{
+    this.fireSvc.getAllEstados().pipe(first())
+    .toPromise()
+    .then(estados=>{
       this.estadosAdmin = estados;
       estados.forEach(estado => {
         if(this.usuarioLogueado.uid === estado.paciente.uid){
@@ -244,22 +281,19 @@ export class MiperfilComponent implements OnInit {
       // console.log(this.estados)
     });
 
-
+    this.fireSvc.getAllLogs().pipe(first())
+    .toPromise()
+    .then(logs=>{
+      this.logs = logs;
+    })
+    this.fireSvc.getAllUsers().pipe(first())
+    .toPromise()
+    .then(users=>{
+      this.usuarios = users;
+    })
 
     this.sliderDiaSemanaString = 'Lunes';
 
-    // this.botones.forEach(element => {
-    //   let horario = {
-    //     hora: element,
-    //     disponible: true
-    //   }
-    //   this.horariosAElegir.push(horario);
-
-    // });
-    // console.log(this.horariosAElegir);
-    // console.log(this.minimo)
-    // console.log(this.maximo)
-    this.usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
 
     if(this.usuarioLogueado.paciente){
       this.flag = true;
@@ -282,168 +316,11 @@ export class MiperfilComponent implements OnInit {
       }
     }
 
-    // this.fireSvc.getAllLogs().subscribe(logs=>{
-    //   logs.forEach(log=>{
-    //     auxDia.push(log.dia);
-
-    //     data.push({x: log.hora, y: log.dia});
-    //   })
-    // })
-
-    let turnosPorEsp = this.obtenerCantidadEspecialidades();
-
-      // if(this.usuarioLogueado.admin){
-      //   let chart = new CanvasJS.Chart("chartContainer", {
-      //     theme: "light2",
-      //     animationEnabled: true,
-      //     exportEnabled: true,
-      //     title:{
-      //       text: "Cantidad de especialidad por turnos"
-      //     },
-      //     data: [{
-      //       type: "pie",
-      //       showInLegend: true,
-      //       toolTipContent: "<b>{name}</b>: ${y} (#percent%)",
-      //       indexLabel: "{name} - #percent%"
-      //     }]
-      //   });
-      //   for(var i = 0; i < turnosPorEsp.length; i++) {
-      //     chart.options.data[0].dataPoints.push(turnosPorEsp[i]);
-      //   }
-      //   // chart.data[4].set("dataPoints", turnosPorEsp);
-
-      //   chart.render();
-      // }
-
 
   }
-  obtenerCantidadEspecialidades():any{
-    if(this.usuarioLogueado.admin){
-
-    
-    let cantidadTurnoPorDia = [];
-    let cantidadTurnoEsp = [];
-    let count: number = 0;
-    let countTurnoPorDia: number = 0;
-      let chart = new CanvasJS.Chart("chartContainer", {
-        axisY:{
-          title: "cantidad",
-        },
-        axisX:{
-          title: "Especialidades"
-        },
-        theme: "light2",
-        animationEnabled: false,
-        exportEnabled: true,
-        title:{
-          text: "Cantidad de especialidad por turnos"
-        },
-        data: [{
-          type: "column",
-        }]
-      });
-
-
-      let chart2 = new CanvasJS.Chart("chartContainerTurnosDia", {
-        axisY:{
-          title: "turnos",
-        },
-        axisX:{
-          title: "Dia"
-        },
-        theme: "light2",
-        animationEnabled: false,
-        exportEnabled: true,
-        title:{
-          text: "Cantidad de turnos por dia"
-        },
-        data: [{
-          type: "column",
-        }]
-      });
-
-
-      let x = 0
-      this.fireSvc.getAllTurnos().subscribe(turnos=>{
-        this.turnos = turnos;
-        let fechaAux= [];
-        for (let i = 0; i < this.turnos.length; i++) {
-          if(i===0){
-            fechaAux.push(this.turnos[i].fecha)
-            countTurnoPorDia = countTurnoPorDia+1;
-            cantidadTurnoPorDia.push({y: countTurnoPorDia, label: this.turnos[i].fecha})
-          }
-          else{
-            fechaAux.forEach(fechaA => {
-              if(fechaA === this.turnos[i].fecha){
-                countTurnoPorDia = countTurnoPorDia+1;
-              }
-              else{
-                cantidadTurnoPorDia.push({y: countTurnoPorDia, label: this.turnos[i].fecha})
-                
-              }
-            });
-          }
-          
-        }
-          
-
-          
-
-        this.fireSvc.getEspecialidades().subscribe(esp=>{
-          this.especialidades = esp;
-          this.especialidades.forEach(especialidad => {
-            count = 0;
-            for (let i = 0; i < this.turnos.length; i++) {
-              if(this.turnos[i].especialidad == especialidad.nombre){
-                count++;
-              }
-
-            }
-
-            cantidadTurnoEsp.push({y: count,label: especialidad.nombre, x: x})
-            x = x+1;
-            // console.log(x);
-          });
-
-          chart.options.data[0].dataPoints = cantidadTurnoEsp;
-          chart.render();
-
-        });
-        
-
-        chart2.options.data[0].dataPoints = cantidadTurnoPorDia;
-        chart2.render();
-        // console.log(chart.options.data[0].dataPoints)
-        // console.log(chart);
-
-    });
-    
-      // chartContainerTurnosDia
-      
-    }
-  }
-  descargarPdf(){
-    let asd = new Image()
-    var dataURL;
-    var pdf = new jsPDF();
-    // var canvas = $("#chartContainer .canvasjs-chart-canvas").get(0);
-    
-    // html2canvas.default(document.querySelector("#chartContainer")).then(canvas=>{
-    //    dataURL = canvas.toDataURL("image/png");
-    //   console.log(dataURL);
-      
-      
-    // }).then(()=>{
-    //   pdf.addImage(dataURL, 'png', 20, 20, 170, 80);
-      
-    //   // pdf.save("CanvasJS Charts.pdf");
-    // })
-  }
-
+  
   
   capturarHora(e){
-    // console.log(e)
 
 
 
@@ -464,11 +341,6 @@ export class MiperfilComponent implements OnInit {
           }
         }
       });
-      // console.log(this.arrayHorarios);
-
-
-
-
   }
 
   mostrarHorarios(){
@@ -483,8 +355,7 @@ export class MiperfilComponent implements OnInit {
     let auxArr: Horarios[] = [];
     let auxStr:any;
     let horarios:any;
-    //TODO a la hora de inicio del turno le sumo 0 por el primer turno y 0.30 por cada turno de mas
-    //TODO si empiezo a las 10 hs y tengo 3 turnos le sumo 10 + 0 (1 turno) 10+0.30 (2 turnos) 10+0.30 (3 turnos)
+  
     if(this.sliderCantTurnos)
     for (let i = 0; i < this.sliderCantTurnos; i++) {
 
@@ -564,23 +435,6 @@ export class MiperfilComponent implements OnInit {
     // console.log(this.disp);
     this.usuarioLogueado.disponibilidadEsp = this.disp;
     this.fireSvc.updateUsuario(this.usuarioLogueado);
-  //   export class Turnoesp {
-  //     especialidad:string;
-  //     fecha: string;
-  //     horarios: Horarios[];
-  // }
-
-
-    // console.info(prueba);
-    // this.disp.push(JSON.parse(JSON.stringify(prueba)));
-
-
-    // this.usuarioLogueado.disponibilidadEsp = this.disp;
-    // this.usuarioLogueado.disponibilidadEsp.slice(0,1)
-    // console.log(this.usuarioLogueado)
-    // this.fireSvc.updateUsuario(this.usuarioLogueado);
-
-    // console.log(this.usuarioLogueado.disponibilidadEsp);
   }
   capturarSelectEspecialidad(value){
     // console.log(value);
@@ -629,5 +483,511 @@ export class MiperfilComponent implements OnInit {
   graficoTorta(){
 
   }
+  agregarChartTurnosPorDia(){
+    if(this.usuarioLogueado.admin){
+      this.chartCantPorDia = new Chart({
+        chart: {
+          type: 'line'
+        },
+        title: {
+          text: 'Cantidad de turnos por dia'
+        },
+        credits: {
+          enabled: false
+        },
+        
+      });
+  
+      this.fireSvc.getAllTurnos().subscribe(turnos=>{
+        this.turnos = turnos;
+        
+        
+        let arrayOcurrencias = this.getOcurrencia(this.turnos,'fecha');
+        // console.log(arrayOcurrencias);
+        arrayOcurrencias.sort(function(a, b) {
+          return a.occurrence - b.occurrence;
+        });
+        
+  
+        
+      arrayOcurrencias.forEach(ocurr=>{
+        let data:SeriesOptionsType = {
+          type: "column",
+          colorByPoint: true,
+          name: ocurr.fecha,
+          data: [{y: ocurr.occurrence, name: ocurr.fecha, drilldown: ocurr.fecha}],
+        }
+        this.chartCantPorDia.addSeries(data,true,true)
+      }); 
+    });
+      
+    }
+  
+  }
+  getOcurrencia(array:any[], key: string){
+    let arr2 = [];
+    
+    array.forEach((x)=>{
+       
+    // Checking if there is any object in arr2
+    // which contains the key value
+     if(arr2.some((val)=>{ return val[key] == x[key] })){
+         
+       // If yes! then increase the occurrence by 1
+       arr2.forEach((k)=>{
+         if(k[key] === x[key]){ 
+           k["occurrence"]++
+         }
+      })
+         
+     }else{
+       // If not! Then create a new object initialize 
+       // it with the present iteration key's value and 
+       // set the occurrence to 1
+       let a = {}
+       a[key] = x[key]
+       a["occurrence"] = 1
+       arr2.push(a);
+     }
+  })
+    
+  return arr2
+  }
+  agregarChartEspPorTurnos(){
+    // console.log(this.usuarioLogueado)
+    if(this.usuarioLogueado.admin){
+      let data= [];
+    
+    let x = 0
+      let count = 0;
+      
+      
+      // this.chartEspPorTurno.ref.xAxis.forEach((cat)=>{
+      //   cat.setCategories([]);
+      // })
+      
+      this.fireSvc.getEspecialidades().pipe(first())
+      .toPromise()
+      .then(esp=>{
+        
+
+        this.especialidades = esp;
+        this.especialidades.forEach(especialidad => {
+          count = 0;
+          for (let i = 0; i < this.turnos.length; i++) {
+            if(this.turnos[i].especialidad == especialidad.nombre){
+              count++;
+            }
+            
+            
+          }
+
+          data.push({y: count, name: especialidad.nombre});
+        });
+        this.chartEspPorTurno = new Chart({
+          chart: {
+            type: 'pie'
+          },
+          title: {
+            text: 'Cantidad de especialidad por turnos'
+          },
+          credits: {
+            // enabled: false
+          },
+          plotOptions: {
+            pie:{
+              allowPointSelect: true
+            }
+          },
+          series: [{
+            type: 'pie',
+            name: 'Cantidad',
+            data: data
+          }]
+          
+        });
+
+
+      });
+
+
+    }
+  }
+  getOcurrenciaEstado(array : EstadoTurno[],key:any){
+    let arr2 = [];
+    
+    array.forEach((turno)=>{
+       
+    // Checking if there is any object in arr2
+    // which contains the key value
+     if(arr2.some((val)=>{ return val[key] == turno[key] })){
+         
+       // If yes! then increase the occurrence by 1
+       arr2.forEach((k)=>{
+         if(k[key] === turno[key]){ 
+           k["occurrence"]++
+         }
+      })
+         
+     }else{
+       // If not! Then create a new object initialize 
+       // it with the present iteration key's value and 
+       // set the occurrence to 1
+       let a = {}
+       a[key] = turno[key]
+       a["occurrence"] = 1
+       arr2.push(a);
+     }
+  })
+    
+  return arr2
+  }
+  chartTurnosPorMedicoFecha(){
+    this.seleccioneFechaSolicitado = true;
+    if(this.usuarioLogueado.admin){
+
+
+
+    
+    var fecha = new Date();
+
+    // console.log(this.fechaSeleccionadaPicker);
+    var hoy = fecha.getFullYear() + '-'+ (fecha.getMonth()+1)+ "-"+  fecha.getDate();
+
+    this.chartTurnoPorMedicoFecha = new Chart({
+      chart: {
+        type: 'line'
+      },
+      title: {
+        text: 'Cantidad de turnos por medico desde la fecha: ' + this.fechaSeleccionadaPicker + " hasta hoy "+ hoy
+      },
+      credits: {
+        enabled: false
+      },
+      
+    });
+    let fechaSeleccione: string = '';
+    let splitFecha = this.fechaSeleccionadaPicker.split('-');
+    if(splitFecha[1] != '10' && splitFecha[1] != '11' && splitFecha[1] != '12'){
+      
+      let mes = splitFecha[1].split('0')
+      
+      fechaSeleccione = splitFecha[0] + '-' + mes[1] + '-' + splitFecha[2];
+    }
+    else{
+      fechaSeleccione = this.fechaSeleccionadaPicker;
+    }
+    
+    console.log(fechaSeleccione)
+    var fechaSeleccioneDate = Date.parse(fechaSeleccione);
+    var hoyDate = Date.parse(hoy);
+    var count : number = 0;
+    var turnoAux = [];
+    var uidConc = [];
+    var fechaAux = [];
+    var medicoAuxArr = [];
+    var medicoAux: any;
+      // console.log(turnos);
+      // this.fireSvc.getAllEstados().pipe(first())
+      // .toPromise()
+      // .then(estados=>{
+        console.log(this.estadosAdmin.length)
+        this.estadosAdmin.forEach(est=>{
+          console.log(Date.parse(est.fecha))
+          console.log(fechaSeleccioneDate)
+          if(Date.parse(est.fecha) > fechaSeleccioneDate && Date.parse(est.fecha) <= hoyDate){
+          
+            if(est.estado != Estados.REALIZADO){
+              turnoAux.push(est.especialista);
+
+            }
+
+          }
+        });
+        let objOcurrenciaMedico = this.getOcurrencia(turnoAux,'uid')
+        console.log(objOcurrenciaMedico);
+        // this.fireSvc.getAllUsers().pipe(first())
+        // .toPromise()
+        // .then(user=>{
+          this.usuarios.forEach(med=>{
+            if(med.especialista){
+              objOcurrenciaMedico.forEach(ocurr => {
+                if(ocurr.uid == med.uid){
+                  count = ocurr.occurrence;
+                  console.log("imprimo este: " + med.nombre)
+                    let data:SeriesOptionsType = {
+                    type: "column",
+                    colorByPoint: true,
+                    name: med.nombre,
+                    data: [{y: count,name: med.nombre + " " + med.apellido }],
+                  }
+                  this.chartTurnoPorMedicoFecha.addSeries(data,true,true)
+
+                }
+              });
+
+            }
+          })
+        // })
+        turnoAux.forEach(element => {
+          console.log(element.estado)
+          
+        });
+        
+      // })
+
+    }
+    
+  }
+
+
+
+  chartTurnosPorMedicoFechaFinalizado(){
+    this.seleccioneFechaFinalizado = true;
+    if(this.usuarioLogueado.admin){
+
+      
+    var fecha = new Date();
+
+    // console.log(this.fechaSeleccionadaPicker);
+    var hoy = fecha.getFullYear() + '-'+ (fecha.getMonth()+1)+ "-"+  fecha.getDate();
+
+    this.chartTurnoPorMedicoFechaFinalizado = new Chart({
+      chart: {
+        type: 'line'
+      },
+      title: {
+        text: 'Cantidad de turnos por medico desde la fecha: ' + this.fechaSeleccionadaPickerRealizado + " hasta hoy "+ hoy
+      },
+      credits: {
+        enabled: false
+      },
+      
+    });
+    let fechaSeleccione: string = '';
+    let splitFecha = this.fechaSeleccionadaPickerRealizado.split('-');
+    if(splitFecha[1] != '10' && splitFecha[1] != '11' && splitFecha[1] != '12'){
+      
+      let mes = splitFecha[1].split('0')
+      
+      fechaSeleccione = splitFecha[0] + '-' + mes[1] + '-' + splitFecha[2];
+    }
+    else{
+      fechaSeleccione = this.fechaSeleccionadaPickerRealizado;
+    }
+    
+    console.log(fechaSeleccione)
+    var fechaSeleccioneDate = Date.parse(fechaSeleccione);
+    var hoyDate = Date.parse(hoy);
+    var count : number = 0;
+    var turnoAux = [];
+    var uidConc = [];
+    var fechaAux = [];
+    var medicoAuxArr = [];
+    var medicoAux: any;
+      // console.log(turnos);
+      this.fireSvc.getAllEstados().subscribe(estados=>{
+        console.log(estados.length)
+        estados.forEach(est=>{
+          console.log(Date.parse(est.fecha))
+          console.log(fechaSeleccioneDate)
+          if(Date.parse(est.fecha) > fechaSeleccioneDate && Date.parse(est.fecha) <= hoyDate){
+          
+            if(est.estado == Estados.REALIZADO){
+              turnoAux.push(est.especialista);
+
+            }
+
+          }
+        });
+        let objOcurrenciaMedico = this.getOcurrencia(turnoAux,'uid')
+        console.log(objOcurrenciaMedico);
+        this.fireSvc.getAllUsers().subscribe(user=>{
+          user.forEach(med=>{
+            if(med.especialista){
+              objOcurrenciaMedico.forEach(ocurr => {
+                if(ocurr.uid == med.uid){
+                  count = ocurr.occurrence;
+                  console.log("imprimo este: " + med.nombre)
+                    let data:SeriesOptionsType = {
+                    type: "column",
+                    colorByPoint: true,
+                    name: med.nombre,
+                    data: [{y: count,name: med.nombre + " " + med.apellido }],
+                  }
+                  this.chartTurnoPorMedicoFechaFinalizado.addSeries(data,true,true)
+
+                }
+              });
+
+            }
+          })
+        })
+        turnoAux.forEach(element => {
+          console.log(element.estado)
+          
+        });
+        
+      })
+
+    }
+    
+  }
+
+
+
+
+
+  obtenerMedicoOcurrenciaTurno(uidConc: any[],med){
+    uidConc.forEach(uid => {
+      if(med != null){
+        if(uid == med.uid){
+          console.log("muestro "+med.nombre)
+        }
+      }
+    });
+  }
+  obtenerMedicoIgual(medicoAuxArr: any[],uid: string){
+    let retorno = null;
+    for (let medico of medicoAuxArr) {
+      if(medico.especialista.uid == uid){
+        retorno = medico.especialista;
+        break;
+      }
+      else{
+        retorno = null;
+      }
+      
+    }
+    return retorno;
+  }
+  descargarInformesAPDF(){
+    var doc = new jsPDF();
+    let table = window.document.getElementById("chart0");
+    let imgTable;
+    let chart1 = window.document.getElementById("chart1");
+    let imgChart1;
+    let chart2 = window.document.getElementById("chart2");
+    let imgChart2;
+    let chart3 = window.document.getElementById("chart3");
+    let imgChart3;
+    let chart4 = window.document.getElementById("chart4");
+    let imgChart4;
+    html2canvas.default(table).then(function (canvas)
+    {
+      imgTable = canvas.toDataURL("image/png");
+    });
+    html2canvas.default(chart1).then(function (canvas)
+    {
+      imgChart1 = canvas.toDataURL("image/png");
+    });
+    html2canvas.default(chart2).then(function (canvas)
+    {
+      imgChart2 = canvas.toDataURL("image/png");
+    });
+    html2canvas.default(chart3).then(function (canvas)
+    {
+      imgChart3 = canvas.toDataURL("image/png");
+    });
+    html2canvas.default(chart4).then(function (canvas)
+    {
+      imgChart4 = canvas.toDataURL("image/png");
+    });
+
+
+
+
+
+
+
+    doc.addImage(imgTable,'JPG',30,30,150,100)
+    doc.addImage(imgChart1,'JPG',30,30,150,100)
+    doc.addImage(imgChart2,'JPG',30,30,150,100)
+    doc.addImage(imgChart3,'JPG',30,30,150,100)
+    doc.addImage(imgChart4,'JPG',30,30,150,100)
+    doc.save('test.pdf');
+  }
+  descargarLogsAPDF(){
+    var doc = new jsPDF();
+    let table = window.document.getElementById("chart0");
+
+    // let imgTable;
+    html2canvas.default(table).then(function (canvas)
+    {
+      
+      let imgTable = canvas.toDataURL("image/png");
+      doc.addImage(imgTable,'JPG',20,20,200,150)
+
+      doc.save('logs.pdf');
+
+
+    });
+
+  }
+  descargarCantTurnosPorDiaAPdf(){
+    var serializer = new XMLSerializer();
+    
+    var doc = new jsPDF();
+    
+    let svgString = window.document.getElementById("chart1").children[0].innerHTML;
+    console.log(svgString);
+    
+    
+    this.chart1Aux.nativeElement.innerHTML = svgString;
+    
+    
+
+        
+      html2canvas.default(this.chart1Aux.nativeElement).then(function (canvas){
+        console.log(canvas)
+        
+        let imgTable = canvas.toDataURL("image/png");
+        console.log(imgTable)
+        doc.addImage(imgTable,'JPG',30,30,100,100)
+  
+        doc.save('cantTurnosxDia.pdf');
+  
+  
+      });
+
+    // console.log(base_image);
+    // console.log(chart1);
+
+    // let imgTable;
+    // html2canvas.default(chart1).then(function (canvas)
+    // {
+      
+    //   let imgTable = canvas.toDataURL("image/png");
+    //   doc.addImage(imgTable,'JPG',20,20,100,100)
+
+    //   doc.save('cantTurnosxDia.pdf');
+
+
+    // });
+  }
+  base64SvgToBase64Png (originalBase64, width) {
+    
+    return new Promise(resolve => {
+        let img = document.createElement('img');
+        img.onload = function () {
+            document.body.appendChild(img);
+            let canvas = document.createElement("canvas");
+            let ratio = (img.clientWidth / img.clientHeight) || 1;
+            document.body.removeChild(img);
+            canvas.width = width;
+            canvas.height = width / ratio;
+            let ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            try {
+                let data = canvas.toDataURL('image/png');
+                resolve(data);
+            } catch (e) {
+                resolve(null);
+            }
+        };
+        img.src = originalBase64;
+    });
+}
+  
 
 }

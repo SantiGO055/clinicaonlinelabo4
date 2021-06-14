@@ -101,7 +101,7 @@ export class AuthService {
       // console.log(user);
       if(user.admin == true){
         localStorage.setItem('usuarioLogueado',JSON.stringify(user));
-
+        console.log("logueado admin?")
         this.router.navigate(['/']);
         
       }

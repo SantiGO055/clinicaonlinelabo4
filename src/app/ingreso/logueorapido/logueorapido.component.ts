@@ -15,7 +15,7 @@ export class LogueorapidoComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.usuarios);
+    // console.log(this.usuarios);
     this.usuarios.forEach(element => {
       if(element.admin){
         this.admin = element;

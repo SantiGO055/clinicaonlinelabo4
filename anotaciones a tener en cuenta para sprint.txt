@@ -78,3 +78,15 @@ desde abajo pero de la pagina no de algun componente
 Para otro pipe:
 Pasarle un profesional a un pipe y mostrar solo nombre y apellido
 para responsive se puede usar el template de pricing o jumbotron
+
+para sprint 4
+
+graficos:
+chart de torta
+reseña historia clinica en la parte de mis turnos
+informe de logs de usuarios
+filtro dinamico por todos los datos incluyendo historia clinica
+1 graficos mas de linea y 1 de torta con highchart
+
+cant turno por especialidad: torta
+los demas de linea

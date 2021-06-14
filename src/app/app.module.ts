@@ -47,6 +47,9 @@ import { MedicoPipe } from './pipes/medico.pipe';
 import { RouterModule } from '@angular/router';
 import { AdminGuard } from './guards/admin.guard';
 import { PacienteAdminGuardGuard } from './guards/paciente-admin-guard.guard';
+import { ChartModule } from 'angular-highcharts';
+import { DatepipePipe } from './pipes/datepipe.pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -69,10 +72,7 @@ import { PacienteAdminGuardGuard } from './guards/paciente-admin-guard.guard';
     DetalleHistoriaComponent,
     RoundDivDirective,
     MedicoPipe,
-    
-    
-    
-    
+    DatepipePipe,
   ],
   imports: [
     BrowserModule,
@@ -91,7 +91,7 @@ import { PacienteAdminGuardGuard } from './guards/paciente-admin-guard.guard';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     NgSelectModule,
-    
+    ChartModule
   ],
   providers: [],
   bootstrap: [AppComponent],

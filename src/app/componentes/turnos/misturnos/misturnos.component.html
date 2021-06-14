@@ -22,7 +22,7 @@
                 <a class="list-group-item list-group-item-action" >
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{turno.especialidad}}</h5>
-                    <small>{{turno.fecha | date: "dd/MM/yyyy"}} / {{turno.hora}}</small>
+                    <small>{{turno.fecha.split('/').reverse().join('-') | date}} / {{turno.hora}}</small>
                 </div>
                 <p class="mb-1">Especialista: {{turno.especialista | medico: turno.especialista}}</p>
                 
@@ -65,7 +65,7 @@
                 <a class="list-group-item list-group-item-action" >
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">{{turno.especialidad}}</h5>
-                        <small>{{turno.fecha | date: "dd/MM/yyyy"}} / {{turno.hora}}</small>
+                        <small>{{ turno.fecha.split('/').reverse().join('-') | date}} / {{turno.hora}}</small>
                     </div>
                     <p class="mb-1">Especialista: {{turno.especialista | medico: turno.especialista}}</p>
                     
@@ -120,7 +120,7 @@
                 <a class="list-group-item list-group-item-action" >
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">{{turno.especialidad}}</h5>
-                        <small>{{turno.fecha | date: "yyyy-MM-dd"}} / {{turno.hora}}</small>
+                        <small>{{turno.fecha.split('/').reverse().join('-') | date: "yyyy-MM-dd"}} / {{turno.hora}}</small>
                     </div>
                     <p class="mb-1">Especialista: {{turno.especialista | medico: turno.especialista}}</p>
                     

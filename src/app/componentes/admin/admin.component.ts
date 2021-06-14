@@ -9,6 +9,9 @@ import { AlertasService } from 'src/app/services/alertas.service';
 import { BajaUsuario } from 'src/app/clases/bajaUsuario';
 import { Historia } from 'src/app/clases/historia';
 import { ExportExcelService } from 'src/app/services/export-excel.service';
+import jsPDF from 'jspdf';
+import * as html2canvas from "html2canvas";
+
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -188,5 +191,8 @@ export class AdminComponent implements OnInit {
 
   //   this.excel.exportExcel(reportData);
   // }
+  pruebaExport(){
+    
+  }
 
 }

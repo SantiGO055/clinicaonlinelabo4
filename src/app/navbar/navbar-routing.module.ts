@@ -5,7 +5,7 @@ import { NavbarComponent } from './navbar.component';
 
 const routes: Routes = [
   { path: '', component: NavbarComponent },
-  { path: 'admin', component: AdminComponent },
+  { path: 'admin', component: AdminComponent},
 ];
 
 @NgModule({

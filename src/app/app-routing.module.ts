@@ -10,16 +10,16 @@ import { PacienteAdminGuardGuard } from './guards/paciente-admin-guard.guard';
 import { MisturnosComponent } from './componentes/turnos/misturnos/misturnos.component';
 
 const routes: Routes = [
-  { path: '', component: BienvenidoComponent, data: { animation: 'Bienvenido' }},
-  { path: 'admin', component: AdminComponent, canActivate:[AdminGuard], data: { animation: 'Admin' }},
-  { path: 'miperfil', component: MiperfilComponent, data: { animation: 'MiPerfil' }},
+  { path: '', component: BienvenidoComponent, data: {animation: 'arriba'} },
+  { path: 'admin', component: AdminComponent, canActivate:[AdminGuard] },
+  { path: 'miperfil', component: MiperfilComponent, },
   { path: 'mostrarturnos', component: MostrarturnosComponent, canActivate:[AdminGuard]},
-  { path: 'misturnos', component: MisturnosComponent},
+  { path: 'misturnos', component: MisturnosComponent,  data: {animation: 'arriba'}},
   
-  { path: 'solicitarTurno', component: AltaTurnoComponent,canActivate: [PacienteAdminGuardGuard]},
-  { path: 'ingreso', loadChildren: () => import('./ingreso/ingreso.module').then(m => m.IngresoModule) },
-  { path: 'navbar', loadChildren: () => import('./navbar/navbar.module').then(m => m.NavbarModule) },
-  { path: 'spinner', loadChildren: () => import('./componentes/spinner/spinner.module').then(m => m.SpinnerModule) },
+  { path: 'solicitarTurno', component: AltaTurnoComponent,canActivate: [PacienteAdminGuardGuard],data: {animation: 'arriba'}  },
+  { path: 'ingreso', loadChildren: () => import('./ingreso/ingreso.module').then(m => m.IngresoModule),},
+  { path: 'navbar', loadChildren: () => import('./navbar/navbar.module').then(m => m.NavbarModule),  },
+  { path: 'spinner', loadChildren: () => import('./componentes/spinner/spinner.module').then(m => m.SpinnerModule), },
 ];
 
 @NgModule({

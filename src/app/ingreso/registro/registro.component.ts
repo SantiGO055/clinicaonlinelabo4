@@ -336,8 +336,8 @@ export class RegistroComponent implements OnInit {
 
       let espAux = new Especialidad();
       if(this.formGroup.get('especialidadInput').value != ""){
-        // espAux.nombre = this.formGroup.get('especialidadInput').value;
-        // this.user.descripcion = espAux.nombre;
+        espAux.nombre = this.formGroup.get('especialidadInput').value;
+        this.user.descripcion.push(espAux.nombre);
         
       }
       else{

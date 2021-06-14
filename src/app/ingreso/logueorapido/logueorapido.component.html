@@ -25,22 +25,7 @@
           </div>
         </div>
       </div>
-      <div *ngIf="admin != null" class="card mb-3" style="max-width: 540px;">
-        <div class="row g-0">
-          <div class="col-md-4">
-            <img class="img" [src]="admin.fotoPerfil" class="card-img-top" alt="...">
-
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Administrador</h5>
-              <p class="card-text">{{admin.nombre}}, {{admin.apellido}}. {{admin.email}}</p>
-              <a class="btn btn-primary" (click)="loguear(admin)">Loguear</a>
-            </div>
-          </div>
-
-        </div>
-      </div>
+      
       
     </div>
   </ul>

@@ -9,8 +9,8 @@ export class CortarLetraPipe implements PipeTransform {
     if(!value)return items;
       if(!items)return value;
       
-      console.log(items)
-      console.log(value)
+      // console.log(items)
+      // console.log(value)
       if(items.length == 1){
         value = 'Medico';
         return value;

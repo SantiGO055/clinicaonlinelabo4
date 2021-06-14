@@ -183,7 +183,7 @@ export class AltaTurnoComponent implements OnInit {
           }
         }
     }
-    console.log(medico.disponibilidadEsp)
+    // console.log(medico.disponibilidadEsp)
     
     this.turno.especialista = JSON.parse(JSON.stringify(medico));;
     this.turno.especialista.disponibilidadEsp = null;
@@ -193,12 +193,12 @@ export class AltaTurnoComponent implements OnInit {
     this.fireSvc.updateUsuario(this.medicoSeleccionado);
     let asd = this.fireSvc.addTurno(this.turno);
     asd.then(asd=>{
-      console.log(asd);
+      // console.log(asd);
     });
     this.alerta.mostraAlertaSimpleSuccess('Turno confirmado correctamente para ' + this.turno.fecha + " a las "+ this.turno.hora,'Turno confirmado');
     this.router.navigate(['/']);
     
-    console.log(this.turno);
+    // console.log(this.turno);
   }
   seleccionPaciente(paciente:User){
    this.mostrarMensajePaciente = true;
@@ -217,8 +217,8 @@ export class AltaTurnoComponent implements OnInit {
     if(this.medicosSeleccionados != null){
 
         //TODO subir turno y modificar el usuario con el turno no disponible en esa fecha
-        console.log("confirme turno")
-        console.log(this.medicoSeleccionado);
+        // console.log("confirme turno")
+        // console.log(this.medicoSeleccionado);
 
         // for (let i = 0; i < this.medicoSeleccionado.disponibilidadEsp.length; i++) {
           // const element = this.medicoSeleccionado.disponibilidadEsp[i];
@@ -250,8 +250,8 @@ export class AltaTurnoComponent implements OnInit {
           // this.turno.especialista = 
           this.turno.especialista.disponibilidadEsp = null;
           this.turno.especialista.descripcion = null;
-          console.log(this.turno);
-          console.log(this.medicoSeleccionado);
+          // console.log(this.turno);
+          // console.log(this.medicoSeleccionado);
           // this.fireSvc.updateUsuario(this.medicoSeleccionado);
           // this.fireSvc.addTurno(this.turno);
           // this.router.navigate(['/']);
@@ -310,7 +310,7 @@ export class AltaTurnoComponent implements OnInit {
 
   // }
   public beforeChange($event: NgbPanelChangeEvent) {
-    console.log($event)
+    // console.log($event)
     if ($event.panelId === 'preventchange-2') {
       $event.preventDefault();
     }
@@ -333,7 +333,7 @@ export class AltaTurnoComponent implements OnInit {
     this.seleccioneMedico = true;
     this.listadoTurnos = this.medicoSeleccionado.disponibilidadEsp;
 
-    console.log(this.listadoTurnos);
+    // console.log(this.listadoTurnos);
   }
   capturarEspSeleccionada(e){
     this.especialidadSeleccionada = e;
@@ -352,7 +352,7 @@ export class AltaTurnoComponent implements OnInit {
     
   }
   capturarEventoTomarTurno(e){
-    console.log(this.medicoSeleccionado)
+    // console.log(this.medicoSeleccionado)
     this.tomarTurno(e.fecha,e.hora,this.medicoSeleccionado);
   }
   capturarSeleccionPaciente(e){
@@ -361,7 +361,7 @@ export class AltaTurnoComponent implements OnInit {
   }
   filtrarEspecialidad(especialidad: string){
     this.filtroEspecialidad = especialidad;
-    console.log(this.filtroEspecialidad);
+    // console.log(this.filtroEspecialidad);
     this.filtrarMedico();
   }
   filtrarMedico(){
@@ -371,15 +371,15 @@ export class AltaTurnoComponent implements OnInit {
       
       if(this.filtroEspecialidad == 'todos'){
           this.espAux = this.especialistas;
-          console.log(this.espAux)
+          // console.log(this.espAux)
       }
       else{
         
         this.especialistas.forEach(esp => {
-          console.log(esp)
+          // console.log(esp)
 
           esp.descripcion.forEach(descr => {
-            console.log(descr)
+            // console.log(descr)
             if(descr == this.filtroEspecialidad){
               arr.push(esp);
             }

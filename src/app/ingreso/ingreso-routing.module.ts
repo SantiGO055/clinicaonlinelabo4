@@ -8,9 +8,9 @@ import { BienvenidoComponent } from '../pages/bienvenido/bienvenido.component';
 
 
 const routes: Routes = [
-  { path: 'bienvenido', component: BienvenidoComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'registro', component: RegistroComponent },
+  { path: 'bienvenido', component: BienvenidoComponent, data: { animation: 'slideInOutAnimation' } },
+  { path: 'login', component: LoginComponent, data: { animation: 'slideInOutAnimation' }},
+  { path: 'registro', component: RegistroComponent, data: { animation: 'slideInOutAnimation' } },
 ];
 
 @NgModule({
