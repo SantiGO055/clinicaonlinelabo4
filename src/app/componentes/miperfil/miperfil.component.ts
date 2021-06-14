@@ -21,7 +21,7 @@ import { Axis, ChartOptions, PointOptionsType, SeriesOptionsType } from 'highcha
 import { Point } from 'angular-highcharts/lib/chart';
 import { Logs } from 'src/app/clases/logs';
 import { first } from 'rxjs/operators';
-
+import Canvg from 'canvg';
 
 @Component({
   selector: 'app-miperfil',
@@ -861,52 +861,7 @@ export class MiperfilComponent implements OnInit {
     }
     return retorno;
   }
-  descargarInformesAPDF(){
-    var doc = new jsPDF();
-    let table = window.document.getElementById("chart0");
-    let imgTable;
-    let chart1 = window.document.getElementById("chart1");
-    let imgChart1;
-    let chart2 = window.document.getElementById("chart2");
-    let imgChart2;
-    let chart3 = window.document.getElementById("chart3");
-    let imgChart3;
-    let chart4 = window.document.getElementById("chart4");
-    let imgChart4;
-    html2canvas.default(table).then(function (canvas)
-    {
-      imgTable = canvas.toDataURL("image/png");
-    });
-    html2canvas.default(chart1).then(function (canvas)
-    {
-      imgChart1 = canvas.toDataURL("image/png");
-    });
-    html2canvas.default(chart2).then(function (canvas)
-    {
-      imgChart2 = canvas.toDataURL("image/png");
-    });
-    html2canvas.default(chart3).then(function (canvas)
-    {
-      imgChart3 = canvas.toDataURL("image/png");
-    });
-    html2canvas.default(chart4).then(function (canvas)
-    {
-      imgChart4 = canvas.toDataURL("image/png");
-    });
-
-
-
-
-
-
-
-    doc.addImage(imgTable,'JPG',30,30,150,100)
-    doc.addImage(imgChart1,'JPG',30,30,150,100)
-    doc.addImage(imgChart2,'JPG',30,30,150,100)
-    doc.addImage(imgChart3,'JPG',30,30,150,100)
-    doc.addImage(imgChart4,'JPG',30,30,150,100)
-    doc.save('test.pdf');
-  }
+  
   descargarLogsAPDF(){
     var doc = new jsPDF();
     let table = window.document.getElementById("chart0");
@@ -925,46 +880,101 @@ export class MiperfilComponent implements OnInit {
 
   }
   descargarCantTurnosPorDiaAPdf(){
-    var serializer = new XMLSerializer();
+    let v = null;
     
     var doc = new jsPDF();
     
-    let svgString = window.document.getElementById("chart1").children[0].innerHTML;
-    console.log(svgString);
-    
-    
-    this.chart1Aux.nativeElement.innerHTML = svgString;
-    
-    
-
-        
-      html2canvas.default(this.chart1Aux.nativeElement).then(function (canvas){
-        console.log(canvas)
-        
-        let imgTable = canvas.toDataURL("image/png");
-        console.log(imgTable)
-        doc.addImage(imgTable,'JPG',30,30,100,100)
+    let svg = window.document.getElementById("chart1").children[0].innerHTML;
   
-        doc.save('cantTurnosxDia.pdf');
-  
-  
-      });
+    if (svg)
+    svg = svg.replace(/\r?\n|\r/g, '').trim();
+    var canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
 
-    // console.log(base_image);
-    // console.log(chart1);
+    v = Canvg.from(ctx, svg).then(v=>{
+      v.start()
+      var imgData = canvas.toDataURL('image/png');
+      // Generate PDF
+      var doc = new jsPDF('l', 'mm', 'a4');
+      doc.addImage(imgData, 'PNG', 40, 40, 250, 150);
+      doc.save('cantidadTurnosPorDia.pdf');
+    });
 
-    // let imgTable;
-    // html2canvas.default(chart1).then(function (canvas)
-    // {
-      
-    //   let imgTable = canvas.toDataURL("image/png");
-    //   doc.addImage(imgTable,'JPG',20,20,100,100)
-
-    //   doc.save('cantTurnosxDia.pdf');
-
-
-    // });
+    console.log(svg)
   }
+  
+  descargarCantEspPorTurno(){
+    let v = null;
+    
+    var doc = new jsPDF();
+    
+    let svg = window.document.getElementById("chart2").children[0].innerHTML;
+  
+    if (svg)
+    svg = svg.replace(/\r?\n|\r/g, '').trim();
+    var canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    v = Canvg.from(ctx, svg).then(v=>{
+      v.start()
+      var imgData = canvas.toDataURL('image/png');
+      // Generate PDF
+      var doc = new jsPDF('l', 'mm', 'a4');
+      doc.addImage(imgData, 'PNG', 40, 40, 250, 150);
+      doc.save('cantidadTurnosPorDia.pdf');
+    });
+  }
+  descargarCantTurnosSolicitados(){
+    let v = null;
+    
+    var doc = new jsPDF();
+    
+    let svg = window.document.getElementById("chart3").children[0].innerHTML;
+  
+    if (svg)
+    svg = svg.replace(/\r?\n|\r/g, '').trim();
+    var canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    v = Canvg.from(ctx, svg).then(v=>{
+      v.start()
+      var imgData = canvas.toDataURL('image/png');
+      // Generate PDF
+      var doc = new jsPDF('l', 'mm', 'a4');
+      doc.addImage(imgData, 'PNG', 40, 40, 250, 150);
+      doc.save('cantidadTurnosPorDia.pdf');
+    });
+  }
+
+  descargarCantTurnosFinalizados(){
+    let v = null;
+    
+    var doc = new jsPDF();
+    
+    let svg = window.document.getElementById("chart4").children[0].innerHTML;
+  
+    if (svg)
+    svg = svg.replace(/\r?\n|\r/g, '').trim();
+    var canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    v = Canvg.from(ctx, svg).then(v=>{
+      v.start()
+      var imgData = canvas.toDataURL('image/png');
+      // Generate PDF
+      var doc = new jsPDF('l', 'mm', 'a4');
+      doc.addImage(imgData, 'PNG', 40, 40, 250, 150);
+      doc.save('cantidadTurnosPorDia.pdf');
+    });
+  }
+  // SVG2PNG(svg, callback) {
+  //   var canvas = document.createElement('canvas'); // Create a Canvas element.
+  //   var ctx = canvas.getContext('2d'); // For Canvas returns 2D graphic.
+  //   var data = svg.outerHTML; // Get SVG element as HTML code.
+  //   canvg(canvas, data); // Render SVG on Canvas.
+  //   callback(canvas); // Execute callback function.
+  // }
+
   base64SvgToBase64Png (originalBase64, width) {
     
     return new Promise(resolve => {

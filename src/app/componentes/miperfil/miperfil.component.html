@@ -109,7 +109,7 @@
     </table>
 </div>
 
-<div id="charts">
+<div id="charts" *ngIf="usuarioLogueado.admin">
   
   <div id="chart1" [chart]="chartCantPorDia"></div>
   <div  id="chart1Aux"></div>
@@ -117,25 +117,42 @@
     <button  type="submit" (click)="descargarCantTurnosPorDiaAPdf()">
       Descargar grafico a PDF
     </button>
+  </div>
   
-  </div>
   <div id="chart2" [chart]="chartEspPorTurno"></div>
-  <div *ngIf="usuarioLogueado.admin">
-    <h2>Seleccione la fecha para filtrar la cantidad de turnos solicitados por medico</h2>
-    <input (change)="chartTurnosPorMedicoFecha()" [(ngModel)]="fechaSeleccionadaPicker" id="date" type="date">
-  </div>
-  <div id="chart3" [chart]="chartTurnoPorMedicoFecha"></div>
-  <div *ngIf="usuarioLogueado.admin">
-    <h2>Seleccione la fecha para filtrar la cantidad de turnos realizados por medico</h2>
-    <input (change)="chartTurnosPorMedicoFechaFinalizado()" [(ngModel)]="fechaSeleccionadaPickerRealizado" id="date" type="date">
-  </div>
-  <div id="chart4" [chart]="chartTurnoPorMedicoFechaFinalizado"></div>
-</div>
-  <div *ngIf="seleccioneFechaSolicitado && seleccioneFechaFinalizado">
-    <button type="submit" (click)="descargarInformesAPDF()">
-      Descargar los graficos a PDF
+  <div class="form">
+  <button  type="submit" (click)="descargarCantEspPorTurno()">
+    Descargar grafico a PDF
     </button>
   </div>
+
+
+  <div >
+    <h2>Seleccione la fecha para filtrar la cantidad de turnos solicitados por medico</h2>
+    <input (change)="chartTurnosPorMedicoFecha()" [(ngModel)]="fechaSeleccionadaPicker" id="date" type="date">
+    
+  </div>
+  <div id="chart3" [chart]="chartTurnoPorMedicoFecha"></div>
+  <div class="form">
+    <button  type="submit" (click)="descargarCantTurnosSolicitados()">
+      Descargar grafico a PDF
+    </button>
+  </div>
+
+
+
+  <div >
+    <h2>Seleccione la fecha para filtrar la cantidad de turnos realizados por medico</h2>
+    <input (change)="chartTurnosPorMedicoFechaFinalizado()" [(ngModel)]="fechaSeleccionadaPickerRealizado" id="date" type="date">
+    
+  </div>
+  <div id="chart4" [chart]="chartTurnoPorMedicoFechaFinalizado"></div>
+  <div class="form">
+    <button  type="submit" (click)="descargarCantTurnosFinalizados()">
+      Descargar grafico a PDF
+    </button>
+  </div>
+</div>
   <!-- <div *ngIf="usuarioLogueado.admin">
     <button (click)="descargarPdf()">
       Descargar pdf
