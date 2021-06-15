@@ -420,9 +420,6 @@ export class MiperfilComponent implements OnInit {
 
   seleccionDispo(especialidad: string){
 
-    //TODO continuar esto
-    // console.info(this.especialidad)
-    // console.log()
 
     const prueba = {
       especialidad: especialidad,

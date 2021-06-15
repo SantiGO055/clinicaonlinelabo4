@@ -100,8 +100,7 @@ export class AltaTurnoComponent implements OnInit {
     this.medicosSeleccionados.splice(0);
   //  console.log(this.especialistas);
    this.especialistas.forEach((espEsp: User) => {
-     //TODO chequear esto
-    // console.log(espEsp)
+     
     if(espEsp.disponibilidadEsp){
 
     
@@ -216,28 +215,7 @@ export class AltaTurnoComponent implements OnInit {
     }
     if(this.medicosSeleccionados != null){
 
-        //TODO subir turno y modificar el usuario con el turno no disponible en esa fecha
-        // console.log("confirme turno")
-        // console.log(this.medicoSeleccionado);
-
-        // for (let i = 0; i < this.medicoSeleccionado.disponibilidadEsp.length; i++) {
-          // const element = this.medicoSeleccionado.disponibilidadEsp[i];
-        //  console.log(element);
-        //  console.log(this.turno);
-        // if(this.turno.fecha == this.medicoSeleccionado.disponibilidadEsp[i].fecha 
-        //   && this.turno.especialidad == this.turno.especialidad
-          
-        //   ){
-        //     for (let j = 0; j < this.medicoSeleccionado.disponibilidadEsp[i].horarios.length; j++) {
-        //       const element = this.medicoSeleccionado.disponibilidadEsp[i].horarios[j];
-              
-        //       if(this.turno.hora == this.medicoSeleccionado.disponibilidadEsp[i].horarios[j].hora)
-        //       {
-        //         console.log("horario ok");
-        //         console.log(this.medicoSeleccionado.disponibilidadEsp[i].horarios);
-        //         this.medicoSeleccionado.disponibilidadEsp[i].horarios[j].disponible = false;
-        //       }
-        //     }
+      
             
         this.medicoSeleccionado.disponibilidadEsp.forEach(turno => {
           // if(turno.especialidad == )
@@ -247,45 +225,10 @@ export class AltaTurnoComponent implements OnInit {
           // if(turno)
         }); 
 
-          // this.turno.especialista = 
           this.turno.especialista.disponibilidadEsp = null;
           this.turno.especialista.descripcion = null;
-          // console.log(this.turno);
-          // console.log(this.medicoSeleccionado);
-          // this.fireSvc.updateUsuario(this.medicoSeleccionado);
-          // this.fireSvc.addTurno(this.turno);
-          // this.router.navigate(['/']);
-            
-          // }
-          
-        // }
-      //  this.medicoSeleccionado.disponibilidadEsp.forEach(element => {
-      //    console.log(element.especialidad)
-      //    console.log(this.especialidadSeleccionada)
-      //      console.log("hola");
-      //      let aux = {
-      //        disponibilidad: false,
-      //        especialidad: this.especialidadSeleccionada,
-      //        fechayhora: this.turno.fecha
-      //      }
-            
-      //      element = aux;
-
-      //     console.log(element);
-      //     // this.fireSvc.updateUsuario()
-      //     console.log(this.medicoSeleccionado)
-          
-          
-      //  });
          
     }
-   //  if(this.alerta.mostraAlertaTurno('Desea confirmar turno?','Confirmar turno')){
-   //    this.medicoSeleccionado.disponibilidadEsp.forEach((asd)=>{
-   //     console.log(asd);
-   //    })
-   //    /** ADD turno */
-   //   // this.fireSvc
-   //  }
   }
   
 
