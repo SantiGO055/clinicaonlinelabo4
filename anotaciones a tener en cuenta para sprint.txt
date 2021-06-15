@@ -83,10 +83,10 @@ para sprint 4
 
 graficos:
 chart de torta
-reseña historia clinica en la parte de mis turnos
 informe de logs de usuarios
 filtro dinamico por todos los datos incluyendo historia clinica
-1 graficos mas de linea y 1 de torta con highchart
-
-cant turno por especialidad: torta
-los demas de linea
+------------------------------------------------------------------
+GRAFICOS //HECHO
+informe de logs de usuarios //HECHO
+filtro dinamico por todos los datos incluyendo historia clinica //PENDIENTE
+Readme //PENDIENTE

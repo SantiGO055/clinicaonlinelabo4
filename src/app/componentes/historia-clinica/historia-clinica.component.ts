@@ -57,8 +57,12 @@ export class HistoriaClinicaComponent implements OnInit {
   enviarHistoria(){
     this.spinner.show();
     let historia:Historia = this.formGroup.getRawValue();
-    historia.turno = this.turnoSeleccionado;
+    // historia.turno = this.turnoSeleccionado;
+    this.turnoSeleccionado.historia = historia;
+    this.fire.updateTurno(this.turnoSeleccionado);
     console.log(historia);
+    
+
     this.fire.addHistoria(historia).then(a=>{
       console.log(a);
       

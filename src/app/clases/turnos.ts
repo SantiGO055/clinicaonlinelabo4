@@ -20,6 +20,7 @@ export class Turnos {
     descripcion:string;
     resenia:string = '';
     comentarioPaciente:string = '';
+    historia?:any;
     constructor(){
       this.estado = Estados.PENDIENTE;
     }
