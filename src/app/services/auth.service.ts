@@ -187,13 +187,13 @@ export class AuthService {
           // console.log(user);
           if(this.verificarAprobacion(result,user)){
             localStorage.setItem('usuarioLogueado',JSON.stringify(this.isLogged));
-            
-            this.fireSvc.addLog(JSON.parse(localStorage.getItem('usuarioLogueado')));
             this.logueadoObs = new Observable( observer => {
               observer.next(true);
             })
-            // console.log("aprobado?")
           }
+          console.log(localStorage.getItem('usuarioLogueado'))
+          this.fireSvc.addLog(JSON.parse(localStorage.getItem('usuarioLogueado')));
+          // console.log("aprobado?")
           
           // console.log(this.obtenerUsuarioLogueado(this.isLogged.email));
           return result;

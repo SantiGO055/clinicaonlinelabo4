@@ -75,13 +75,13 @@
   <div>
 
   </div>
-<div class="form">
-  <button  type="submit" (click)="descargarLogsAPDF()">
-    Descargar logs pdf
-  </button>
-
-</div>
-<div id="chart0" *ngIf="usuarioLogueado.admin">
+  <div class="form" *ngIf="usuarioLogueado.admin">
+    <button  type="submit" (click)="descargarLogsAPDF()">
+      Descargar logs pdf
+    </button>
+  
+  </div>
+  <div id="chart0" *ngIf="usuarioLogueado.admin">
   <table class="table table-striped form-group table-hover">
     <thead>
         <tr>

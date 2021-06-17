@@ -281,9 +281,7 @@ export class MiperfilComponent implements OnInit {
       // console.log(this.estados)
     });
 
-    this.fireSvc.getAllLogs().pipe(first())
-    .toPromise()
-    .then(logs=>{
+    this.fireSvc.getAllLogs().subscribe(logs=>{
       this.logs = logs;
     })
     this.fireSvc.getAllUsers().pipe(first())
@@ -862,14 +860,14 @@ export class MiperfilComponent implements OnInit {
   descargarLogsAPDF(){
     var doc = new jsPDF();
     let table = window.document.getElementById("chart0");
-
+    var width = doc.internal.pageSize.getWidth();
+    var height = doc.internal.pageSize.getHeight();
     // let imgTable;
     html2canvas.default(table).then(function (canvas)
     {
       
       let imgTable = canvas.toDataURL("image/png");
-      doc.addImage(imgTable,'JPG',20,20,200,150)
-
+      doc.addImage(imgTable,'JPG',20,20,width,height)
       doc.save('logs.pdf');
 
 
@@ -906,7 +904,8 @@ export class MiperfilComponent implements OnInit {
     var doc = new jsPDF();
     
     let svg = window.document.getElementById("chart2").children[0].innerHTML;
-  
+    var width = doc.internal.pageSize.getWidth();
+    var height = doc.internal.pageSize.getHeight();
     if (svg)
     svg = svg.replace(/\r?\n|\r/g, '').trim();
     var canvas = document.createElement('canvas');
@@ -917,7 +916,7 @@ export class MiperfilComponent implements OnInit {
       var imgData = canvas.toDataURL('image/png');
       // Generate PDF
       var doc = new jsPDF('l', 'mm', 'a4');
-      doc.addImage(imgData, 'PNG', 40, 40, 250, 150);
+      doc.addImage(imgData, 'PNG', 40, 40, 250, 80);
       doc.save('cantidadTurnosPorDia.pdf');
     });
   }
