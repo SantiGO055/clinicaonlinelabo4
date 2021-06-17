@@ -281,7 +281,9 @@ export class MiperfilComponent implements OnInit {
       // console.log(this.estados)
     });
 
-    this.fireSvc.getAllLogs().subscribe(logs=>{
+    this.fireSvc.getAllLogs().pipe(first())
+    .toPromise()
+    .then(logs=>{
       this.logs = logs;
     })
     this.fireSvc.getAllUsers().pipe(first())
@@ -917,7 +919,7 @@ export class MiperfilComponent implements OnInit {
       // Generate PDF
       var doc = new jsPDF('l', 'mm', 'a4');
       doc.addImage(imgData, 'PNG', 40, 40, 250, 80);
-      doc.save('cantidadTurnosPorDia.pdf');
+      doc.save('cantidadEspecialidadPorTurno.pdf');
     });
   }
   descargarCantTurnosSolicitados(){
@@ -938,7 +940,7 @@ export class MiperfilComponent implements OnInit {
       // Generate PDF
       var doc = new jsPDF('l', 'mm', 'a4');
       doc.addImage(imgData, 'PNG', 40, 40, 250, 150);
-      doc.save('cantidadTurnosPorDia.pdf');
+      doc.save('cantidadTurnosSolicitadosFecha.pdf');
     });
   }
 
@@ -960,7 +962,7 @@ export class MiperfilComponent implements OnInit {
       // Generate PDF
       var doc = new jsPDF('l', 'mm', 'a4');
       doc.addImage(imgData, 'PNG', 40, 40, 250, 150);
-      doc.save('cantidadTurnosPorDia.pdf');
+      doc.save('cantidadTurnosFinalizadosFecha.pdf');
     });
   }
   // SVG2PNG(svg, callback) {

@@ -95,11 +95,12 @@
     </thead>
     <tbody>
         <tr  *ngFor="let log of logs">
-            <td>{{log.usuario.nombre}}</td>
-            <td>{{log.usuario.apellido}}</td>
-            <td>{{log.usuario.email}}</td>
-            <td>{{log.dia.split('-').reverse().join('-')| date}}</td>
-            <td>{{log.hora}}</td>
+            <td *ngIf="log.usuario.uid != null && log.usuario.uid != ''">{{log.usuario.nombre}}</td>
+            <td *ngIf="log.usuario.uid != null && log.usuario.uid != ''">{{log.usuario.apellido}}</td>
+            <td *ngIf="log.usuario.uid != null && log.usuario.uid != ''">{{log.usuario.email}}</td>
+            <td *ngIf="log.usuario.uid != null && log.usuario.uid != ''">{{log.dia.split('-').reverse().join('-')| date}}</td>
+            <td *ngIf="log.usuario.uid != null && log.usuario.uid != ''">{{log.hora}}</td>
+
            
             </tr>
 
